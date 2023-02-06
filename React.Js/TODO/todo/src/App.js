@@ -21,6 +21,8 @@ const App = () => {
       setlistData(updatedListData);
   }
 
+  //this is basic todo 
+
   return (
     <div>
       <div className="row">
@@ -67,6 +69,8 @@ const App = () => {
             })}
         </from>
         <div className="col-sm-4"></div>
+
+        // this was first pull request 
       </div>
     </div>
   );
