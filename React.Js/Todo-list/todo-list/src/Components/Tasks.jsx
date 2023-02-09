@@ -1,33 +1,37 @@
 import React from "react";
 import style from "../Assets/Style/Tasks.module.css";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Tasks() {
   return (
     <div>
-      <div className="container py-5">
+      <div className="container">
         <div className="row">
           <div className="col-sm-6 col-sm-6 mb-3 mb-sm-0">
-            <div className="card">
+          <div className="card my-3 bg-warninhg">
               <div className="card-body">
                 <div className="row">
                   <div className="col-sm-5">
-                    <h5 className="card-title">The first task title</h5>
+                    <p className="card-title text-bold">
+                     The first task title
+                    </p>
                   </div>
                   <div className="col-sm-5"></div>
                   <div className="col-sm-2 text-end">
-                    <FontAwesomeIcon icon={faHome} />
+                    <FontAwesomeIcon icon={faPlus} />
                   </div>
                 </div>
                 <p className="card-text">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam
-                  itaque perferendis eos voluptas a quidem optio, qui commodi
-                  eius in?
+                  
+                    {" "}
+                    With supporting text below as a natural lead-in to
+                    additional content.
+                  
                 </p>
                 <div className="row">
                   <div className="col-md-4">
-                    <button className={style["dot-1"]} />
+                  <button className={style["dot-1"]} />
                     <button className={"mx-1 " + style["dot-2"]} />
                     <button className={style["dot-3"]} />
                   </div>
@@ -43,13 +47,13 @@ function Tasks() {
               <div className="card-body">
                 <div className="row">
                   <div className="col-sm-5">
-                    <h5 className="card-title">
+                    <p className="card-title text-bold">
                       <del>The first task title</del>
-                    </h5>
+                    </p>
                   </div>
                   <div className="col-sm-5"></div>
                   <div className="col-sm-2 text-end">
-                    <FontAwesomeIcon icon={faHome} />
+                    <FontAwesomeIcon icon={faPlus} />
                   </div>
                 </div>
                 <p className="card-text">
