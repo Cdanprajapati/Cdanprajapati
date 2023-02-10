@@ -5,23 +5,21 @@ import style from "../Assets/Style/TodoHome.module.css";
 import Tasks from "../Components/Tasks";
 import TodoInput from "./TodoInput";
 
-const exampleTodo={
-  title: "",
-  description:"",
-  tags:[], 
-  isCompleted: false, 
-  when: new Date().toLocaleString()
-}
 
 function TodoHome() {
   const [showTodoInput, setShowTodoInput] = useState(false);
-  // const [allTodo, setAllTodo] = useState([]);
+  const [todos, setTodos] = useState([]);
 
-  console.log(showTodoInput, "====>")
+  const handleTodoInput=(value, data=[])=>{
+    setShowTodoInput(value)
+    if(data.length===0)
+    return; 
+    setTodos([...todos, data])
+  }
  
   return (
     <div>
-      {showTodoInput && <TodoInput setShowTodoInput={setShowTodoInput}/> }
+      { showTodoInput && <TodoInput setShowTodoInput={handleTodoInput}/> }
       <div className="container">
         <div className="row pt-5">
           <div className="col-sm-2">
@@ -36,7 +34,7 @@ function TodoHome() {
         </div>
 
         <div className="row mt-3">
-          <div className="col-sm-3">
+          <div className="col-sm-3 ">
             <button className={"mt-4 " + style["dot"]} />
             <label className="ms-1 my-auto">Work</label>
             <br />
@@ -57,7 +55,7 @@ function TodoHome() {
             <label className="ps-2">Hide Done Task</label>
           </div>
           <div className="col-sm-9">
-            <Tasks />
+            <Tasks data={todos} />
           </div>
         </div>
       </div>

@@ -1,19 +1,24 @@
 import React from "react";
 import style from "../Assets/Style/TodoInput.module.css";
 import { useState } from "react";
+import TodoHome from './TodoHome';
 
 function TodoInput(props) {
-  const [title, setTitle] = useState([]);
-  const [description, setDescription] = useState([]);
+  const [title, setTitle] = useState();
+  const [description, setDescription] = useState();
   const [border, setBorder] = useState([]);
+  const [showTodoHome, setShowTodoHome] = useState(false);
+
 
   function AddTodo(){
     const input = {
       title,
       description, 
       border,
+      iscompleted:false
     }
     console.log(input)
+    props.setShowTodoInput(false, input)
   }
 
   const Tags = [
@@ -24,6 +29,7 @@ function TodoInput(props) {
   ];
 
   return (
+    
     <div className={"position-absolute " + style["input-container"]}>
       <div className="container">
         <div
@@ -32,6 +38,7 @@ function TodoInput(props) {
             style["card-container"]
           }
         >
+          {showTodoHome && <TodoHome setShowTodoInput={setShowTodoHome}/> }
           <div className="card-body">
             <form onSubmit={(e)=>e.preventDefault()}>
               <div className="container">
@@ -93,7 +100,7 @@ function TodoInput(props) {
                       }                      
                       key={index}
                     >
-                      <button
+                      < button
                         className={style["dot-" + title.id]}
                         onClick={() => setBorder((p) => p.includes(title.id)? p.filter(p=>p!==title.id):[...p, title.id])}
                       />
