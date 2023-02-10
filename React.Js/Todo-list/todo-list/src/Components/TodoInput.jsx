@@ -20,6 +20,7 @@ function TodoInput(props) {
     console.log(input)
     props.setShowTodoInput(false, input)
   }
+  // jfighsfig
 
   const Tags = [
     { title: "work", id: 1 },
