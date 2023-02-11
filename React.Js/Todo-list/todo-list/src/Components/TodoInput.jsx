@@ -1,27 +1,26 @@
 import React from "react";
 import style from "../Assets/Style/TodoInput.module.css";
 import { useState } from "react";
-import TodoHome from './TodoHome';
-// hufghufrgrre
+import TodoHome from "./TodoHome";
 
 function TodoInput(props) {
-  const [title, setTitle] = useState();
-  const [description, setDescription] = useState();
-  const [border, setBorder] = useState([]);
+  const [title, setTitle] = useState(props?.preFilledData?.title);
+  const [description, setDescription] = useState(
+    props?.preFilledData?.description
+  );
+  const [border, setBorder] = useState(props?.preFilledData?.border||[]);
   const [showTodoHome, setShowTodoHome] = useState(false);
 
-
-  function AddTodo(){
+  function AddTodo() {
     const input = {
       title,
-      description, 
+      description,
       border,
-      iscompleted:false
-    }
-    console.log(input)
-    props.setShowTodoInput(false, input)
+      iscompleted: false,
+    };
+    console.log(input);
+    props.setShowTodoInput(false, input);
   }
-  // jfighsfig
 
   const Tags = [
     { title: "work", id: 1 },
@@ -31,7 +30,6 @@ function TodoInput(props) {
   ];
 
   return (
-    
     <div className={"position-absolute " + style["input-container"]}>
       <div className="container">
         <div
@@ -40,9 +38,9 @@ function TodoInput(props) {
             style["card-container"]
           }
         >
-          {showTodoHome && <TodoHome setShowTodoInput={setShowTodoHome}/> }
+          {showTodoHome && <TodoHome setShowTodoInput={setShowTodoHome} />}
           <div className="card-body">
-            <form onSubmit={(e)=>e.preventDefault()}>
+            <form onSubmit={(e) => e.preventDefault()}>
               <div className="container">
                 <div className="row">
                   <div className="col-sm-2 col-2 .col-md-2	.col-lg-2	.col-xl-2	.col-xxl-2">
@@ -74,7 +72,7 @@ function TodoInput(props) {
                   class="form-control"
                   placeholder="add a title...."
                   value={title}
-                  onChange={(e)=>setTitle(e.target.value)}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
 
                 {/* Description point */}
@@ -93,18 +91,25 @@ function TodoInput(props) {
                 <label className="pb-1 my-3">Tags</label>
                 <br />
                 <div className="row">
-                  { Tags.map((title, index) => (
-                    <div value={title.title} 
+                  {Tags.map((title, index) => (
+                    <div
+                      value={title.title}
                       className={
                         border.includes(title.id)
                           ? "col-md-3 d-flex border p-2"
                           : "col-md-3 d-flex p-2"
-                      }                      
+                      }
                       key={index}
                     >
-                      < button
+                      <button
                         className={style["dot-" + title.id]}
-                        onClick={() => setBorder((p) => p.includes(title.id)? p.filter(p=>p!==title.id):[...p, title.id])}
+                        onClick={() =>
+                          setBorder((p) =>
+                            p.includes(title.id)
+                              ? p.filter((p) => p !== title.id)
+                              : [...p, title.id]
+                          )
+                        }
                       />
                       <label className="ms-1">{title.title}</label>
                     </div>

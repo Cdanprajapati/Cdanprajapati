@@ -1,8 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import style from "../Assets/Style/TaskSkelton.module.css";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import EditDelete from "./EditDelete";
 import TaskMenu from "./TaskMenu";
 
 export default function TaskSkelton(props) {
@@ -20,9 +17,9 @@ export default function TaskSkelton(props) {
              { done ? <b className="card-title text-bold"><del>{title}</del></b> : <b className="card-title text-bold">{title}</b> }
               </div>
             <div className="col-sm-5"></div>
-            <TaskMenu/>
+            <TaskMenu id={props.id} setEditable={props.setEditable}/>
           </div>
-        {done ? <p className="card-text"><del>{description}</del></p>    : <p className="card-text">{description}</p> }
+        {done ? <p className="card-text"><del>{description}</del></p> : <p className="card-text">{description}</p> }
           <div className="row">
             {tags.map((title, index) => (
               <div
@@ -36,9 +33,9 @@ export default function TaskSkelton(props) {
             ))}                    
           </div>
             <div className="row">
-                <div className="col-sm-12 text-end">
+              <div className="col-sm-12 text-end">
                 <input type="checkbox" onClick={()=>setDone(pre=>!pre)}/>{ done ? <label className="ms-1"><b>Done</b></label> : <label className="ms-1">Done</label> }
-                </div>
+              </div>
             </div>
         </div>
       </div>
