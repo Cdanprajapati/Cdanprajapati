@@ -1,12 +1,14 @@
 import style from "../Assets/Style/TaskSkelton.module.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import TaskMenu from "./TaskMenu";
+import { TodoContex } from "../App";
 
-export default function TaskSkelton(props) {
+export default function TaskSkelton() {
+    const appContext = useContext(TodoContex);
     const [done, setDone] = useState(false) 
-    const title = props.title;
-    const description = props.description;
-    const tags = props.tags;
+    const title = '';
+    const description = '';
+    const tags = '';
 
   return (
     <div className="col-sm-6 col-sm-6 mb-3 mb-sm-0">
@@ -14,21 +16,21 @@ export default function TaskSkelton(props) {
         <div className="card-body">
           <div className="row">
             <div className="col-sm-5">
-             { done ? <b className="card-title text-bold"><del>{title}</del></b> : <b className="card-title text-bold">{title}</b> }
+             { done ? <b className="card-title text-bold"><del>{appContext.title}</del></b> : <b className="card-title text-bold">{appContext.title}</b> }
               </div>
             <div className="col-sm-5"></div>
-            <TaskMenu id={props.id} setEditable={props.setEditable}/>
+            <TaskMenu id={appContext.id} setEditable={appContext.setEditable}/>
           </div>
-        {done ? <p className="card-text"><del>{description}</del></p> : <p className="card-text">{description}</p> }
+        { done ? <p className="card-text"><del>{appContext.description}</del></p> : <p className="card-text">{appContext.description}</p> }
           <div className="row">
-            {tags.map((title, index) => (
+            {appContext.allTodos.map((title, index) => (
               <div
-                value={title.title}
+                value={appContext.title}
                 className={"col-md-3 d-flex p-2"}
                 key={index}
               >
-                <button className={style["dot-" + title.id]} />
-                <label className="ms-1">{title.title}</label>
+                <button className={style["dot-" + appContext.id]} />
+                <label className="ms-1">{appContext.title}</label>
               </div>                             
             ))}                    
           </div>

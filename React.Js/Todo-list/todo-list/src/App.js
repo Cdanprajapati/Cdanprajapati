@@ -1,13 +1,43 @@
-// import TodoInput from "./Components/TodoInput";
-// import Tasks from "./Components/Tasks";
 import TodoHome from "./Components/TodoHome";
-// import EditCancel from "./Components/EditCancel";
+import { useReducer } from "react";
+import { createContext } from "react";
+
+export const TodoContex = createContext();
+
+const initialstate = {
+  editOpen: false,
+  allTodos: []
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "EditOpen" :
+      return {
+        ...state,
+        editOpen: true,
+      };
+      break;
+    case "EditClose":
+        return {
+          ...state,
+          editOpen: false,
+          setEdit: false,
+        };
+    case "addTodo":
+      return {
+        ...state, allTodos: [...state.allTodos, action.data]
+      }
+  }
+}
 
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialstate);
+
   return (
     <div className="App">
-      <TodoHome />
-      {/* <EditCancel /> */}
+      <TodoContex.Provider value={{ ...state, dispatch: dispatch }}>
+        <TodoHome />
+      </TodoContex.Provider>
     </div>
   );
 }

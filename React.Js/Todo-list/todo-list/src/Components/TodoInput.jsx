@@ -1,25 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
 import style from "../Assets/Style/TodoInput.module.css";
 import { useState } from "react";
 import TodoHome from "./TodoHome";
+import { TodoContex } from "../App";
 
-function TodoInput(props) {
-  const [title, setTitle] = useState(props?.preFilledData?.title);
+function TodoInput({preFilledData, setShowTodoInput}) {
+  const appContext = useContext(TodoContex)
+  const [title, setTitle] = useState(preFilledData?.title);
   const [description, setDescription] = useState(
-    props?.preFilledData?.description
+    preFilledData?.description
   );
-  const [border, setBorder] = useState(props?.preFilledData?.border||[]);
+  const [border, setBorder] = useState(preFilledData?.border||[]);
   const [showTodoHome, setShowTodoHome] = useState(false);
 
   function AddTodo() {
+    appContext.dispatch({type:"EditClose"})
     const input = {
       title,
       description,
       border,
       iscompleted: false,
     };
+    appContext.dispatch({type:"addTodo", data: input})
     console.log(input);
-    props.setShowTodoInput(false, input);
+    setShowTodoInput(false, input);
   }
 
   const Tags = [
@@ -46,7 +50,7 @@ function TodoInput(props) {
                   <div className="col-sm-2 col-2 .col-md-2	.col-lg-2	.col-xl-2	.col-xxl-2">
                     <label
                       className={style["Cancel"]}
-                      onClick={() => props.setShowTodoInput(false)}
+                      onClick={() => setShowTodoInput(false)}
                     >
                       Cancel
                     </label>
@@ -81,7 +85,7 @@ function TodoInput(props) {
                 <br />
                 <textarea
                   type="text"
-                  class="form-control rounded-2"
+                  className="form-control rounded-2"
                   placeholder="add a description..."
                   rows={4}
                   value={description}
@@ -103,11 +107,7 @@ function TodoInput(props) {
                     >
                       <button
                         className={style["dot-" + title.id]}
-                        onClick={() =>
-                          setBorder((p) =>
-                            p.includes(title.id)
-                              ? p.filter((p) => p !== title.id)
-                              : [...p, title.id]
+                        onClick={() => setBorder((p) =>p.includes(title.id) ? p.filter((p) => p !== title.id): [...p, title.id]
                           )
                         }
                       />

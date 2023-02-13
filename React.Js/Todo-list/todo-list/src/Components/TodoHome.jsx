@@ -1,40 +1,42 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { TodoContex } from "../App";
 import style from "../Assets/Style/TodoHome.module.css";
 import Tasks from "../Components/Tasks";
 import TodoInput from "./TodoInput";
 
 function TodoHome() {
-  const [showTodoInput, setShowTodoInput] = useState(false);
+  const appContext = useContext(TodoContex)
+  const [showTodoHome, setShowTodoInput] = useState(false);
   const [todos, setTodos] = useState([]);
   const [editable, setEditable] = useState();
 
-  const handleTodoInput=(value, data=[])=>{
+  const handleTodoInput=(value, input=[])=>{
 
     setShowTodoInput(value)
-     if(data.length===0)
+     if(input.length===0)
     return; 
+    
     if(editable?.id>=0){
       setTodos(p=>{
-        p[editable?.id]=data
+        p[editable?.id]=input
         return p
       })
-      setEditable(null);
+      setEditable(null); 
       return; 
-    }
-    setTodos([...todos, data])
-  
+    } 
+    setTodos([...todos, input])  
   }
 
-  const editableHandler = (data) =>{
+  const editableHandler = (input) => {
     setShowTodoInput(true);
-    setEditable(data)
+    setEditable(input)
   }  
 
   return (
     <div>
-      { showTodoInput && <TodoInput setShowTodoInput={handleTodoInput} preFilledData={editable}/> }
+      { appContext.editOpen && <TodoInput setShowTodoInput={handleTodoInput} preFilledData={editable}/> }
       <div className="container">
         <div className="row pt-5">
           <div className="col-sm-2">
@@ -42,7 +44,7 @@ function TodoHome() {
           </div>
           <div className="col-sm-9"></div>
           <div className="col-sm-1">
-            <h3 onClick={()=>setShowTodoInput(true)}>
+            <h3 onClick={()=>appContext.dispatch({type:"EditOpen"})}>
               <FontAwesomeIcon icon={faPlus} />
             </h3>
           </div>
@@ -70,7 +72,7 @@ function TodoHome() {
             <label className="ps-2">Hide Done Task</label>
           </div>
           <div className="col-sm-9">
-            <Tasks data={todos} setEditable={editableHandler}/>
+            <Tasks input={todos} setEditable={editableHandler}/>
           </div>
         </div>
       </div>
