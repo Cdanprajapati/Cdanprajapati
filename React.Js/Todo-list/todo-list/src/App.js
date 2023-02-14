@@ -6,29 +6,40 @@ export const TodoContex = createContext();
 
 const initialstate = {
   editOpen: false,
-  allTodos: []
+  taskMenu: false,
+  allTodos: [],
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "EditOpen" :
+    case "EditOpen":
       return {
         ...state,
         editOpen: true,
       };
       break;
+
     case "EditClose":
-        return {
-          ...state,
-          editOpen: false,
-          setEdit: false,
-        };
+      return {
+        ...state,
+        editOpen: false,
+        setEdit: false,
+        taskMenu: false,
+      };
+
+    case "TaskMenu":
+      return {
+        ...state,
+        taskMenu: true,
+      };
+
     case "addTodo":
       return {
-        ...state, allTodos: [...state.allTodos, action.data]
-      }
+        ...state,
+        allTodos: [...state.allTodos, action.data],
+      };
   }
-}
+};
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialstate);

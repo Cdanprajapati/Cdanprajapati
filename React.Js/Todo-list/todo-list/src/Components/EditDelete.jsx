@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import style from "../Assets/Style/EditDelete.module.css";
-import { useState } from 'react';
 import { TodoContex } from "../App";
 
 function EditDelete() {

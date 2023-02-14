@@ -1,6 +1,6 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext, useState } from "react";
+import React, { useContext , useState} from "react";
 import { TodoContex } from "../App";
 import style from "../Assets/Style/TodoHome.module.css";
 import Tasks from "../Components/Tasks";
@@ -8,35 +8,42 @@ import TodoInput from "./TodoInput";
 
 function TodoHome() {
   const appContext = useContext(TodoContex)
-  const [showTodoHome, setShowTodoInput] = useState(false);
-  const [todos, setTodos] = useState([]);
-  const [editable, setEditable] = useState();
+  const [checked, setChecked] = useState(false)
 
-  const handleTodoInput=(value, input=[])=>{
+  // console.log(appContext.EditOpen, "====>")
 
-    setShowTodoInput(value)
-     if(input.length===0)
-    return; 
+  // const [showTodoHome, setShowTodoInput] = useState(false);
+  // const [todos, setTodos] = useState([]);
+  // const [editable, setEditable] = useState();
+
+  // const handleTodoInput=(value, input=[])=>{
+
+  // setShowTodoInput(value)
+  //  if(input.length===0)
+  //   return; 
     
-    if(editable?.id>=0){
-      setTodos(p=>{
-        p[editable?.id]=input
-        return p
-      })
-      setEditable(null); 
-      return; 
-    } 
-    setTodos([...todos, input])  
-  }
+  //   if(editable?.id>=0){
+  //     setTodos(p=>{
+  //       p[editable?.id]=input
+  //       return p
+  //     })
+  //     setEditable(null); 
+  //     return; 
+  //   } 
+  //   setTodos([...todos, input])  
+  // }
 
-  const editableHandler = (input) => {
-    setShowTodoInput(true);
-    setEditable(input)
-  }  
+  // const editableHandler = (input) => {
+  //   setShowTodoInput(true);
+  //   setEditable(input)
+  // }  
+
+  // console.log(appContext)
 
   return (
     <div>
-      { appContext.editOpen && <TodoInput setShowTodoInput={handleTodoInput} preFilledData={editable}/> }
+      { appContext.editOpen && <TodoInput /> }
+      
       <div className="container">
         <div className="row pt-5">
           <div className="col-sm-2">
@@ -68,11 +75,11 @@ function TodoHome() {
             <label className="ms-1 my-auto">Family</label>
             <br />
 
-            <input className="mt-5" type="checkbox" />
-            <label className="ps-2">Hide Done Task</label>
+            <input className="mt-5" type="checkbox" onClick={()=>setChecked(pre=>!pre)}/>
+            { checked ? <label className="ps-2"><b>Hide Done Task</b></label> : <label className="ps-2">Hide Done Task</label>  }
           </div>
           <div className="col-sm-9">
-            <Tasks input={todos} setEditable={editableHandler}/>
+            <Tasks  />
           </div>
         </div>
       </div>

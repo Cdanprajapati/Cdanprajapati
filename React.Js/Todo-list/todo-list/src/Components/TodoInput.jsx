@@ -1,19 +1,18 @@
 import React, { useContext } from "react";
 import style from "../Assets/Style/TodoInput.module.css";
-import { useState } from "react";
 import TodoHome from "./TodoHome";
+import { useState } from "react";
 import { TodoContex } from "../App";
 
-function TodoInput({preFilledData, setShowTodoInput}) {
+function TodoInput() {
   const appContext = useContext(TodoContex)
-  const [title, setTitle] = useState(preFilledData?.title);
+  const [title, setTitle] = useState([]);
   const [description, setDescription] = useState(
-    preFilledData?.description
+    []
   );
-  const [border, setBorder] = useState(preFilledData?.border||[]);
-  const [showTodoHome, setShowTodoHome] = useState(false);
+  const [border, setBorder] = useState([]);
 
-  function AddTodo() {
+  function AddTodo() { 
     appContext.dispatch({type:"EditClose"})
     const input = {
       title,
@@ -23,10 +22,13 @@ function TodoInput({preFilledData, setShowTodoInput}) {
     };
     appContext.dispatch({type:"addTodo", data: input})
     console.log(input);
-    setShowTodoInput(false, input);
   }
 
-  const Tags = [
+  function CancelHandle(){
+    appContext.dispatch({type:"EditClose"})
+  }
+
+  const Tags  = [
     { title: "work", id: 1 },
     { title: "study", id: 2 },
     { title: "enjoyment", id: 3 },
@@ -42,7 +44,7 @@ function TodoInput({preFilledData, setShowTodoInput}) {
             style["card-container"]
           }
         >
-          {showTodoHome && <TodoHome setShowTodoInput={setShowTodoHome} />}
+          { appContext.EditClose && <TodoHome/> } 
           <div className="card-body">
             <form onSubmit={(e) => e.preventDefault()}>
               <div className="container">
@@ -50,7 +52,7 @@ function TodoInput({preFilledData, setShowTodoInput}) {
                   <div className="col-sm-2 col-2 .col-md-2	.col-lg-2	.col-xl-2	.col-xxl-2">
                     <label
                       className={style["Cancel"]}
-                      onClick={() => setShowTodoInput(false)}
+                      onClick={CancelHandle}
                     >
                       Cancel
                     </label>
@@ -68,18 +70,19 @@ function TodoInput({preFilledData, setShowTodoInput}) {
                   </div>
                 </div>
 
-                {/* Title point */}
+                {/*=======================Title point========================= */}
 
                 <label className="mt-4 pb-2">Title</label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   placeholder="add a title...."
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                />
+                /><br/>
+                {/* { appContext.InputErr? <span className="text-danger">Enter title </span> : "" } */}
 
-                {/* Description point */}
+                {/*=======================Description point==========================*/}
 
                 <label className="form-label mt-4">Description</label>
                 <br />
@@ -91,11 +94,13 @@ function TodoInput({preFilledData, setShowTodoInput}) {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
+                < br/>
+                {/* { appContext.InputErr ? <span className="text-danger">Enter some descripition </span> : ""} */}
 
                 <label className="pb-1 my-3">Tags</label>
                 <br />
                 <div className="row">
-                  {Tags.map((title, index) => (
+                  { Tags.map((title, index) => (
                     <div
                       value={title.title}
                       className={
@@ -107,7 +112,7 @@ function TodoInput({preFilledData, setShowTodoInput}) {
                     >
                       <button
                         className={style["dot-" + title.id]}
-                        onClick={() => setBorder((p) =>p.includes(title.id) ? p.filter((p) => p !== title.id): [...p, title.id]
+                        onClick={() => setBorder((p) => p.includes(title.id) ? p.filter((p) => p !== title.id) : [...p, title.id]
                           )
                         }
                       />
