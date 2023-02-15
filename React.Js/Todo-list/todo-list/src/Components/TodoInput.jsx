@@ -1,32 +1,14 @@
 import React, { useContext } from "react";
 import style from "../Assets/Style/TodoInput.module.css";
-import TodoHome from "./TodoHome";
 import { useState } from "react";
 import { TodoContex } from "../App";
 
 function TodoInput() {
   const appContext = useContext(TodoContex)
-  const [title, setTitle] = useState([]);
-  const [description, setDescription] = useState(
-    []
-  );
   const [border, setBorder] = useState([]);
+  const {state, dispatch} = appContext;
 
-  function AddTodo() { 
-    appContext.dispatch({type:"EditClose"})
-    const input = {
-      title,
-      description,
-      border,
-      iscompleted: false,
-    };
-    appContext.dispatch({type:"addTodo", data: input})
-    console.log(input);
-  }
-
-  function CancelHandle(){
-    appContext.dispatch({type:"EditClose"})
-  }
+  console.log( appContext )
 
   const Tags  = [
     { title: "work", id: 1 },
@@ -44,7 +26,6 @@ function TodoInput() {
             style["card-container"]
           }
         >
-          { appContext.EditClose && <TodoHome/> } 
           <div className="card-body">
             <form onSubmit={(e) => e.preventDefault()}>
               <div className="container">
@@ -52,7 +33,7 @@ function TodoInput() {
                   <div className="col-sm-2 col-2 .col-md-2	.col-lg-2	.col-xl-2	.col-xxl-2">
                     <label
                       className={style["Cancel"]}
-                      onClick={CancelHandle}
+                      onClick={()=>appContext.dispatch({type:"EditClose"})}
                     >
                       Cancel
                     </label>
@@ -62,7 +43,7 @@ function TodoInput() {
                     <button
                       className={"btn btn-secondary ps-4 pe-4 " + style["Add"]}
                       type="btn"
-                      onClick={AddTodo}
+                      onClick={()=>appContext.dispatch({type:"addTodo"})}
                     >
                       {" "}
                       Add{" "}
@@ -77,12 +58,11 @@ function TodoInput() {
                   type="text"
                   className="form-control"
                   placeholder="add a title...."
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                /><br/>
-                {/* { appContext.InputErr? <span className="text-danger">Enter title </span> : "" } */}
+                  value={state?.title}
+                  onChange={(e)=> dispatch({ type: 'Title', data: e.target.value})}
+                />
 
-                {/*=======================Description point==========================*/}
+                {/*=======================Description point=======================*/}
 
                 <label className="form-label mt-4">Description</label>
                 <br />
@@ -91,32 +71,30 @@ function TodoInput() {
                   className="form-control rounded-2"
                   placeholder="add a description..."
                   rows={4}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  value={state?.description}
+                  onChange={(e)=> dispatch({ type: 'Description', data: e.target.value})}
                 />
-                < br/>
-                {/* { appContext.InputErr ? <span className="text-danger">Enter some descripition </span> : ""} */}
 
                 <label className="pb-1 my-3">Tags</label>
                 <br />
                 <div className="row">
-                  { Tags.map((title, index) => (
+                  { Tags.map((item, i) => (
                     <div
-                      value={title.title}
+                      value={item.title}
                       className={
-                        border.includes(title.id)
+                        border.includes(item.id)
                           ? "col-md-3 d-flex border p-2"
                           : "col-md-3 d-flex p-2"
                       }
-                      key={index}
+                      key={i}
                     >
                       <button
-                        className={style["dot-" + title.id]}
-                        onClick={() => setBorder((p) => p.includes(title.id) ? p.filter((p) => p !== title.id) : [...p, title.id]
+                        className={style["dot-" + item.id]}
+                        onClick={() => setBorder((p) => p.includes(item.id) ? p.filter((p) => p !== item.id) : [...p, item.id]
                           )
                         }
                       />
-                      <label className="ms-1">{title.title}</label>
+                      <label className="ms-1">{item.title}</label>
                     </div>
                   ))}
                 </div>

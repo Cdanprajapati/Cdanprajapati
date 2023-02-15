@@ -7,7 +7,10 @@ export const TodoContex = createContext();
 const initialstate = {
   editOpen: false,
   taskMenu: false,
+  id: "",
   allTodos: [],
+  title: "",
+  description: "",
 };
 
 const reducer = (state, action) => {
@@ -27,6 +30,18 @@ const reducer = (state, action) => {
         taskMenu: false,
       };
 
+    case "Title":
+      return {
+        ...state,
+        title: action.data,        
+      }
+
+    case "Description":
+      return {
+        ...state,
+        description: action.data,
+      }
+
     case "TaskMenu":
       return {
         ...state,
@@ -36,7 +51,12 @@ const reducer = (state, action) => {
     case "addTodo":
       return {
         ...state,
-        allTodos: [...state.allTodos, action.data],
+        taskMenu:false,
+        editOpen:false,
+        allTodos: [...state.allTodos, {
+          title: state.title, 
+          description:state.description,
+        }],
       };
   }
 };
@@ -46,8 +66,8 @@ function App() {
 
   return (
     <div className="App">
-      <TodoContex.Provider value={{ ...state, dispatch: dispatch }}>
-        <TodoHome />
+      <TodoContex.Provider value={{ ...state, dispatch: dispatch }}> 
+          <TodoHome />  
       </TodoContex.Provider>
     </div>
   );

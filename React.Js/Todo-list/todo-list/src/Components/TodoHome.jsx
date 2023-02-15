@@ -9,7 +9,7 @@ import TodoInput from "./TodoInput";
 function TodoHome() {
   const appContext = useContext(TodoContex)
   const [checked, setChecked] = useState(false)
-
+  // const { state, dispatch } = appContext;
   // console.log(appContext.EditOpen, "====>")
 
   // const [showTodoHome, setShowTodoInput] = useState(false);
@@ -42,7 +42,7 @@ function TodoHome() {
 
   return (
     <div>
-      { appContext.editOpen && <TodoInput /> }
+      { appContext.editOpen && <TodoInput/> }
       
       <div className="container">
         <div className="row pt-5">
