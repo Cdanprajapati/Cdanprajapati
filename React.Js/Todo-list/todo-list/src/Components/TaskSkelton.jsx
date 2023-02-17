@@ -1,46 +1,42 @@
+// import { type } from "@testing-library/user-event/dist/type";
 import style from "../Assets/Style/TaskSkelton.module.css";
-import { useContext, useState } from "react";
 import TaskMenu from "./TaskMenu";
+import { useContext } from "react";
 import { TodoContex } from "../App";
 
-export default function TaskSkelton() {
+export default function TaskSkelton({ title, description, tags, id , isDone, isCompleted}) {
   const appContext = useContext(TodoContex);
-  const [done, setDone] = useState();
+
+  console.log(appContext.allTodos)
 
   return (
     <div className="col-sm-6 col-sm-6 mb-3 mb-sm-0">
-      <div className={"card my-3 bg-warninhg " + style["bg"]}>
+     <div className={"card my-3 bg-warninhg " + style["bg"]}>
         <div className="card-body">
           <div className="row">
             <div className="col-sm-10">
-              { appContext?.allTodos?.map((item, i) => (
-                <p className="text-danger" key={i}>
-                  {item.title}
-                  <br />
-                  {item.description}
-                </p>
-              ))}
+              <p className="text-start">                
+              { isDone ?  
+               <label className="ms-1"><del>{title}<br/>{description}</del></label>
+               : <label className="ms-1"><b>{title}</b><br/>{description}</label> }
+               { isCompleted && <label className="text-danger">{title}</label> }
+              </p>
             </div>
             <div className="col-sm-2">
-              <TaskMenu />
+              <TaskMenu id={id}/>
             </div>
           </div>
 
-          {/*===========done point===============*/}
-          <div className="row">
-            <div className="col-sm-12 text-end">
-              <input type="checkbox" onClick={() => setDone((pre) => !pre)} />
-              {done ? (
-                <label className="ms-1">
-                  <b>Done</b>
-                </label>
-              ) : (
-                <label className="ms-1">Done</label>
-              )}
+          {/*===========done point  ==============*/}
+
+         {!isDone && <div className="row">
+            <div className="col-sm-12 text-end">              
+              <input type="checkbox" onClick={()=>appContext.dispatch({type: "TaskDone",  id})}/>
+              <label className="ms-1">Done</label>
             </div>
-          </div>
+          </div>}
         </div>
-      </div>
+      </div> 
     </div>
   );
 }

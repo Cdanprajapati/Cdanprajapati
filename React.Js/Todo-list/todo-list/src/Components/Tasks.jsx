@@ -8,13 +8,18 @@ function Tasks() {
     <div>
       <div className="container">
         <div className="row">
-          { appContext?.allTodos?.map((item, i) => (
-            <TaskSkelton
-              id={i}
-              title={item.title}
-              description={item.description}
-              tags={item.border}
-            />
+          {appContext?.allTodos?.map((item, i) => (
+            <>
+              <TaskSkelton
+                key={i}
+                id={i}
+                title={item.title}
+                description={item.description}
+                tags={item.border}
+                isDone={item.isDone}
+                isCompleted= {item.isCompleted}
+              />
+            </>
           ))}
         </div>
       </div>
@@ -23,3 +28,4 @@ function Tasks() {
 }
 
 export default Tasks;
+

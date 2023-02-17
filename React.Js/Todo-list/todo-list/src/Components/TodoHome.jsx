@@ -6,7 +6,7 @@ import style from "../Assets/Style/TodoHome.module.css";
 import Tasks from "../Components/Tasks";
 import TodoInput from "./TodoInput";
 
-function TodoHome() {
+function TodoHome({id}) {
   const appContext = useContext(TodoContex)
   const [checked, setChecked] = useState(false)
   // const { state, dispatch } = appContext;
@@ -29,9 +29,9 @@ function TodoHome() {
   //     })
   //     setEditable(null); 
   //     return; 
-  //   } 
+  //   
   //   setTodos([...todos, input])  
-  // }
+  // 
 
   // const editableHandler = (input) => {
   //   setShowTodoInput(true);
@@ -42,7 +42,7 @@ function TodoHome() {
 
   return (
     <div>
-      { appContext.editOpen && <TodoInput/> }
+      { appContext.editOpen && <TodoInput id={id}/> }
       
       <div className="container">
         <div className="row pt-5">
@@ -79,7 +79,7 @@ function TodoHome() {
             { checked ? <label className="ps-2"><b>Hide Done Task</b></label> : <label className="ps-2">Hide Done Task</label>  }
           </div>
           <div className="col-sm-9">
-            <Tasks  />
+            <Tasks />
           </div>
         </div>
       </div>

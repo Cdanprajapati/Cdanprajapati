@@ -8,7 +8,7 @@ function TodoInput() {
   const [border, setBorder] = useState([]);
   const {state, dispatch} = appContext;
 
-  console.log( appContext )
+  console.log( appContext );
 
   const Tags  = [
     { title: "work", id: 1 },
@@ -45,8 +45,7 @@ function TodoInput() {
                       type="btn"
                       onClick={()=>appContext.dispatch({type:"addTodo"})}
                     >
-                      {" "}
-                      Add{" "}
+                      { appContext.taskMenu ? "Update" : "Add" }
                     </button>
                   </div>
                 </div>
