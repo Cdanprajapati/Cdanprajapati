@@ -42,7 +42,7 @@ function TodoHome({id}) {
 
   return (
     <div>
-      { appContext.editOpen && <TodoInput id={id}/> }
+      { appContext.inputOpen && <TodoInput id={id}/> }
       
       <div className="container">
         <div className="row pt-5">
@@ -51,7 +51,7 @@ function TodoHome({id}) {
           </div>
           <div className="col-sm-9"></div>
           <div className="col-sm-1">
-            <h3 onClick={()=>appContext.dispatch({type:"EditOpen"})}>
+            <h3 onClick={()=>appContext.dispatch({type:"InputOpen"})}>
               <FontAwesomeIcon icon={faPlus} />
             </h3>
           </div>
@@ -79,7 +79,7 @@ function TodoHome({id}) {
             { checked ? <label className="ps-2"><b>Hide Done Task</b></label> : <label className="ps-2">Hide Done Task</label>  }
           </div>
           <div className="col-sm-9">
-            <Tasks />
+            <Tasks  id={id}/>
           </div>
         </div>
       </div>

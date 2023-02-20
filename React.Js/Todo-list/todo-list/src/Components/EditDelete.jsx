@@ -10,14 +10,14 @@ function EditDelete({id}) {
         <div className="row ">
           <div className="col-sm-12">
             <div className={"border border-1 rounded-top "+style["Edit"]}>
-              <p className="card-title ms-2 pt-1 text-start text-dark" onClick={()=>appContext.dispatch({type:"EditOpen", id })}>Edit..</p>
+              <p className="card-title ms-2 pt-1 text-start text-dark" onClick={()=>appContext.dispatch({type:"updateOpen", id })}>Edit..</p>
             </div>
           </div>
         </div>        
         <div className="row">
           <div className="col-sm-12">
             <div className={"border border-1 rounded-bottom "+style["Delete"]} 
-              onClick={()=>appContext.dispatch({type:"Completed", id })}>
+              onClick={()=>appContext.dispatch({type:"Deleted", id })}>
               <p className="card-title ms-2 pt-1 text-start text-dark">Delete</p>
             </div>
           </div>

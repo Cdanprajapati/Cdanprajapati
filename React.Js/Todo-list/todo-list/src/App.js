@@ -5,10 +5,10 @@ import { createContext } from "react";
 export const TodoContex = createContext();
 
 const initialstate = {
-  editOpen: false,
+  inputOpen: false,
   taskMenu: false,
   taskDone: false,
-  isCompleted: false,
+  isDeleted: false,
   id: 0,
   allTodos: [],
   title: "",
@@ -19,23 +19,47 @@ const initialstate = {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "EditOpen":
-      let edit = state.allTodos;
-      edit[action.id] = {
-        ...edit
-      }
-
+    case "InputOpen":
       return {
         ...state,
-        editOpen: true,
-        allTodos: edit,
+        inputOpen: true,
+        title: "", 
+        description: "",
       };
       break;
 
-    case "EditClose":
+    // case "UpdatedTask":
+    //   let Uptask = Update.filter((item, index) => index !== action.id);
+    //   return {
+    //     ...state,
+    //     inputOpen: false,
+    //     allTodos: Uptask,    
+    //   }
+
+    case "updateOpen":
+      let edit = state.allTodos;
+      let Update = edit.filter((item, index) => index === action.id);
+      console.log(Update,"===>")
       return {
         ...state,
-        editOpen: false,
+        inputOpen:true, 
+        title: Update[0].title, 
+        description: Update[0].description,    
+      };
+      break;
+
+    case "InputClose":
+      return {
+        ...state,
+        allTodos: [
+          ...state.allTodos,
+          {
+            title: state.title,
+            description: state.description,
+            isDone: false,
+          },
+        ],
+        inputOpen: false,
         setEdit: false,
         taskMenu: false,
       };
@@ -52,22 +76,22 @@ const reducer = (state, action) => {
         description: action.data,
       };
 
-    case "Completed":
+    case "Deleted":
       let donetask = state.allTodos;
-      let check = donetask.filter((item, index)=> index !== action.id)  
-      console.log(check, "[====>]", action.id)
+      let check = donetask.filter((item, index) => index !== action.id);
+      console.log(check, "[====>]", action.id);
       return {
         ...state,
         allTodos: check,
-        taskMenu:false
+        taskMenu: false,
       };
 
     case "TaskDone":
       let todos = state.allTodos;
-        todos[action.id] = {
-          ...todos[action.id],
-          isDone:true,
-        };
+      todos[action.id] = {
+        ...todos[action.id],
+        isDone: true,
+      };
       return {
         ...state,
         allTodos: todos,
@@ -81,14 +105,14 @@ const reducer = (state, action) => {
       };
 
     case "addTodo":
-      let update = state.allTodos;
+      let update = state.allTodos;     
       update[action.id] = {
         ...update[action.id],
-      }
+      };
       return {
         ...state,
-        editOpen: false,
-        taskMenu:false,
+        inputOpen: false,
+        taskMenu: false,
         allTodos: [
           ...state.allTodos,
           {

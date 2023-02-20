@@ -8,7 +8,7 @@ function Tasks() {
     <div>
       <div className="container">
         <div className="row">
-          {appContext?.allTodos?.map((item, i) => (
+          { appContext?.allTodos?.map((item, i) => (
             <>
               <TaskSkelton
                 key={i}

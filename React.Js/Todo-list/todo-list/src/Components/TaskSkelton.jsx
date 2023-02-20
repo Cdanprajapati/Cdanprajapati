@@ -17,7 +17,7 @@ export default function TaskSkelton({ title, description, tags, id , isDone, isC
             <div className="col-sm-10">
               <p className="text-start">                
               { isDone ?  
-               <label className="ms-1"><del>{title}<br/>{description}</del></label>
+               <label className="ms-1"><b><del>{title}</del></b><br/><del>{description}</del></label>
                : <label className="ms-1"><b>{title}</b><br/>{description}</label> }
                { isCompleted && <label className="text-danger">{title}</label> }
               </p>
