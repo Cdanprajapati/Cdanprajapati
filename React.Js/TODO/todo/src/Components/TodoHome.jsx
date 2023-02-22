@@ -9,36 +9,6 @@ import TodoInput from "./TodoInput";
 function TodoHome({id}) {
   const appContext = useContext(TodoContex)
   const [checked, setChecked] = useState(false)
-  // const { state, dispatch } = appContext;
-  // console.log(appContext.EditOpen, "====>")
-
-  // const [showTodoHome, setShowTodoInput] = useState(false);
-  // const [todos, setTodos] = useState([]);
-  // const [editable, setEditable] = useState();
-
-  // const handleTodoInput=(value, input=[])=>{
-
-  // setShowTodoInput(value)
-  //  if(input.length===0)
-  //   return; 
-    
-  //   if(editable?.id>=0){
-  //     setTodos(p=>{
-  //       p[editable?.id]=input
-  //       return p
-  //     })
-  //     setEditable(null); 
-  //     return; 
-  //   
-  //   setTodos([...todos, input])  
-  // 
-
-  // const editableHandler = (input) => {
-  //   setShowTodoInput(true);
-  //   setEditable(input)
-  // }  
-
-  // console.log(appContext)
 
   return (
     <div>

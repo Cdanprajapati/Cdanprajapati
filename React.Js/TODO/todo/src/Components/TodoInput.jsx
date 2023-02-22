@@ -6,18 +6,10 @@ import { TodoContex } from "../App";
 function TodoInput({ id }) {
   const appContext = useContext(TodoContex);
   const [inputErr, setInputErr] = useState(false);
-  const [border, setBorder] = useState([]);
 
   console.log(appContext);
 
-  const Tags = [
-    { title: "work", id: 1 },
-    { title: "study", id: 2 },
-    { title: "Enjoyment", id: 3 },
-    { title: "family", id: 4 },
-  ];
-
-  function loginHandle(e) {
+    function loginHandle(e) {
     e.preventDefault()
     if (!appContext.tittle && !appContext.description) {
       setInputErr(true)
@@ -90,7 +82,7 @@ function TodoInput({ id }) {
                     appContext.dispatch({ type: "Title", data: e.target.value })
                   }/>
                 {
-                   inputErr ? <div class="alert alert-danger" role="alert">
+                   inputErr ? <div className="alert alert-danger" role="alert">
                    <strong>Please..!</strong> Make sure you have filled all fields
                  </div> : "" 
                    } 
@@ -115,11 +107,11 @@ function TodoInput({ id }) {
                 <label className="pb-1 mt-3">Tags</label>
                 <br />
                 <div className="row">
-                  { Tags.map((item, i) => (
+                  { appContext.tags.map((item, i) => (
                     <div
                       value={item.title}
                       className={
-                        border.includes(item.id)
+                        appContext.border.includes(item.id)
                           ? "col-md-3 d-flex border p-2"
                           : "col-md-3 d-flex p-2"
                       }
@@ -127,13 +119,7 @@ function TodoInput({ id }) {
                     > 
                       <button
                         className={style["dot-" + item.id]}
-                        onClick={() =>
-                          setBorder((p) =>
-                            p.includes(item.id)
-                              ? p.filter((p) => p !== item.id)
-                              : [...p, item.id]
-                          )
-                        }
+                        onClick={()=>appContext.dispatch({type: "SelectedTags", id})}
                       />
                       <label className="ms-1">{item.title}</label>
                     </div>
