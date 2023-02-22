@@ -69,7 +69,7 @@ function TodoHome({id}) {
             <br />
 
             <button className={"mt-4 " + style["dot-2"]} />
-            <label className="ms-1 my-auto">Entertainment</label>
+            <label className="ms-1 my-auto">Enjoyment</label>
             <br />
 
             <button className={"mt-4 " + style["dot-3"]} />

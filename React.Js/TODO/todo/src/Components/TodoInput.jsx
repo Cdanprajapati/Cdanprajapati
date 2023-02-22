@@ -5,8 +5,7 @@ import { TodoContex } from "../App";
 
 function TodoInput({ id }) {
   const appContext = useContext(TodoContex);
-  // const [titleErr, setTitleErr] = useState(false);
-  // const [descErr, setDescErr] = useState(false);
+  const [inputErr, setInputErr] = useState(false);
   const [border, setBorder] = useState([]);
 
   console.log(appContext);
@@ -14,16 +13,18 @@ function TodoInput({ id }) {
   const Tags = [
     { title: "work", id: 1 },
     { title: "study", id: 2 },
-    { title: "enjoyment", id: 3 },
+    { title: "Enjoyment", id: 3 },
     { title: "family", id: 4 },
   ];
 
   function loginHandle(e) {
-    e.preventDefault();
-    // if(state.title.length<2 || state.description.length<2){
-    //   setDescErr(true);
-    //   setTitleErr(true);
-    // } return;
+    e.preventDefault()
+    if (!appContext.tittle && !appContext.description) {
+      setInputErr(true)
+    }else{
+      setInputErr(false)
+    appContext.dispatch({ type: "addTodo", id });
+    }
   }
 
   return (
@@ -36,7 +37,7 @@ function TodoInput({ id }) {
           }
         >
           <div className="card-body">
-            <form onSubmit={loginHandle}>
+            <form>
               <div className="container">
                 <div className="row">
                   <div className="col-sm-2 col-2 .col-md-2	.col-lg-2	.col-xl-2	.col-xxl-2">
@@ -51,21 +52,29 @@ function TodoInput({ id }) {
                   </div>
                   <div className="col-sm-7 col-7 col-md-7 col-lg-7 col-xl-7 col-xxl-7"></div>
                   <div className="col-sm-3 col-3 col-md-3 col-lg-3 col-xl-3 col-xxl-3">
-                  {appContext.taskMenu ?   <button
-                      className={"btn btn-secondary ps-4 pe-4 " + style["Add"]}
-                      type="btn"
-                      onClick={() =>
-                        appContext.dispatch({ type: "UpdatedTask", id})
-                      }
-                    >Update
-                    </button> :   <button
-                      className={"btn btn-secondary ps-4 pe-4 " + style["Add"]}
-                      type="btn"
-                      onClick={() =>
-                        appContext.dispatch({ type: "addTodo", id })
-                      }
-                    >Add
-                    </button> }
+                    {appContext.taskMenu ? (
+                      <button
+                        className={
+                          "btn btn-secondary ps-4 pe-4 " + style["Add"]
+                        }
+                        type="btn"
+                        onClick={() =>
+                          appContext.dispatch({ type: "UpdatedTask", id })
+                        }
+                      >
+                        Update
+                      </button>
+                    ) : (
+                      <button
+                        className={
+                          "btn btn-secondary ps-4 pe-4 " + style["Add"]
+                        }
+                        type="btn"
+                        onClick={loginHandle}
+                      >
+                        Add
+                      </button>
+                    )}
                   </div>
                 </div>
 
@@ -79,11 +88,12 @@ function TodoInput({ id }) {
                   value={appContext?.title}
                   onChange={(e) =>
                     appContext.dispatch({ type: "Title", data: e.target.value })
-                  }
-                />
-                <br />
-                {/* { titleErr ? <span>Not valid</span> : ""} */}
-
+                  }/>
+                {
+                   inputErr ? <div class="alert alert-danger" role="alert">
+                   <strong>Please..!</strong> Make sure you have filled all fields
+                 </div> : "" 
+                   } 
                 {/*=======================Description point=======================*/}
 
                 <label className="form-label mt-4">Description</label>
@@ -101,12 +111,11 @@ function TodoInput({ id }) {
                     })
                   }
                 />
-                {/* { descErr ? <span>Descript</span> : ""} */}
 
-                <label className="pb-1 my-3">Tags</label>
+                <label className="pb-1 mt-3">Tags</label>
                 <br />
                 <div className="row">
-                  {Tags.map((item, i) => (
+                  { Tags.map((item, i) => (
                     <div
                       value={item.title}
                       className={
@@ -115,7 +124,7 @@ function TodoInput({ id }) {
                           : "col-md-3 d-flex p-2"
                       }
                       key={i}
-                    >
+                    > 
                       <button
                         className={style["dot-" + item.id]}
                         onClick={() =>
