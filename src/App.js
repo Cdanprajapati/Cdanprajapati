@@ -37,24 +37,13 @@ const reducer = (state, action) => {
       };
       break;
 
-      // case "Deleted":
-      //   let donetask = state.allTodos;
-      //   let check = donetask.filter((item, index) => index !== action.id);
-      //   console.log(check, "[====>]", action.id);
-      //   return {
-      //     ...state,
-      //     allTodos: check,
-      //     taskMenu: false,
-      //   };
-
     case "SelectedTags" :          
     console.log(action.id, "---->")
     let selected = state.tags.filter((item, id) => item.id === action.id); 
-    // agar border me pahle se hai to nikalde....! 
-      
+    // agar border me pahle se hai to nikalde....!       
       return {  
         ...state,
-        allTodos: selected,
+        allTodos: selected,  
         border:[...state.border,...selected]      
       }
 
@@ -172,3 +161,4 @@ function App() {
 }
 
 export default App;
+// ......
