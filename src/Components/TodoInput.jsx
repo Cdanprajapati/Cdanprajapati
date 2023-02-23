@@ -19,6 +19,8 @@ function TodoInput({ id }) {
     }
   }
 
+  console.log( appContext.border)
+
   return (
     <div className={"position-absolute " + style["input-container"]}>
       <div className="container">
@@ -29,7 +31,7 @@ function TodoInput({ id }) {
           }
         >
           <div className="card-body">
-            <form>
+            <form onSubmit={(e)=>e.preventDefault()}>
               <div className="container">
                 <div className="row">
                   <div className="col-sm-2 col-2 .col-md-2	.col-lg-2	.col-xl-2	.col-xxl-2">
@@ -111,17 +113,17 @@ function TodoInput({ id }) {
                     <div
                       value={item.title}
                       className={
-                        appContext.border.includes(item.id)
-                          ? "col-md-3 d-flex border p-2"
-                          : "col-md-3 d-flex p-2"
-                      }
+                        appContext.border.filter((border, id) => border.id === item.id).length>0
+                        ? "col-md-3 d-flex border p-2" : "col-md-3 d-flex p-2"
+                        }                      
                       key={i}
-                    > 
+                    >
                       <button
                         className={style["dot-" + item.id]}
-                        onClick={()=>appContext.dispatch({type: "SelectedTags", id})}
-                      />
+                        onClick={() => appContext.dispatch({ type:"SelectedTags", id:item.id})}     
+                       />
                       <label className="ms-1">{item.title}</label>
+                    
                     </div>
                   ))}
                 </div>
@@ -135,3 +137,4 @@ function TodoInput({ id }) {
 }
 
 export default TodoInput;
+// ...

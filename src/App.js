@@ -9,22 +9,20 @@ const initialstate = {
   taskMenu: false,
   taskDone: false,
   isDeleted: false,
-  border: "",
-  Tags: "",
+  Tags: '',
   id: 0,
   allTodos: [],
   title: "",
   description: "",
   taskDoneOpen: true,
   taskMenuOpen: true,
-
+  border:[],
   tags : [
     { title: "work", id: 1 },
     { title: "study", id: 2 },
     { title: "Enjoyment", id: 3 },
     { title: "family", id: 4 },
   ] 
-
 };
 
 
@@ -39,14 +37,14 @@ const reducer = (state, action) => {
       };
       break;
 
-    case "SelectedTags" :
-       Tags = border((p) =>
-        p.includes(item.id)
-          ? p.filter((p) => p !== item.id)
-          : [...p, item.id]
-        )
-      return {
-       allTodos: Tags
+    case "SelectedTags" :          
+    console.log(action.id, "---->")
+    let selected = state.tags.filter((item, id) => item.id === action.id); 
+    // agar border me pahle se hai to nikalde....!       
+      return {  
+        ...state,
+        allTodos: selected,  
+        border:[...state.border,...selected]      
       }
 
     case "UpdatedTask":
@@ -163,3 +161,4 @@ function App() {
 }
 
 export default App;
+// ......
