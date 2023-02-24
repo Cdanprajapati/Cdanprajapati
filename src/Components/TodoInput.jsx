@@ -122,8 +122,7 @@ function TodoInput({ id }) {
                         className={style["dot-" + item.id]}
                         onClick={() => appContext.dispatch({ type:"SelectedTags", id:item.id})}     
                        />
-                      <label className="ms-1">{item.title}</label>
-                    
+                      <label className="ms-1">{item.title}</label>                    
                     </div>
                   ))}
                 </div>

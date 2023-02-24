@@ -1,0 +1,9 @@
+let selected = state.tags.filter((item, id) => item.id ===  action.id);
+
+let prev = state.border.filter((item, id) => item.id === action.id)
+
+selected variable me state ke border ko filter karke item aur id ko
+ki item ki id aur action ki id same ho 
+
+prev me state ke border ko filter me item aur id ko item ki id aur action ki id baraber 
+

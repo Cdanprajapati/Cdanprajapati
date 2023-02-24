@@ -7,7 +7,7 @@ import { TodoContex } from "../App";
 export default function TaskSkelton({ title, description, tags, id , isDone, isCompleted}) {
   const appContext = useContext(TodoContex);
 
-  console.log(appContext.allTodos)
+  console.log(tags,'=====>')
 
   return (
     <div className="col-sm-6 col-sm-6 mb-3 mb-sm-0">
@@ -29,12 +29,17 @@ export default function TaskSkelton({ title, description, tags, id , isDone, isC
 
           {/*===========done point  ==============*/}
 
-         {!isDone && <div className="row">
-            <div className="col-sm-12 text-end">              
+        <div className="row">
+            <div className="col-sm-8">
+                {/* { tags.map((item, i)=> 
+                  <p>{item.title}</p>
+                )} */}
+            </div>
+           {!isDone &&   <div className="col-sm-4 text-end">              
               <input type="checkbox" onClick={()=>appContext.dispatch({type: "TaskDone",  id})}/>
               <label className="ms-1">Done</label>
-            </div>
-          </div>}
+            </div> }
+          </div>
         </div>
       </div> 
     </div>
