@@ -4,21 +4,18 @@ import TaskSkelton from "./TaskSkelton";
 
 function Tasks() {
   const appContext = useContext(TodoContex);
-  // let finalTodo = appContext.allTodos;
-  //  const donetask = appContext.allTodos.filter((item) => item.isDone !== true)
 
-  //  if(appContext.hideDoneTask) {
-  //   finalTodo = donetask 
-  //  }else{
-  //   finalTodo = appContext.allTodos
-  //  }
+
+  console.log("hideDoneTask",appContext)
 
   return (
     <div>
       <div className="container">
         <div className="row">
-          {appContext.allTodos?.map((item, i) => (
-            <>
+          {appContext.allTodos?.map((item, i) => {
+            console.log("Herer is done",item)
+           return  <> 
+            {(item.isDone == true && appContext.hideDoneTask == true ) ? null : 
                <TaskSkelton
                 key={i}
                 id={i}
@@ -29,8 +26,9 @@ function Tasks() {
                 isCompleted={item.isCompleted}
                 // isHide={item.isHide}
               />
+            }
             </>
-          ))}
+          })}
         </div>
       </div>
     </div>

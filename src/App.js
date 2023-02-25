@@ -123,10 +123,41 @@ const reducer = (state, action) => {
       };
 
     case "HideDonetask":
+      console.log("HideDonetask",action)
       return {
         ...state,
-        hideDoneTask: true,
+        hideDoneTask: action.checked,
       };
+
+    case "Work":
+      console.log("Work")
+      return {
+        ...state,
+        selectWork: true,
+      }
+
+    case "Study":
+      console.log("Work")
+      return {
+        ...state,
+        selectStudy: true,
+      }
+
+    case "Enjoyment":
+      console.log("Work")
+      return {
+        ...state,
+        selectEnjoyment: true,
+      }
+
+    case "Family":
+      console.log("Family")
+      return {
+        ...state,
+        selectFamily: true,
+      }
+
+        
 
     case "TaskMenu":
       return {

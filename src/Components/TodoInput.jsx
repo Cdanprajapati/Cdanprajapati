@@ -77,9 +77,9 @@ function TodoInput({ id }) {
                     appContext.dispatch({ type: "Title", data: e.target.value })
                   }/>
                 {
-                   inputErr ? <div className="alert alert-danger" role="alert">
+                   inputErr ? <div className="text-center"> <div className="alert alert-danger" role="alert">
                    <strong>Please..!</strong> Make sure you have filled all fields
-                 </div> : "" 
+                 </div></div> : "" 
                    } 
                 {/*=======================Description point=======================*/}
                 <label className="form-label mt-4">Description</label>
