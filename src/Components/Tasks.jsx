@@ -4,20 +4,30 @@ import TaskSkelton from "./TaskSkelton";
 
 function Tasks() {
   const appContext = useContext(TodoContex);
+  // let finalTodo = appContext.allTodos;
+  //  const donetask = appContext.allTodos.filter((item) => item.isDone !== true)
+
+  //  if(appContext.hideDoneTask) {
+  //   finalTodo = donetask 
+  //  }else{
+  //   finalTodo = appContext.allTodos
+  //  }
+
   return (
     <div>
       <div className="container">
         <div className="row">
-          { appContext?.allTodos?.map((item, i) => (
+          {appContext.allTodos?.map((item, i) => (
             <>
-              <TaskSkelton
+               <TaskSkelton
                 key={i}
                 id={i}
                 title={item.title}
                 description={item.description}
-                tags={item.border}
+                tags={item.tags}
                 isDone={item.isDone}
-                isCompleted= {item.isCompleted}
+                isCompleted={item.isCompleted}
+                // isHide={item.isHide}
               />
             </>
           ))}
@@ -28,5 +38,4 @@ function Tasks() {
 }
 
 export default Tasks;
-//
 

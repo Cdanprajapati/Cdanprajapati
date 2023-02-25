@@ -3,15 +3,14 @@ import style from "../Assets/Style/TaskSkelton.module.css";
 import TaskMenu from "./TaskMenu";
 import { useContext } from "react";
 import { TodoContex } from "../App";
-
 export default function TaskSkelton({ title, description, tags, id , isDone, isCompleted}) {
   const appContext = useContext(TodoContex);
 
-  console.log(tags,'=====>')
+  // console.log(tags,'=====>',appContext?.selected.length)
 
   return (
-    <div className="col-sm-6 col-sm-6 mb-3 mb-sm-0">
-     <div className={"card my-3 bg-warninhg " + style["bg"]}>
+        <div className="col-sm-6 col-sm-6 mb-3 mb-sm-0">
+        <div className={"card my-3 bg-warninhg " + style["bg"]}>
         <div className="card-body">
           <div className="row">
             <div className="col-sm-10">
@@ -29,20 +28,22 @@ export default function TaskSkelton({ title, description, tags, id , isDone, isC
 
           {/*===========done point  ==============*/}
 
-        <div className="row">
-            <div className="col-sm-8">
-                {/* { tags.map((item, i)=> 
-                  <p>{item.title}</p>
-                )} */}
-            </div>
-           {!isDone &&   <div className="col-sm-4 text-end">              
-              <input type="checkbox" onClick={()=>appContext.dispatch({type: "TaskDone",  id})}/>
+        <div className="row">  
+        <div className="col-sm-8 col-md-8">     
+             { tags.map((item)=>{
+                return(                 
+                  <button className={"ms-1 " +style["dot-" + item.id]}/>                
+                ) 
+              })}  
+           </div>              
+            
+           {!isDone && <div className="col-sm-4 col-md-4 text-end">              
+              <input type="checkbox" onClick={()=>appContext.dispatch({type: "Donetask",  id})}/>
               <label className="ms-1">Done</label>
             </div> }
           </div>
         </div>
-      </div> 
+      </div>  
     </div>
   );
 }
-// .....

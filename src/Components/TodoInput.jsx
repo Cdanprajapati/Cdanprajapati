@@ -2,13 +2,10 @@ import React, { useContext } from "react";
 import style from "../Assets/Style/TodoInput.module.css";
 import { useState } from "react";
 import { TodoContex } from "../App";
-
 function TodoInput({ id }) {
   const appContext = useContext(TodoContex);
   const [inputErr, setInputErr] = useState(false);
-
   console.log(appContext);
-
     function loginHandle(e) {
     e.preventDefault()
     if (!appContext.tittle && !appContext.description) {
@@ -18,9 +15,7 @@ function TodoInput({ id }) {
     appContext.dispatch({ type: "addTodo", id });
     }
   }
-
   console.log( appContext.border)
-
   return (
     <div className={"position-absolute " + style["input-container"]}>
       <div className="container">
@@ -71,9 +66,7 @@ function TodoInput({ id }) {
                     )}
                   </div>
                 </div>
-
                 {/*=======================Title point========================= */}
-
                 <label className="mt-4 pb-2">Title</label>
                 <input
                   type="text"
@@ -89,7 +82,6 @@ function TodoInput({ id }) {
                  </div> : "" 
                    } 
                 {/*=======================Description point=======================*/}
-
                 <label className="form-label mt-4">Description</label>
                 <br />
                 <textarea
@@ -105,7 +97,6 @@ function TodoInput({ id }) {
                     })
                   }
                 />
-
                 <label className="pb-1 mt-3">Tags</label>
                 <br />
                 <div className="row">
@@ -134,6 +125,4 @@ function TodoInput({ id }) {
     </div>
   );
 }
-
 export default TodoInput;
-// ...

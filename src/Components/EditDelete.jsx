@@ -28,4 +28,3 @@ function EditDelete({id}) {
 }
 
 export default EditDelete;
-///
