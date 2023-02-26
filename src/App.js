@@ -9,6 +9,8 @@ const initialstate = {
   isDeleted: false,
   id: 0,
   hideDoneTask: false,
+  selectedHomeTags: false,
+  better: [],
   border: [],
   allTodos: [],
   selected: "",
@@ -23,6 +25,7 @@ const initialstate = {
     { title: "family", id: 4 },
   ],
 };
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "InputOpen":
@@ -32,6 +35,7 @@ const reducer = (state, action) => {
         title: "",
         description: "",
         border: [],
+        better: [],
       };
       break;
 
@@ -42,17 +46,34 @@ const reducer = (state, action) => {
       if (prev.length > 0) {
         border = border.filter((item, id) => item.id !== action.id);
       }
-      console.log(selected, "Cdan==you are selecting tags==>");
       return {
         ...state,
         selected,
         border,
       };
 
+    case "HomeTags" :
+      let homeTags = state.tags.filter((item, id) => item.id === action.id);
+      let tap = state.better.filter((item, id) => item.id === action.id);
+      let better = [ ...state.better, ...homeTags];
+      if(tap.length > 0) {
+        better = better.filter((item, id)  => item.id !== action.id);
+      }
+      console.log(action.id, "Here action ki id==>")
+      console.log(better, "here better ==>")
+      console.log(tap , "here is tap")
+      console.log(homeTags, "here is home tags==>") 
+      console.log(state.selectedHomeTags, "here seled home tags")   
+      return {
+        ...state,        
+        selectedHomeTags: true,
+        homeTags,
+        better,
+      }    
+
     case "updateOpen":
       let edit = state.allTodos;
       let Update = edit.filter((item, index) => index === action.id);
-
       console.log(Update, "updateOpen======>");
       return {
         ...state,
@@ -129,35 +150,33 @@ const reducer = (state, action) => {
         hideDoneTask: action.checked,
       };
 
-    case "Work":
-      console.log("Work")
-      return {
-        ...state,
-        selectWork: true,
-      }
+    // case "Work":
+    //   console.log("Work")
+    //   return {
+    //     ...state,
+    //     selectWork: true,
+    //   }
 
-    case "Study":
-      console.log("Work")
-      return {
-        ...state,
-        selectStudy: true,
-      }
+    // case "Study":
+    //   console.log("Work")
+    //   return {
+    //     ...state,
+    //     selectStudy: true,
+    //   }
 
-    case "Enjoyment":
-      console.log("Work")
-      return {
-        ...state,
-        selectEnjoyment: true,
-      }
+    // case "Enjoyment":
+    //   console.log("Work")
+    //   return {
+    //     ...state,
+    //     selectEnjoyment: true,
+    //   }
 
-    case "Family":
-      console.log("Family")
-      return {
-        ...state,
-        selectFamily: true,
-      }
-
-        
+    // case "Family":
+    //   console.log("Family")
+    //   return {
+    //     ...state,
+    //     selectFamily: true,
+    //   }       
 
     case "TaskMenu":
       return {
@@ -165,6 +184,7 @@ const reducer = (state, action) => {
         taskMenu: !state.taskMenu,
         taskMenuOpen: action.id,
       };
+
     case "addTodo":
       let update = state.allTodos;
       if (action.id)
@@ -175,7 +195,6 @@ const reducer = (state, action) => {
         ...state,
         inputOpen: false,
         taskMenu: false,
-        // allTodos:[...state.allTodos, action.data],
         allTodos: [
           ...state.allTodos,
           {

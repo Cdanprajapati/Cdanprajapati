@@ -12,8 +12,7 @@ function Tasks() {
     <div>
       <div className="container">
         <div className="row">
-          {appContext.allTodos?.map((item, i) => {
-            console.log("Herer is done",item)
+          { appContext.allTodos?.map((item, i) => {
            return  <> 
             {(item.isDone == true && appContext.hideDoneTask == true ) ? null : 
                <TaskSkelton
@@ -24,7 +23,6 @@ function Tasks() {
                 tags={item.tags}
                 isDone={item.isDone}
                 isCompleted={item.isCompleted}
-                // isHide={item.isHide}
               />
             }
             </>

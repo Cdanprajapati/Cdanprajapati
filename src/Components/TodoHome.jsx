@@ -8,7 +8,6 @@ import TodoInput from "./TodoInput";
 
 function TodoHome({ id }) {
   const appContext = useContext(TodoContex);
-  console.log()
 
   return (
     <div>
@@ -29,32 +28,45 @@ function TodoHome({ id }) {
         </div>
 
         <div className="row mt-3">
-          <div className="col-sm-3 ">
-            <button className={"mt-4 " + style["dot-1"]} onClick={()=>appContext.dispatch({type: "Work"})}/>
-            <label className="ms-1 my-auto">Work</label>
-            <br />
+          <div className="col-sm-3">
+            { appContext.tags.map((item, i) => (
+                <div
+                  value={item.title}
+                    className={
+                      appContext.better.filter((better, id) => better.id === item.id).length>0
+                        ? "col-md-12 d-flex py-3 border rounded p-2 "+style["Touch"] : "col-md-12 py-3 d-flex p-2"
+                      }                      
+                      key={i}
+                    >  
+                      <button
+                        className={style["dot-" + item.id]}
+                        onClick={() => appContext.dispatch({ type:"HomeTags", id:item.id})}     
+                    />
+                  <label className="ms-1">{item.title}</label>                    
+                </div>
+              ))
+            }
+          </div>
 
-            <button className={"mt-4 " + style["dot-2"]} onClick={()=>appContext.dispatch({type: "Study"})}/>
-            <label className="ms-1 my-auto">Study</label>
-            <br />
+          <div className="col-sm-9">
+            <Tasks id={id} />
+          </div>
 
-            <button className={"mt-4 " + style["dot-3"]} onClick={()=>appContext.dispatch({type: "Enjoyment"})}/>
-            <label className="ms-1 my-auto">Enjoyment</label>
-            <br />
-
-            <button className={"mt-4 " + style["dot-4"]} onClick={()=>appContext.dispatch({type: "Family"})}/>
-            <label className="ms-1 my-auto">Family</label>
-            <br />
-
-            <input
-              className="mt-5"
-              type="checkbox"
-              onClick={(e) => appContext.dispatch({type: "HideDonetask",checked:e.target.checked})}
-            />           
-              <label className="ps-2">Hide Done Task</label>          
+          <div className="row">
+            <div className="col-sm-3">
+              <input
+                className="mt-5"
+                type="checkbox"
+                onClick={(e) =>
+                  appContext.dispatch({
+                    type: "HideDonetask",
+                    checked: e.target.checked,
+                  })
+                }
+              />
+              <label className="ps-2">Hide Done Task</label>
             </div>
-          <div className="col-sm-9">           
-            <Tasks id={id} />  
+            <div className="col-sm-9"></div>
           </div>
         </div>
       </div>
