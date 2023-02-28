@@ -37,10 +37,11 @@ export default function TaskSkelton({ title, description, tags, id , isDone, isC
               })}  
            </div>              
             
-           {!isDone && <div className="col-sm-4 col-md-4 text-end">              
-              <input type="checkbox" onClick={()=>appContext.dispatch({type: "Donetask",  id})}/>
-              <label className="ms-1">Done</label>
-            </div> }
+           <div className="col-sm-4 col-md-4 text-end">              
+           {!isDone &&
+              <input type="checkbox" onClick={(e)=>appContext.dispatch({type: "Donetask",  id , checked:e.target.value})}/> }
+               <label className="ms-1">Done</label> 
+            </div> 
           </div>
         </div>
       </div>  

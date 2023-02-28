@@ -13,7 +13,6 @@ function TodoHome({ id }) {
     <div>
       {console.log(id)}
       {appContext.inputOpen && <TodoInput id={id} />}
-
       <div className="container">
         <div className="row pt-5">
           <div className="col-sm-2">
@@ -34,7 +33,7 @@ function TodoHome({ id }) {
                   value={item.title}
                     className={
                       appContext.better.filter((better, id) => better.id === item.id).length>0
-                        ? "col-md-12 d-flex py-3 border rounded p-2 "+style["Touch"] : "col-md-12 py-3 d-flex p-2"
+                        ? "col-md-12 my-2 d-flex  border rounded p-2 "+style["Touch"] : "col-md-12 my-2 d-flex p-2"
                       }                      
                       key={i}
                     >  
@@ -73,5 +72,4 @@ function TodoHome({ id }) {
     </div>
   );
 }
-
 export default TodoHome;

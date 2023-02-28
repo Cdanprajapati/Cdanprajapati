@@ -1,5 +1,5 @@
 import TodoHome from "./Components/TodoHome";
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { createContext } from "react";
 export const TodoContex = createContext();
 const initialstate = {
@@ -9,6 +9,7 @@ const initialstate = {
   isDeleted: false,
   id: 0,
   hideDoneTask: false,
+  filterTask: false,
   selectedHomeTags: false,
   better: [],
   border: [],
@@ -25,6 +26,8 @@ const initialstate = {
     { title: "family", id: 4 },
   ],
 };
+
+
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -59,17 +62,32 @@ const reducer = (state, action) => {
       if(tap.length > 0) {
         better = better.filter((item, id)  => item.id !== action.id);
       }
+      const filterTodos = state.allTodos.filter(todo => {
+        let filterTags = todo.tags.filter(todoTag => {
+            let findTag = better.find(tag => {
+                if(todoTag.title === tag.title && todoTag.id === tag.id)
+                  return tag
+            })
+            return findTag
+        })
+        if(filterTags.length > 0)
+            return todo
+        }
+      )
       console.log(action.id, "Here action ki id==>")
       console.log(better, "here better ==>")
-      console.log(tap , "here is tap")
+      console.log(tap, "here is tap")
       console.log(homeTags, "here is home tags==>") 
-      console.log(state.selectedHomeTags, "here seled home tags")   
+      console.log(state.selectedHomeTags, "here seled home tags")  
+      
       return {
-        ...state,        
+        ...state,    
+        // allTodos: filterTodos, 
         selectedHomeTags: true,
         homeTags,
         better,
-      }    
+        filterTask: better.length > 0,
+      };   
 
     case "updateOpen":
       let edit = state.allTodos;
@@ -85,7 +103,6 @@ const reducer = (state, action) => {
         taskMenu: true,
       };
       break;
-
     case "UpdatedTask":
       let obj = {
         title: state.title,
@@ -104,7 +121,6 @@ const reducer = (state, action) => {
         taskMenu: false,
         allTodos: updateTodo,
       };
-
     case "InputClose":
       return {
         ...state,
@@ -131,52 +147,31 @@ const reducer = (state, action) => {
         allTodos: check,
         taskMenu: false,
       };
-
     case "Donetask":
       let todos = state.allTodos;
       todos[action.id] = {
         ...todos[action.id],
-        isDone: true,
+        isDone:true,
       };
       return {
         ...state,
         allTodos: todos,
       };
 
+    case "Non-Done" :
+      return {
+        ...state,
+        isDone: false,
+      }
     case "HideDonetask":
       console.log("HideDonetask",action)
       return {
         ...state,
         hideDoneTask: action.checked,
       };
-
-    // case "Work":
-    //   console.log("Work")
-    //   return {
-    //     ...state,
-    //     selectWork: true,
-    //   }
-
-    // case "Study":
-    //   console.log("Work")
-    //   return {
-    //     ...state,
-    //     selectStudy: true,
-    //   }
-
-    // case "Enjoyment":
-    //   console.log("Work")
-    //   return {
-    //     ...state,
-    //     selectEnjoyment: true,
-    //   }
-
-    // case "Family":
-    //   console.log("Family")
-    //   return {
-    //     ...state,
-    //     selectFamily: true,
-    //   }       
+    
+    case "FilterData":
+      console.log('filter data', action)
 
     case "TaskMenu":
       return {
@@ -209,6 +204,8 @@ const reducer = (state, action) => {
 };
 function App() {
   const [state, dispatch] = useReducer(reducer, initialstate);
+
+
   return (
     <div className="App">
       <TodoContex.Provider value={{ ...state, dispatch: dispatch }}>

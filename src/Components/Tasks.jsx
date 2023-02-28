@@ -1,21 +1,20 @@
+// import { faArrowTrendUp } from "@fortawesome/free-solid-svg-icons";
+import { faArrowTrendUp } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { TodoContex } from "../App";
 import TaskSkelton from "./TaskSkelton";
-
 function Tasks() {
   const appContext = useContext(TodoContex);
-
-
   console.log("hideDoneTask",appContext)
-
   return (
     <div>
       <div className="container">
         <div className="row">
           { appContext.allTodos?.map((item, i) => {
            return  <> 
-            {(item.isDone == true && appContext.hideDoneTask == true ) ? null : 
-               <TaskSkelton
+            { 
+               ( item.isDone == true && appContext.hideDoneTask == true ) || (item.tags == true  && appContext.filterTodos == true ) ? null : 
+               <TaskSkelton 
                 key={i}
                 id={i}
                 title={item.title}
@@ -32,6 +31,4 @@ function Tasks() {
     </div>
   );
 }
-
 export default Tasks;
-

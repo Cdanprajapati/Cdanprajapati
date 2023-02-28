@@ -12,6 +12,10 @@
   overflow: hidden;
 }
 
+.Touch {
+  background-color: #f3f3f3b5;
+}
+
 .Cancel{
   cursor: pointer;
 }

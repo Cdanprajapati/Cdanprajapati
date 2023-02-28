@@ -77,9 +77,9 @@ function TodoInput({ id }) {
                     appContext.dispatch({ type: "Title", data: e.target.value })
                   }/>
                 {
-                   inputErr ? <div className="text-center"> <div className="alert alert-danger" role="alert">
+                   inputErr ? <div className="alert alert-danger" role="alert">
                    <strong>Please..!</strong> Make sure you have filled all fields
-                 </div></div> : "" 
+                 </div> : "" 
                    } 
                 {/*=======================Description point=======================*/}
                 <label className="form-label mt-4">Description</label>
@@ -105,7 +105,7 @@ function TodoInput({ id }) {
                       value={item.title}
                       className={
                         appContext.border.filter((border, id) => border.id === item.id).length>0
-                        ? "col-md-3 d-flex border p-2" : "col-md-3 d-flex p-2"
+                        ? "col-md-3 d-flex border p-2 rounded "+style["Touch"] : "col-md-3 d-flex p-2"
                         }                      
                       key={i}
                     >
