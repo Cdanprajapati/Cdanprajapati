@@ -1,5 +1,3 @@
-// import { faArrowTrendUp } from "@fortawesome/free-solid-svg-icons";
-import { faArrowTrendUp } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { TodoContex } from "../App";
 import TaskSkelton from "./TaskSkelton";
@@ -10,22 +8,42 @@ function Tasks() {
     <div>
       <div className="container">
         <div className="row">
-          { appContext.allTodos?.map((item, i) => {
-           return  <> 
-            { 
-               ( item.isDone == true && appContext.hideDoneTask == true ) || (item.tags == true  && appContext.filterTodos == true ) ? null : 
-               <TaskSkelton 
-                key={i}
-                id={i}
-                title={item.title}
-                description={item.description}
-                tags={item.tags}
-                isDone={item.isDone}
-                isCompleted={item.isCompleted}
-              />
+            {
+              appContext.filterTask ?
+              appContext.filterTodos.map((item,i) => {
+                return  <> 
+                {
+                (item.isDone == true && appContext.hideDoneTask == true )?null:  
+                   <TaskSkelton
+                    key={i}
+                    id={i}
+                    title={item.title}
+                    description={item.description}
+                    tags={item.tags}
+                    isDone={item.isDone}
+                    isCompleted={item.isCompleted}
+                  />
+                }
+                
+                </>
+              }) :
+              appContext.allTodos?.map((item, i) => {
+                return  <> 
+                 {
+                 (item.isDone == true && appContext.hideDoneTask == true )?null:
+                    <TaskSkelton
+                     key={i}
+                     id={i}
+                     title={item.title}
+                     description={item.description}
+                     tags={item.tags}
+                     isDone={item.isDone}
+                     isCompleted={item.isCompleted}
+                   />
+                 }
+                 </>
+               })
             }
-            </>
-          })}
         </div>
       </div>
     </div>

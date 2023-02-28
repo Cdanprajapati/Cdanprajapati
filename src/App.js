@@ -1,7 +1,18 @@
 import TodoHome from "./Components/TodoHome";
 import { useEffect, useReducer } from "react";
 import { createContext } from "react";
+
 export const TodoContex = createContext();
+
+// const getlocalData = () => {
+//   let newData = localStorage.getItem("allData");
+//   if(newData === []){
+//     return [];
+//   } else {
+//     return JSON.parse(newData);
+//   }
+// }
+
 const initialstate = {
   inputOpen: false,
   taskMenu: false,
@@ -14,6 +25,11 @@ const initialstate = {
   better: [],
   border: [],
   allTodos: [],
+  // allTodos:localStorage.getItem("allData") == null
+  //       ? []
+  //       : JSON.parse(localStorage.getItem("allData")),
+                              //getlocalData(),
+  filterTodos: [],
   selected: "",
   title: "",
   description: "",
@@ -26,8 +42,6 @@ const initialstate = {
     { title: "family", id: 4 },
   ],
 };
-
-
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -56,6 +70,7 @@ const reducer = (state, action) => {
       };
 
     case "HomeTags" :
+      console.log('state.alltodos',state.allTodos)
       let homeTags = state.tags.filter((item, id) => item.id === action.id);
       let tap = state.better.filter((item, id) => item.id === action.id);
       let better = [ ...state.better, ...homeTags];
@@ -66,7 +81,7 @@ const reducer = (state, action) => {
         let filterTags = todo.tags.filter(todoTag => {
             let findTag = better.find(tag => {
                 if(todoTag.title === tag.title && todoTag.id === tag.id)
-                  return tag
+                    return tag
             })
             return findTag
         })
@@ -74,15 +89,10 @@ const reducer = (state, action) => {
             return todo
         }
       )
-      console.log(action.id, "Here action ki id==>")
-      console.log(better, "here better ==>")
-      console.log(tap, "here is tap")
-      console.log(homeTags, "here is home tags==>") 
-      console.log(state.selectedHomeTags, "here seled home tags")  
       
       return {
         ...state,    
-        // allTodos: filterTodos, 
+        filterTodos: filterTodos, 
         selectedHomeTags: true,
         homeTags,
         better,
@@ -164,15 +174,11 @@ const reducer = (state, action) => {
         isDone: false,
       }
     case "HideDonetask":
-      console.log("HideDonetask",action)
+      console.log("HideDonetask",action.checked)
       return {
         ...state,
         hideDoneTask: action.checked,
       };
-    
-    case "FilterData":
-      console.log('filter data', action)
-
     case "TaskMenu":
       return {
         ...state,
@@ -190,6 +196,7 @@ const reducer = (state, action) => {
         ...state,
         inputOpen: false,
         taskMenu: false,
+        filterTask: false,
         allTodos: [
           ...state.allTodos,
           {
@@ -202,10 +209,15 @@ const reducer = (state, action) => {
       };
   }
 };
+
+
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialstate);
-
-
+  const [state, dispatch] = useReducer(reducer, initialstate)
+  // add data inlocalstorage 
+  useEffect(()=> {
+    localStorage.setItem("allData", JSON.stringify(state.allTodos))
+  }, [state.allTodos]);
+    
   return (
     <div className="App">
       <TodoContex.Provider value={{ ...state, dispatch: dispatch }}>

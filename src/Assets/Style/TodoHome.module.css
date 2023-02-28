@@ -1,3 +1,8 @@
+.Touch {
+  background-color: #e0dddd;
+  width: 60%;
+}
+
 .dot-1 {
   background-color: #78c4ed;
   border-radius: 50%;
@@ -8,10 +13,6 @@
   border: none;
 }
 
-.Touch {
-  background-color: #f3f3f3c7;
-  width: 50%;
-}
 
 .dot-2 {
   background-color: rgb(250, 172, 216);
@@ -22,6 +23,7 @@
   display: inline-block;
   border: none;
 }
+
 
 .dot-3 {
   background-color: #86edc9;
