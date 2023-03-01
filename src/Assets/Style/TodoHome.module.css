@@ -44,3 +44,15 @@
   display: inline-block;
   border: none;
 }
+
+.loginBtn{
+  margin-top: 50%;
+  width: 120px;
+  background-color: rgb(251, 108, 108);
+  transition: 0.3s;
+}
+
+.loginBtn:hover {
+ background-color: rgb(244, 76, 76);
+ border: 1px solid black;
+}

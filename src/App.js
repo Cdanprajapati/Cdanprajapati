@@ -9,7 +9,9 @@ const initialstate = {
   taskMenu: false,
   taskDone: false,
   isDeleted: false,
+  signupOpen: false,
   id: 0,
+  visible : false,
   hideDoneTask: false,
   filterTask: false,
   selectedHomeTags: false,
@@ -42,6 +44,17 @@ const reducer = (state, action) => {
         better: [],
       };
       break;
+    case "SignUpclose" :
+      return {
+        ...state,
+        signupOpen: false
+      };
+
+    case "SignUpOpen" :
+      return {
+        ...state,
+        signupOpen: true
+      };
 
     case "SelectedTags":
       let selected = state.tags.filter((item, id) => item.id === action.id);
@@ -55,6 +68,12 @@ const reducer = (state, action) => {
         selected,
         border,
       };
+
+    case "VisiblePassword" :
+      return {
+        ...state,
+        visible:!state.visible,
+      }
 
     case "HomeTags" :
       let homeTags = state.tags.filter((item, id) => item.id === action.id);

@@ -1,35 +1,24 @@
-import React from "react";
-import style from "../Assets/Style/Login.module.css";
+import React from 'react';
+import {RxCross1} from "react-icons/rx";
+import style from '../Assets/Style/Login.module.css';
 
 function Login() {
   return (
-    <div className="row bg-secondary">
-      <div className="col-sm-6">
-        <div className="row">
-          <div className="col-sm-2"></div>
-          <div className="col-sm-8">
-            <div className="container ">
-              <div class="card shadow-lg p-3 mb-5 rounded ">
-                <div class="card-body">
-                  <div className="container">
+    <div>
+        <div className={"card shadow-lg p-3  p-3 rounded "+style["Body"]}>
+                {/* <div className="card-body"> */}
                     <form>
-                      {/* Head part */}
                       <div className="row">
-                        <div className="col-sm-4">
-                          <p  className={style["text-size"]}>Sign Up</p>
+                        <div className="col-sm-6">
+                          <h5  className="text-bold">Log in</h5>
                         </div>
-                        <div className="col-sm-6"></div>
+                        <div className="col-sm-4"></div>
                         <div className="col-sm-2">
-                          <b>X</b>
+                          <b><RxCross1 /></b>
                         </div>
-                        {/* End-Head Part */}
                       </div>
-                      <hr className="pt-0"/>
-                      <label className={style["text-size"]}>First Name</label>
-                      <input type="text" className={"form-control "+style["placeholder"]} placeholder="Enter your first name" />
+                      {/* <hr className="pt-0"/> */}
                     
-                      <label className={"pt-1 "+style["text-size"]}>Last Name</label>
-                      <input type="text" className={"form-control "+style["placeholder"]} placeholder="Enter your last name"  />
 
                       <label className={"pt-1 "+style["text-size"]}>Email</label>
                       <input type="email" className={"form-control "+style["placeholder"]} placeholder="Enter your email name" />
@@ -37,8 +26,6 @@ function Login() {
                       <label className={"pt-1 "+style["text-size"]}>Password</label>
                       <input type="password" className={"form-control "+style["placeholder"]} placeholder="Enter your password" />
 
-                      <label className={"pt-1 "+style["text-size"]}> Confirm Password</label>
-                      <input type="password" className={"form-control "+style["placeholder"]} placeholder="Enter your Confirm password" />
                       <hr />
                       <input
                         type="checkbox"
@@ -51,25 +38,21 @@ function Login() {
                         className={"btn py-1 btn-primary container-fluid mt-2 "+style["btn"]}
                         type="button"
                       >
-                        Sign Up
+                        Log in
                       </button>
+
+                      <a className={style["forget"]} href="#" >Forgot Password ?</a>
+
                       <hr />
-                      <div className={"pt-1 ms-2 "+style["account-text"]}>
+                      <div className={"ms-2 "+style["account-text"]}>
                         <p className="text-center">Already have an account ?</p>
-                        <a className={"pt-1 px-5 mx-5  "+style["anchor-tag"]}  href="#">Log in</a>
+                        <a className={style["anchorTag"]}  href="#">Sign Up</a>
                       </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-sm-2"></div>
-        </div>
-      </div>
-      <div className="col-sm-6"></div>
+                    </form>                  
+                {/* </div> */}
+              </div>   
     </div>
-  );
+  )
 }
 
 export default Login;

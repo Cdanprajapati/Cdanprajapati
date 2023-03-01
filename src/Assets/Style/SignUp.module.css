@@ -1,0 +1,48 @@
+
+  .Body{
+    width: 300px;
+    margin: auto;
+    overflow: hidden;
+    z-index: 1000;
+    /* height: 100%; */
+  }
+
+  .backgroundColor{
+    background-color: rgba(78, 76, 76, 0.822);
+  }
+
+  .EyeIcons {
+    position: absolute;
+    margin-top: -25px;
+    margin-left: 235px
+  }
+
+  .text-size{
+    font-size: 11px;
+  }
+  .placeholder{
+    font-size: 12px;
+    height: 22px;
+  }
+
+  .btn {
+    height: 25px;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .account-text{
+    font-size: 12px;
+  }
+
+  .anchor-tag{
+    text-decoration: none;
+    align-items: center;
+    font-size: 12px;
+    margin-left: 40%;
+    margin-top: -10px;
+  }
+
+  .bottom-p{
+    font-size: 12px;
+  }

@@ -4,14 +4,15 @@ import React, { useContext } from "react";
 import { TodoContex } from "../App";
 import style from "../Assets/Style/TodoHome.module.css";
 import Tasks from "../Components/Tasks";
-import TodoInput from "./TodoInput";
+import HomeTag from "../ChildComponent/HomeTag";
+import HomeChild from "../ChildComponent/HomeChild";
 
 function TodoHome({ id }) {
   const appContext = useContext(TodoContex);
-
+  console.log(appContext, "===>")
   return (
     <div>
-      {appContext.inputOpen && <TodoInput id={id} />}
+      <HomeChild />
       <div className="container">
         <div className="row pt-5">
           <div className="col-sm-2">
@@ -27,23 +28,7 @@ function TodoHome({ id }) {
 
         <div className="row mt-3">
           <div className="col-sm-3">
-            { appContext.tags.map((item, i) => (
-                <div
-                  value={item.title}
-                    className={
-                      appContext.better.filter((better, id) => better.id === item.id).length>0
-                        ? "col-md-12 my-2 d-flex  border rounded p-2 "+style["Touch"] : "col-md-12 my-2 d-flex p-2"
-                      }                      
-                      key={i}
-                    >  
-                      <button
-                        className={style["dot-" + item.id]}
-                        onClick={() => appContext.dispatch({ type:"HomeTags", id:item.id})}     
-                    />
-                  <label className="ms-1">{item.title}</label>                    
-                </div>
-              ))
-            }
+           <HomeTag />
           </div>
 
           <div className="col-sm-9">
@@ -64,7 +49,8 @@ function TodoHome({ id }) {
               />
               <label className="ps-2">Hide Done Task</label>
               <br/>
-              < button className="btn btn-primary my-5 mx-3">login</button>
+              < button className={"btn "+style["loginBtn"]}
+                onClick={()=>appContext.dispatch({type: "SignUpOpen"})}>login</button>
             </div>
             <div className="col-sm-9"></div>
           </div>
