@@ -11,7 +11,6 @@ function TodoHome({ id }) {
 
   return (
     <div>
-      {console.log(id)}
       {appContext.inputOpen && <TodoInput id={id} />}
       <div className="container">
         <div className="row pt-5">
@@ -64,6 +63,8 @@ function TodoHome({ id }) {
                 }
               />
               <label className="ps-2">Hide Done Task</label>
+              <br/>
+              < button className="btn btn-primary my-5 mx-3">login</button>
             </div>
             <div className="col-sm-9"></div>
           </div>

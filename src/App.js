@@ -4,15 +4,6 @@ import { createContext } from "react";
 
 export const TodoContex = createContext();
 
-// const getlocalData = () => {
-//   let newData = localStorage.getItem("allData");
-//   if(newData === []){
-//     return [];
-//   } else {
-//     return JSON.parse(newData);
-//   }
-// }
-
 const initialstate = {
   inputOpen: false,
   taskMenu: false,
@@ -25,10 +16,6 @@ const initialstate = {
   better: [],
   border: [],
   allTodos: [],
-  // allTodos:localStorage.getItem("allData") == null
-  //       ? []
-  //       : JSON.parse(localStorage.getItem("allData")),
-                              //getlocalData(),
   filterTodos: [],
   selected: "",
   title: "",
@@ -70,30 +57,32 @@ const reducer = (state, action) => {
       };
 
     case "HomeTags" :
-      console.log('state.alltodos',state.allTodos)
       let homeTags = state.tags.filter((item, id) => item.id === action.id);
       let tap = state.better.filter((item, id) => item.id === action.id);
       let better = [ ...state.better, ...homeTags];
+
       if(tap.length > 0) {
         better = better.filter((item, id)  => item.id !== action.id);
-      }
-      const filterTodos = state.allTodos.filter(todo => {
-        let filterTags = todo.tags.filter(todoTag => {
-            let findTag = better.find(tag => {
-                if(todoTag.title === tag.title && todoTag.id === tag.id)
-                    return tag
-            })
-            return findTag
-        })
-        if(filterTags.length > 0)
-            return todo
-        }
-      )
-      
+      }  
+      //   let filterTodos = state.allTodos.filter(todo => {
+      //   let filterTags = todo.tags.filter(todoTag => {
+      //       let findTag = better.find(tag => {
+      //           if(todoTag.title === tag.title && todoTag.id === tag.id)
+      //               return tag
+      //       })
+      //       return findTag            
+      //   })
+      //   if(filterTags.length > 0){
+      //    return todo
+      //   }
+      //  }
+      // )      
+
       return {
-        ...state,    
-        filterTodos: filterTodos, 
+        ...state, 
+        // allTodos: filterTodos,
         selectedHomeTags: true,
+        isDone: true,
         homeTags,
         better,
         filterTask: better.length > 0,
@@ -102,7 +91,6 @@ const reducer = (state, action) => {
     case "updateOpen":
       let edit = state.allTodos;
       let Update = edit.filter((item, index) => index === action.id);
-      console.log(Update, "updateOpen======>");
       return {
         ...state,
         id: action.id,
@@ -119,18 +107,17 @@ const reducer = (state, action) => {
         description: state.description,
         tags: state.border,
       };
-      console.log(obj, "obj====>");
       let updateTodo = state.allTodos.map((item, index) => {
         if (index === state.id) item = obj;
         return item;
       });
-      console.log(updateTodo, "updateTodo====>");
       return {
         ...state,
         inputOpen: false,
         taskMenu: false,
         allTodos: updateTodo,
       };
+
     case "InputClose":
       return {
         ...state,
@@ -138,25 +125,28 @@ const reducer = (state, action) => {
         setEdit: false,
         taskMenu: false,
       };
+
     case "Title":
       return {
         ...state,
         title: action.data,
       };
+
     case "Description":
       return {
         ...state,
         description: action.data,
       };
+
     case "Deleted":
       let donetask = state.allTodos;
       let check = donetask.filter((item, index) => index !== action.id);
-      console.log(check, "[====>]", action.id);
       return {
         ...state,
         allTodos: check,
         taskMenu: false,
       };
+
     case "Donetask":
       let todos = state.allTodos;
       todos[action.id] = {
@@ -173,12 +163,13 @@ const reducer = (state, action) => {
         ...state,
         isDone: false,
       }
+
     case "HideDonetask":
-      console.log("HideDonetask",action.checked)
       return {
         ...state,
         hideDoneTask: action.checked,
       };
+
     case "TaskMenu":
       return {
         ...state,
