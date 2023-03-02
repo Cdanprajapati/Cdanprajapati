@@ -1,112 +1,108 @@
-import React, { useContext } from "react";
+import React, {useContext, useState } from "react";
+import {TodoContex} from '../App';
 import { RxCross1 } from "react-icons/rx";
-import { TodoContex } from "../App";
-import {AiFillEye} from 'react-icons/ai';
-import {AiFillEyeInvisible} from "react-icons/ai";
 import style from "../Assets/Style/SignUp.module.css";
-import Login from "./Login";
 
 function SignUp() {
-  const appContext = useContext(TodoContex);
+  const appContext = useContext(TodoContex)
+  const [fname, setFname] = useState([]);
+  const [lname, setLname] = useState([]);
+  const [email, setEmail] = useState([]);
+  const [password, setPassword] = useState([]);
+  const [confirmPassword, setConfirmPassword] = useState([]);
+
+  function HandleSubmit(){
+    console.log( fname,
+    lname,
+    email,
+    password,
+    confirmPassword, "here all data")
+  }
+
+
   return (
-    <div className={style["backgroundColor"]}>
-      <div className="container">
-        <div className="row">
+    <div>
+      <div className={"card shadow-lg p-3  p-3 rounded " + style["Body"]}>
+        {/* <div className="card-body"> */}
+        <form>
           <div className="row">
-            <div className="col-sm-11"></div>
-            <div className="col-sm-1">
-              <h3 className="py-3"><RxCross1 onClick={()=>appContext.dispatch({type: "SignUpclose"})}/></h3>
+            <div className="col-sm-6">
+              <h5 className="text-bold">Sign Up</h5>
+            </div>
+            <div className="col-sm-4"></div>
+            <div className="col-sm-2">
+              <b className={style["Xcross"]} onClick={()=>appContext.dispatch({type: "Loginclose"})}>
+                <RxCross1 />
+              </b>
             </div>
           </div>
-          <div className="col-sm-6 py-3  d-flex">
-            <div className={"card shadow-lg p-3  rounded " + style["Body"]}>
-              <form>
-                <div className="row">
-                  <div className="col-sm-6">
-                    <h5 className="text-bold">Sign Up</h5>
-                  </div>
-                  <div className="col-sm-4"></div>
-                  <div className="col-sm-2">
-                    <b>
-                      <RxCross1 />
-                    </b>
-                  </div>
-                </div>
-                <label className={style["text-size"]}>First Name</label>
-                <input
-                  type="text"
-                  className={"form-control " + style["placeholder"]}
-                  placeholder="Enter your first name"
-                />
+          <label className={style["text-size"]}>First Name</label>
+          <input
+            type="text"
+            className={"form-control " + style["placeholder"]}
+            onChange={(e)=>setFname(e.target.value)}
+            value={fname}
+          />
 
-                <label className={"pt-1 " + style["text-size"]}>
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  className={"form-control " + style["placeholder"]}
-                  placeholder="Enter your last name"
-                />
+          <label className={"pt-1 " + style["text-size"]}>Last Name</label>
+          <input
+            type="text"
+            className={"form-control " + style["placeholder"]}
+            onChange={(e)=>setLname(e.target.value)}
+            value={lname}
+          />
 
-                <label className={"pt-1 " + style["text-size"]}>Email</label>
-                <input
-                  type="email"
-                  className={"form-control " + style["placeholder"]}
-                  placeholder="Enter your email name"
-                />
+          <label className={"pt-1 " + style["text-size"]}>Email</label>
+          <input
+            type="email"
+            className={"form-control " + style["placeholder"]}
+            onChange={(e)=>setEmail(e.target.value)}
+            value={email}
+          />
 
-                <label className={"pt-1 " + style["text-size"]}>Password</label>
-                <input
-                  type={ appContext.visible ? "text" : "password"}
-                  className={"form-control " + style["placeholder"]}
-                  placeholder="Enter your password"
-                />
-                <div className={style["EyeIcons"]} onClick={()=>appContext.dispatch({type: "VisiblePassword"})} >
-                  {  
-                    appContext.visible ? <AiFillEye /> : <AiFillEyeInvisible />
-                  }
-                </div>
+          <label className={"pt-1 " + style["text-size"]}>Password</label>
+          <input
+            type="password"
+            className={"form-control " + style["placeholder"]}
+            onChange={(e)=>setPassword(e.target.value)}
+            value={password}
+          />
+          <label className={"pt-1 " + style["text-size"]}>
+            {" "}
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            className={"form-control " + style["placeholder"]}
+            onChange={(e)=>setConfirmPassword(e.target.value)}
+            value={confirmPassword}
+          />
+          <hr />
+          <input type="checkbox" className={"pt-1" + style["text-size"]} />
+          <label className={"pt-1 ms-2 " + style["text-size"]}>
+            I agree with <a  className={style["Terms"]} href="#">Terms</a> and <a className={style["Condition"]} href="#">Privacy</a>
+          </label>
+          <button
+            className={
+              "btn py-1 container-fluid mt-2 " + style["btn"]
+            }
+            type="button"
+            onClick={HandleSubmit}
+          >
+            SignUp
+          </button>
 
-                <label className={"pt-1 " + style["text-size"]}>
-                  {" "}
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  className={"form-control " + style["placeholder"]}
-                  placeholder="Enter your Confirm password"
-                />
-                <hr />
-                <input
-                  type="checkbox"
-                  className={"pt-1" + style["text-size"]}
-                />
-                <label className={"pt-1 ms-2 " + style["text-size"]}>
-                  I agree with <a href="#">Terms</a> and <a href="#">Privacy</a>
-                </label>
-                <button
-                  className={
-                    "btn py-1 btn-primary container-fluid mt-2 " + style["btn"]
-                  }
-                  type="button"
-                >
-                  Sign Up
-                </button>
-                <hr />
-                <p className={"text-center " + style["bottom-p"]}>
-                  Already have an account ?
-                </p>
-                <a className={"text-center " + style["anchor-tag"]} href="#">
-                  Log in
-                </a>
-              </form>
-              {/* </div> */}
-            </div>
+          <hr />
+          <div className={"ms-2 " + style["account-text"]}>
+            <p className="text-center">Already have an account ?</p>
+            <a className={style["anchorTag"]}
+              onClick={()=>appContext.dispatch({type:"SignUpClose"})}
+            href="#">
+              Login
+            </a>
           </div>
-          <div className="col-sm-6 py-3">
-            <Login />
-          </div>
-        </div>
+        </form>
+        {/* </div> */}
       </div>
     </div>
   );

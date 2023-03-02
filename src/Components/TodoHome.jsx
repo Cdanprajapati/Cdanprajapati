@@ -4,8 +4,8 @@ import React, { useContext } from "react";
 import { TodoContex } from "../App";
 import style from "../Assets/Style/TodoHome.module.css";
 import Tasks from "../Components/Tasks";
-import HomeTag from "../ChildComponent/HomeTag";
 import HomeChild from "../ChildComponent/HomeChild";
+import HomeTag from '../ChildComponent/HomeTag';
 
 function TodoHome({ id }) {
   const appContext = useContext(TodoContex);
@@ -50,7 +50,7 @@ function TodoHome({ id }) {
               <label className="ps-2">Hide Done Task</label>
               <br/>
               < button className={"btn "+style["loginBtn"]}
-                onClick={()=>appContext.dispatch({type: "SignUpOpen"})}>login</button>
+                onClick={()=>appContext.dispatch({type: "LoginOpen"})}>login</button>
             </div>
             <div className="col-sm-9"></div>
           </div>

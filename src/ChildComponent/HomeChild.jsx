@@ -1,5 +1,5 @@
 import TodoInput from '../Components/TodoInput';
-import SignUp from '../Components/SignUp';
+import Pool from '../ChildComponent/Pool';
 import React, { useContext } from "react";
 import { TodoContex } from "../App";
 
@@ -8,7 +8,7 @@ function HomeChild({id}) {
   return (
     <div>
       {appContext.inputOpen && <TodoInput id={id} />}
-      {appContext.signupOpen && <SignUp />}
+      {appContext.loginOpen && <Pool />}
     </div>
   )
 }

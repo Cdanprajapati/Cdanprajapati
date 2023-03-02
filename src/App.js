@@ -9,11 +9,14 @@ const initialstate = {
   taskMenu: false,
   taskDone: false,
   isDeleted: false,
-  signupOpen: false,
+  loginOpen: false,
   id: 0,
+  forgetpasswordOpen: false,
+  poolOpen:false,
   visible : false,
   hideDoneTask: false,
   filterTask: false,
+  signUpOpen: false,
   selectedHomeTags: false,
   better: [],
   border: [],
@@ -44,16 +47,47 @@ const reducer = (state, action) => {
         better: [],
       };
       break;
-    case "SignUpclose" :
+
+    case "ForgetPasswordOpen" :
       return {
         ...state,
-        signupOpen: false
+        forgetpasswordOpen: true
+      }
+
+    case "ForgetPassClose" :
+      return {
+        ...state,   
+        signUpOpen: false,
+        forgetpasswordOpen:false,
+        loginOpen: true
+      }
+
+    case "Loginclose" :
+      return {
+        ...state,
+        loginOpen: false,
+        signUpOpen: false,
+        forgetpasswordOpen: false
       };
 
-    case "SignUpOpen" :
+    case "SignUpClose" :
       return {
         ...state,
-        signupOpen: true
+        signUpOpen: false,
+      };
+
+    case "SignUpOpen" : 
+    return {
+      ...state,
+      signUpOpen: true,
+      forgetpasswordOpen: false
+    };
+
+    case "LoginOpen" :
+      return {
+        ...state,
+        loginOpen: true,
+        poolOpen: true
       };
 
     case "SelectedTags":
