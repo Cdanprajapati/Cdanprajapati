@@ -4,12 +4,14 @@ import style from "../Assets/Style/Pool.module.css";
 import SignUp from "../Components/SignUp";
 import Login from "../Components/Login";
 import ForgetPassword from "./ForgetPassword";
+import Toast from '../Common/Toast';
 
 function Pool() {
     const appContext = useContext(TodoContex);
   return (
     <div>
-      <div className={style["Section"]}>
+       { appContext.toastOpen && <Toast />}
+      <div className={style["Section"]}>       
         <div className="container">
           <div className={style["loader"]}>
             {appContext.forgetpasswordOpen ? <ForgetPassword/> :

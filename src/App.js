@@ -10,6 +10,7 @@ const initialstate = {
   taskDone: false,
   isDeleted: false,
   loginOpen: false,
+  visiblecnfpassword: false,
   id: 0,
   forgetpasswordOpen: false,
   poolOpen:false,
@@ -18,6 +19,7 @@ const initialstate = {
   filterTask: false,
   signUpOpen: false,
   selectedHomeTags: false,
+  toastOpen: false,
   better: [],
   border: [],
   allTodos: [],
@@ -47,6 +49,24 @@ const reducer = (state, action) => {
         better: [],
       };
       break;
+
+    case "VisibleConfirmPassword" :
+      return {
+        ...state,        
+        visible: false,
+        visiblecnfpassword:!state.visiblecnfpassword,
+      }
+    case "ToastOpen":
+      return {
+        ...state,
+        toastOpen: true,
+      }
+
+    case "ToastClose" :
+      return {
+        ...state,
+        toastOpen:!state.toastOpen
+      }
 
     case "ForgetPasswordOpen" :
       return {

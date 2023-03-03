@@ -15,11 +15,11 @@ function TodoHome({ id }) {
       <HomeChild />
       <div className="container">
         <div className="row pt-5">
-          <div className="col-sm-2">
+          <div className="col-sm-2 col-4 col-md-4">
             <h3>todo</h3>
           </div>
-          <div className="col-sm-9"></div>
-          <div className="col-sm-1">
+          <div className="col-sm-9 col-6 col-md-6"></div>
+          <div className="col-sm-1 col-2 col-md-2">
             <h3 onClick={() => appContext.dispatch({ type: "InputOpen" })}>
               <FontAwesomeIcon icon={faPlus} />
             </h3>

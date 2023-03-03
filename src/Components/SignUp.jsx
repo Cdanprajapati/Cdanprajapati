@@ -1,36 +1,52 @@
 import React, {useContext, useState } from "react";
 import {TodoContex} from '../App';
-import { RxCross1 } from "react-icons/rx";
+import 'react-toastify/dist/ReactToastify.css';
 import style from "../Assets/Style/SignUp.module.css";
+import { AiFillEye } from "react-icons/ai";
+import { AiFillEyeInvisible } from "react-icons/ai";
+import useFetchAPI from "../hook/useFetchAPI";
+import { RxCross1 } from "react-icons/rx";
 
 function SignUp() {
-  const appContext = useContext(TodoContex)
-  const [fname, setFname] = useState([]);
-  const [lname, setLname] = useState([]);
-  const [email, setEmail] = useState([]);
-  const [password, setPassword] = useState([]);
-  const [confirmPassword, setConfirmPassword] = useState([]);
+  const appContext = useContext(TodoContex);
+  const loginAPI = useFetchAPI();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setlastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm_password, setConfirm_Password] = useState("");
+  const [post, getPost] = useState([]);
 
-  function HandleSubmit(){
-    console.log( fname,
-    lname,
-    email,
-    password,
-    confirmPassword, "here all data")
+  const API =  'https://todo-api-xu4f.onrender.com/user/register';
+
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const HandleSubmit = () => {
+    let data  = {firstName, lastName, email, password, confirm_password}
+    loginAPI("user/register", "POST", data, getPost)   
+    appContext.dispatch({type: "SignUpClose"})
+    appContext.dispatch({type: "ToastOpen"})
   }
 
+  // const [state, setState] = useState({
+  //   firstName : "", 
+  // })
+  // const Error = (e) => setState(p=>({...p, firstName: event.target.value}))
+ 
+  // console.log(post, "--->");
 
   return (
     <div>
       <div className={"card shadow-lg p-3  p-3 rounded " + style["Body"]}>
         {/* <div className="card-body"> */}
         <form>
-          <div className="row">
-            <div className="col-sm-6">
+          <div className="row d-flex">
+            <div className="col-sm-6 d-flex">
               <h5 className="text-bold">Sign Up</h5>
             </div>
-            <div className="col-sm-4"></div>
-            <div className="col-sm-2">
+            <div className="col-sm-4 d-flex"></div>
+            <div className="col-sm-2 d-flex">
               <b className={style["Xcross"]} onClick={()=>appContext.dispatch({type: "Loginclose"})}>
                 <RxCross1 />
               </b>
@@ -40,16 +56,16 @@ function SignUp() {
           <input
             type="text"
             className={"form-control " + style["placeholder"]}
-            onChange={(e)=>setFname(e.target.value)}
-            value={fname}
+            onChange={(e)=>setFirstName(e.target.value)}
+            value={firstName}
           />
 
           <label className={"pt-1 " + style["text-size"]}>Last Name</label>
           <input
             type="text"
             className={"form-control " + style["placeholder"]}
-            onChange={(e)=>setLname(e.target.value)}
-            value={lname}
+            onChange={(e)=>setlastName(e.target.value)}
+            value={lastName}
           />
 
           <label className={"pt-1 " + style["text-size"]}>Email</label>
@@ -62,21 +78,31 @@ function SignUp() {
 
           <label className={"pt-1 " + style["text-size"]}>Password</label>
           <input
-            type="password"
+            type={ appContext.visible ? "text" : "password" }
             className={"form-control " + style["placeholder"]}
             onChange={(e)=>setPassword(e.target.value)}
             value={password}
           />
+         <div className={style["EyeIcons"]} onClick={()=>appContext.dispatch({type: "VisiblePassword"})} >
+                  {  
+                    appContext.visible ? <AiFillEye /> : <AiFillEyeInvisible />
+                  }
+                </div> 
           <label className={"pt-1 " + style["text-size"]}>
             {" "}
             Confirm Password
           </label>
           <input
-            type="password"
+            type={ appContext.visiblecnfpassword ? "text" : "password"}
             className={"form-control " + style["placeholder"]}
-            onChange={(e)=>setConfirmPassword(e.target.value)}
-            value={confirmPassword}
+            onChange={(e)=>setConfirm_Password(e.target.value)}
+            value={confirm_password}
           />
+           <div className={style["EyeIcons"]} onClick={()=>appContext.dispatch({type: "VisibleConfirmPassword"})} >
+                  {  
+                    appContext.visiblecnfpassword ? <AiFillEye /> : <AiFillEyeInvisible />
+                  }
+                </div> 
           <hr />
           <input type="checkbox" className={"pt-1" + style["text-size"]} />
           <label className={"pt-1 ms-2 " + style["text-size"]}>
