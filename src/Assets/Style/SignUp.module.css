@@ -5,6 +5,16 @@
     height: 100%;
   }
 
+  .Err-text{
+    font-size: 13px;
+    color: red;
+  }
+
+  .warning{
+    color: red;
+    font-size: 13px;
+  }
+
   .EyeIcons {
     position: absolute;
     margin-top: -25px;
@@ -35,7 +45,9 @@
     font-size: 12px;
     height: 22px;
   }
-
+  .placeholder::placeholder{
+    color: red ;
+  }
   .btn {
     height: 25px;
     font-size: 12px;

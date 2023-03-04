@@ -33,7 +33,7 @@ function ForgetPassword() {
                   }
                   type="button"
                 >
-                  Send Password
+                  Send OTP
                 </button>
                 <hr />
                 <p className={"text-center " + style["bottom-p"]}>
