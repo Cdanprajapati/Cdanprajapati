@@ -2,6 +2,7 @@
 .Body{
     width: 300px;
     margin: auto;
+    z-index: 1200;
     height: 100%;
   }
 
@@ -73,5 +74,10 @@
 
   .Xcross{
     cursor: pointer;
+    color: tomato;
+  }
+
+  .matchpassword{
+    font-size: 13px;
     color: tomato;
   }

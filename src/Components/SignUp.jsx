@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TodoContex } from "../App";
 import "react-toastify/dist/ReactToastify.css";
 import style from "../Assets/Style/SignUp.module.css";
@@ -6,10 +6,12 @@ import { AiFillEye } from "react-icons/ai";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import useFetchAPI from "../hook/useFetchAPI";
 import { RxCross1 } from "react-icons/rx";
+import { toast } from "react-toastify";
 
 function SignUp() {
   const appContext = useContext(TodoContex);
   const loginAPI = useFetchAPI();
+  const [matchpassword, setMatchpassword] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [fnameErr, setFnameErr] = useState(false);
   const [lastName, setlastName] = useState("");
@@ -27,63 +29,86 @@ function SignUp() {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
-  const HandleSubmit = () => { 
-   if(firstName.length<3){
-          setFnameErr(true)
-        }else {
-          setFnameErr(false)
-        }
-        if(lastName.length<3){
-          setlnameErr(true);
-        }else {
-          setlnameErr(false)
-        }
-        if(email.length<5){
-          setEmailErr(true);
-        }else {
-          setEmailErr(false)
-        }
-        if(password.length<4){
-          setPasswordErr(true);
-        }else {
-          setPasswordErr(false)
-        }
-        if(confirm_password.length<4){
-          setCnfpassword(true);
-        }
-
-    else{
-    let data = { firstName, lastName, email, password, confirm_password };
-    loginAPI("user/register", "POST", data, getPost);
-    appContext.dispatch({ type: "SignUpClose" });
-    appContext.dispatch({ type: "ToastOpen" });
-  
-    function greet() {
-      appContext.dispatch({ type: "ToastClose" });
+  const HandleSubmit = () => {
+    let err = 0;
+    if (firstName.length < 3) {
+      setFnameErr(true);
+      err++;
     }
-    setTimeout(greet, 2000);
-    }
-  };
 
-  // const onSubmitHandle = () => {}; 
+    if (lastName.length < 3) {
+      setlnameErr(true);
+      err++;
+    }
+
+    if (email.length < 5) {
+      setEmailErr(true);
+      err++;
+    }
+
+    if (password.length < 4) {
+      setPasswordErr(true);
+      err++;
+    }
+
+    if (confirm_password.length < 4) {
+      setCnfpassword(true);
+      err++;
+    }
+
+    if (password !== confirm_password) {
+      setMatchpassword((pre) => !pre);
+      err++;
+    }
+
+    // else if(password === confirm_password){
+    //   setMatchpassword(false);
+    // }
+
+    if (err === 0) {
+      let data = { firstName, lastName, email, password, confirm_password };
+      loginAPI("user/register", "POST", data, getPost);
+      appContext.dispatch({ type: "SignUpClose" });
+      appContext.dispatch({ type: "LoaderOpen" });
+
+      setTimeout(() => {
+        appContext.dispatch({ type: "loaderClose" });
+      }, [2000])
+      
+      setTimeout(() => {
+        appContext.dispatch({ type: "ToastOpen" });
+      }, [2400])
+
+      setTimeout(() => {
+        appContext.dispatch({ type: "ToastClose" });
+    }, [2600])
+  }
+}
+
+  // const toast = (getPost) => {
+  //   appContext.dispatch({ type: "ToastOpen" });
+  // }
+  // toast();
+
+  // const onSubmitHandle = () => {};
   // }
   // const [state, setState] = useState({
   //   firstName : "",
   // })
-  // const Error = (e) => setState(p=>({...p, firstName: event.target.value}))
+  // const Error = (e) => setState(p=>({...p, firstName: event.   target.value}))
   // console.log(post, "--->");
 
   return (
     <div>
       <div className={"card shadow-lg p-3  p-3 rounded " + style["Body"]}>
         {/* <div className="card-body"> */}
-        <form >
-          <div className="row d-flex">
-            <div className="col-sm-6 d-flex">
+        <form>
+          <div className="row">
+            <div className="col-sm-6 col-8">
               <h5 className="text-bold">Sign Up</h5>
             </div>
-            <div className="col-sm-4 d-flex"></div>
-            <div className="col-sm-2 d-flex">
+            <div className="col-sm-4 col-2"></div>
+            <div className="col-sm-2 col-2">
               <b
                 className={style["Xcross"]}
                 onClick={() => appContext.dispatch({ type: "Loginclose" })}
@@ -98,18 +123,17 @@ function SignUp() {
             type="text"
             className={"form-control " + style["placeholder"]}
             onChange={(e) => setFirstName(e.target.value)}
-            placeholder={fnameErr ?"First Name is required" : "" }
-            name="firstName"           
+            placeholder={fnameErr ? "First Name is required" : ""}
+            name="firstName"
             value={firstName}
-          />          
-   
+          />
 
           <label className={"pt-1 " + style["text-size"]}>Last Name</label>
           <input
             type="text"
             className={"form-control " + style["placeholder"]}
             name="lastName"
-            placeholder={lnameErr ? "Last Name is required" : "" }
+            placeholder={lnameErr ? "Last Name is required" : ""}
             onChange={(e) => setlastName(e.target.value)}
             value={lastName}
           />
@@ -119,28 +143,26 @@ function SignUp() {
             type="email"
             className={"form-control " + style["placeholder"]}
             name="email"
-            placeholder={ emailErr ? "email is required" : "" }
+            placeholder={emailErr ? "Email is required" : ""}
             onChange={(e) => setEmail(e.target.value)}
             value={email}
           />
-        
 
           <label className={"pt-1 " + style["text-size"]}>Password</label>
           <input
             type={appContext.visible ? "text" : "password"}
             className={"form-control " + style["placeholder"]}
             name="password"
-            placeholder={ passwordErr ? "password is required" : " " }
+            placeholder={passwordErr ? "Password is required" : " "}
             onChange={(e) => setPassword(e.target.value)}
             value={password}
-          />    
+          />
           <div
             className={style["EyeIcons"]}
             onClick={() => appContext.dispatch({ type: "VisiblePassword" })}
           >
             {appContext.visible ? <AiFillEye /> : <AiFillEyeInvisible />}
           </div>
-         
           <label className={"pt-1 " + style["text-size"]}>
             {" "}
             Confirm Password
@@ -149,10 +171,10 @@ function SignUp() {
             type={appContext.visiblecnfpassword ? "text" : "password"}
             className={"form-control " + style["placeholder"]}
             name="confirm_password"
-            placeholder={ cnfpassword ? "Confirm password is required" : " " }
+            placeholder={cnfpassword ? "Confirm password is required" : ""}
             onChange={(e) => setConfirm_Password(e.target.value)}
             value={confirm_password}
-          />   
+          />
           <div
             className={style["EyeIcons"]}
             onClick={() =>
@@ -165,7 +187,15 @@ function SignUp() {
               <AiFillEyeInvisible />
             )}
           </div>
-        
+          {matchpassword ? (
+            <p className={style["matchpassword"]}>
+              <br />
+              Confirm password should be same as password
+            </p>
+          ) : (
+            " "
+          )}
+
           <hr />
           <input type="checkbox" className={"pt-1" + style["text-size"]} />
           <label className={"pt-1 ms-2 " + style["text-size"]}>

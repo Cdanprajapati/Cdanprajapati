@@ -22,8 +22,8 @@ function Toast() {
                   </div>
                 </div>       
                 <h1 className={style["password"]} onClick={()=>appContext.dispatch({type: "ForgetPasswordOpen"})} href="#">
-            You have login successfully...!
-          </h1>
+                You have Sign Up successfully...!
+              </h1>
               </form>
               {/* </div> */}
             </div>

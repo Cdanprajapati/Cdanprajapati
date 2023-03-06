@@ -1,18 +1,36 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import style from "../Assets/Style/TodoInput.module.css";
-import { useState } from "react";
 import { TodoContex } from "../App";
+import useFetchAPI from "../hook/useFetchAPI";
+
 function TodoInput({ id }) {
   const appContext = useContext(TodoContex);
+  const loginAPI = useFetchAPI();
   const [inputErr, setInputErr] = useState(false);
-  console.log(appContext);
-    function loginHandle(e) {
+  const [post, getPost] = useState([]);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+
+  const API = "http://localhost:8000/user/addTodo";
+
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  function loginHandle(e) {
     e.preventDefault()
-    if (!appContext.tittle && !appContext.description) {
+    // if (!appContext.tittle && !appContext.description) {
+    //   setInputErr(true)
+    // }else{
+
+    if(title.length && description.length < 3){
       setInputErr(true)
     }else{
+
+      let data = { title, description };
+      loginAPI("user/addTodo", "POST", data, getPost);
+
       setInputErr(false)
-    appContext.dispatch({ type: "addTodo", id });
+      appContext.dispatch({ type: "addTodo", id });
     }
   }
   console.log( appContext.border)
@@ -66,15 +84,17 @@ function TodoInput({ id }) {
                     )}
                   </div>
                 </div>
-                {/*=======================Title point========================= */}
+                {/*=======================Title point=========================*/}
                 <label className="mt-4 pb-2">Title</label>
                 <input
                   type="text"
                   className="form-control"
                   placeholder="add a title...."
-                  value={appContext?.title}
+                  // value={appContext?.title}
+                  value={title}
                   onChange={(e) =>
-                    appContext.dispatch({ type: "Title", data: e.target.value })
+                    // appContext.dispatch({ type: "Title", data: e.target.value })
+                    setTitle(e.target.value)
                   }/>
                 {
                    inputErr ? <div className="alert alert-danger" role="alert">
@@ -89,12 +109,14 @@ function TodoInput({ id }) {
                   className="form-control rounded-2"
                   placeholder="add a description..."
                   rows={4}
-                  value={appContext?.description}
+                  // value={appContext?.description}
+                  value={description}
                   onChange={(e) =>
-                    appContext.dispatch({
-                      type: "Description",
-                      data: e.target.value,
-                    })
+                    // appContext.dispatch({
+                    //   type: "Description",
+                    //   data: e.target.value,
+                    // })
+                    setDescription(e.target.value)
                   }
                 />
                 <label className="pb-1 mt-3">Tags</label>

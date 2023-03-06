@@ -25,6 +25,9 @@
   font-size: 12px;
   height: 22px;
 }
+.placeholder::placeholder {
+  color: red;
+}
 
 .btn {
   height: 25px;

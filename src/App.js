@@ -1,6 +1,7 @@
 import TodoHome from "./Components/TodoHome";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { createContext } from "react";
+import  useFetchAPI  from './hook/useFetchAPI';
 
 export const TodoContex = createContext();
 
@@ -13,10 +14,11 @@ const initialstate = {
   visiblecnfpassword: false,
   id: 0,
   forgetpasswordOpen: false,
-  poolOpen:false,
-  visible : false,
+  poolOpen: false,
+  visible: false,
   hideDoneTask: false,
   filterTask: false,
+  loaderOpen: false,
   signUpOpen: false,
   selectedHomeTags: false,
   toastOpen: false,
@@ -37,6 +39,7 @@ const initialstate = {
   ],
 };
 
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "InputOpen":
@@ -50,64 +53,84 @@ const reducer = (state, action) => {
       };
       break;
 
-    case "VisibleConfirmPassword" :
+    // case "addCookie" :
+    //   return {
+    //     ...state,
+    //     cookies: state.getPost
+    //   }
+
+    case "VisibleConfirmPassword":
       return {
-        ...state,        
+        ...state,
         visible: false,
-        visiblecnfpassword:!state.visiblecnfpassword,
-      }
+        visiblecnfpassword: !state.visiblecnfpassword,
+      };
     case "ToastOpen":
       return {
         ...state,
         toastOpen: true,
-      }
+      };
 
-    case "ToastClose" :
+    case "ToastClose":
       return {
         ...state,
-        toastOpen:!state.toastOpen
-      }
+        toastOpen: !state.toastOpen,
+      };
 
-    case "ForgetPasswordOpen" :
+    case "LoaderOpen":
       return {
         ...state,
-        forgetpasswordOpen: true
-      }
+        loaderOpen: true,
+        // toastOpen:!state.toastOpen
+      };
 
-    case "ForgetPassClose" :
+    case "loaderClose":
       return {
-        ...state,   
+        ...state,
+        loaderOpen: !state.loaderOpen,
+        // toastOpen: true
+      };
+
+    case "ForgetPasswordOpen":
+      return {
+        ...state,
+        forgetpasswordOpen: true,
+      };
+
+    case "ForgetPassClose":
+      return {
+        ...state,
         signUpOpen: false,
-        forgetpasswordOpen:false,
-        loginOpen: true
-      }
+        forgetpasswordOpen: false,
+        loginOpen: true,
+      };
 
-    case "Loginclose" :
+    case "Loginclose":
       return {
         ...state,
         loginOpen: false,
         signUpOpen: false,
-        forgetpasswordOpen: false
+        forgetpasswordOpen: false,
       };
 
-    case "SignUpClose" :
+    case "SignUpClose":
       return {
         ...state,
         signUpOpen: false,
       };
 
-    case "SignUpOpen" : 
-    return {
-      ...state,
-      signUpOpen: true,
-      forgetpasswordOpen: false
-    };
+    case "SignUpOpen":
+      return {
+        ...state,
+        signUpOpen: true,
+        forgetpasswordOpen: false,
+      };
 
-    case "LoginOpen" :
+    case "LoginOpen":
       return {
         ...state,
         loginOpen: true,
-        poolOpen: true
+        poolOpen: true,
       };
 
     case "SelectedTags":
@@ -123,43 +146,43 @@ const reducer = (state, action) => {
         border,
       };
 
-    case "VisiblePassword" :
+    case "VisiblePassword":
       return {
         ...state,
-        visible:!state.visible,
-      }
+        visible: !state.visible,
+      };
 
-    case "HomeTags" :
+    case "HomeTags":
       let homeTags = state.tags.filter((item, id) => item.id === action.id);
       let tap = state.better.filter((item, id) => item.id === action.id);
-      let better = [ ...state.better, ...homeTags];
+      let better = [...state.better, ...homeTags];
 
-      if(tap.length > 0) {
-        better = better.filter((item, id)  => item.id !== action.id);
-      }  
+      if (tap.length > 0) {
+        better = better.filter((item, id) => item.id !== action.id);
+      }
       //   let filterTodos = state.allTodos.filter(todo => {
       //   let filterTags = todo.tags.filter(todoTag => {
       //       let findTag = better.find(tag => {
       //           if(todoTag.title === tag.title && todoTag.id === tag.id)
       //               return tag
       //       })
-      //       return findTag            
+      //       return findTag
       //   })
       //   if(filterTags.length > 0){
       //    return todo
       //   }
       //  }
-      // )      
+      // )
 
       return {
-        ...state, 
+        ...state,
         // allTodos: filterTodos,
         selectedHomeTags: true,
         isDone: true,
         homeTags,
         better,
         filterTask: better.length > 0,
-      };   
+      };
 
     case "updateOpen":
       let edit = state.allTodos;
@@ -174,6 +197,7 @@ const reducer = (state, action) => {
         taskMenu: true,
       };
       break;
+
     case "UpdatedTask":
       let obj = {
         title: state.title,
@@ -224,18 +248,18 @@ const reducer = (state, action) => {
       let todos = state.allTodos;
       todos[action.id] = {
         ...todos[action.id],
-        isDone:true,
+        isDone: true,
       };
       return {
         ...state,
         allTodos: todos,
       };
 
-    case "Non-Done" :
+    case "Non-Done":
       return {
         ...state,
         isDone: false,
-      }
+      };
 
     case "HideDonetask":
       return {
@@ -250,12 +274,13 @@ const reducer = (state, action) => {
         taskMenuOpen: action.id,
       };
 
-    case "addTodo":
+    case "addTodo":     
       let update = state.allTodos;
       if (action.id)
         update[action.id] = {
           ...update[action.id],
         };
+   
       return {
         ...state,
         inputOpen: false,
@@ -273,10 +298,9 @@ const reducer = (state, action) => {
       };
   }
 };
-
-
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialstate)
+  const [state, dispatch] = useReducer(reducer, initialstate);
+
   // add data inlocalstorage 
   useEffect(()=> {
     localStorage.setItem("allData", JSON.stringify(state.allTodos))
@@ -291,3 +315,4 @@ function App() {
   );
 }
 export default App;
+    
