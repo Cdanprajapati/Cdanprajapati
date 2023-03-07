@@ -10,7 +10,10 @@ function Login() {
   const appContext = useContext(TodoContex);
   const loginAPI = useFetchAPI();
   const [email, setEmail] = useState("");
+  const [passwordAlert, setPasswordAlert] = useState(false);
+  const [emailErr, setEmailError] = useState(false);  
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
   const [post, getPost] = useState(null); 
 
   const API = 'https://todo-api-xu4f.onrender.com/user/login';
@@ -19,10 +22,28 @@ function Login() {
   myHeaders.append("Content-Type", "application/json");
 
   const handleLogin = () => {
+    let error = 0;
+    if(email.length<3){
+      setEmailError(true)
+      error++;
+    }
+
+    if(password.length<3){
+      if(password.length>10){
+        setPasswordAlert(true)
+      }else{
+      setPasswordError(true)
+      error++;
+      }
+    }
+
+    if(error === 0) {
     let data = {email, password}
-    loginAPI("user/login", "POST", data, getPost) 
-    
-  }
+    loginAPI("user/login", "POST", data, getPost)  
+    appContext.dispatch({ type:"Loginclose"})   
+    }
+};
+
   useEffect(() =>
     {if(post!==null){
       localStorage.setItem("token", post.access_token)
@@ -33,12 +54,12 @@ function Login() {
   return (  
             <div className={"card shadow-lg p-3  rounded " + style["Body"]}>
               <form>
-                <div className="row d-flex">
-                  <div className="col-sm-6 d-flex">                 
+                <div className="row">
+                  <div className="col-sm-6 col-8">                 
                     <h5 className="text-bold">Log in</h5>
                   </div>
-                  <div className="col-sm-4 d-flex"></div>
-                  <div className={"col-sm-2 d-flex"+style["Cross"]}>
+                  <div className="col-sm-4 col-1"></div>
+                  <div className={"col-sm-2 col-3 "+style["Cross"]}>
                     <b onClick={()=>appContext.dispatch({type:"Loginclose"})}>
                       <RxCross1 />
                     </b>
@@ -50,6 +71,7 @@ function Login() {
                   type="email"
                   value={email}
                   className={"form-control " + style["placeholder"]}
+                  placeholder={emailErr ? "Email is required" : "" }
                   onChange={(e)=>setEmail(e.target.value)}
                 />
 
@@ -58,6 +80,7 @@ function Login() {
                   type={ appContext.visible ? "text" : "password"}
                   className={"form-control " + style["placeholder"]}
                   value={password}
+                  placeholder={ passwordError ? "password is required" : " " }
                   onChange={(e)=>setPassword(e.target.value)}
                 />
                 <div className={style["EyeIcons"]} onClick={()=>appContext.dispatch({type: "VisiblePassword"})} >
@@ -65,7 +88,9 @@ function Login() {
                     appContext.visible ? <AiFillEye /> : <AiFillEyeInvisible />
                   }
                 </div>             
-               
+                  {
+                    passwordAlert ? <span className="text-danger"><br/>Password must be below 8 char</span> : " "
+                  }
                 <button
                   className={
                     "btn py-1 container-fluid mt-2 " + style["btn"]
