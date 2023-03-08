@@ -1,11 +1,47 @@
 .card{
-    height: 100px;
-    width: 150px;
+    height: 80px;
+    width: 120px;
     position: absolute;
     overflow: hidden;
-    margin-left: -100px;
+    margin-left: -60px;
     z-index: 3;
 }
+
+
+@media (min-width: 200px) and (max-width: 300px) {
+    .card{
+        height: 100px;
+        width: 100px;
+        position: absolute;
+        overflow: hidden;
+        /* float: right; */
+        margin-left: 50%;
+        z-index: 3;
+    }
+  }
+
+
+@media (min-width: 300px) and (max-width: 760px) {
+    .card{
+        height: 100px;
+        width: 100px;
+        position: absolute;
+        overflow: hidden;
+        /* float: right; */
+        margin-left: 65%;
+        z-index: 3;
+    }
+  }
+
+  @media (min-width: 761px) and (max-width: 1380px) {
+    .card{
+        height: 100px;
+        width: 100px;
+        position: absolute;
+        overflow: hidden;
+        z-index: 3;
+    }
+  }
 
 .Edit{
     background-color: white;

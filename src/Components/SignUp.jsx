@@ -29,6 +29,9 @@ function SignUp() {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
 
+  console.log(post, "====>")
+  localStorage.setItem("Token", post.access_token)
+
   const HandleSubmit = () => {
     let err = 0;
     if (firstName.length < 3) {
@@ -67,6 +70,7 @@ function SignUp() {
 
     if (err === 0) {
       let data = { firstName, lastName, email, password, confirm_password };
+      // console.log(data,"0000000000")
       loginAPI("user/register", "POST", data, getPost);
       appContext.dispatch({ type: "SignUpClose" });
       appContext.dispatch({ type: "LoaderOpen" });

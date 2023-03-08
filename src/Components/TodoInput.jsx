@@ -1,33 +1,31 @@
 import React, { useContext, useState } from "react";
 import style from "../Assets/Style/TodoInput.module.css";
 import { TodoContex } from "../App";
-import useFetchAPI from "../hook/useFetchAPI";
+// import useFetchAPI from "../hook/useFetchAPI";
 
 function TodoInput({ id }) {
   const appContext = useContext(TodoContex);
-  const loginAPI = useFetchAPI();
+  // const loginAPI = useFetchAPI();
   const [inputErr, setInputErr] = useState(false);
-  const [post, getPost] = useState([]);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  // const [post, getPost] = useState([]);
 
-  const API = "http://localhost:8000/user/addTodo";
+  // const API = "http://localhost:8000/user/addTodo";
 
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
+  // var myHeaders = new Headers();
+  // myHeaders.append("Content-Type", "application/json");
 
   function loginHandle(e) {
     e.preventDefault()
-    // if (!appContext.tittle && !appContext.description) {
+    if (!appContext.tittle && !appContext.description) {
+      setInputErr(true)    
+
+    // if(title.length && description.length < 3){
     //   setInputErr(true)
-    // }else{
 
-    if(title.length && description.length < 3){
-      setInputErr(true)
-    }else{
+    }else {
 
-      let data = { title, description };
-      loginAPI("user/addTodo", "POST", data, getPost);
+      // let data = { title, description };
+      // loginAPI("user/addTodo", "POST", data, getPost);
 
       setInputErr(false)
       appContext.dispatch({ type: "addTodo", id });
@@ -45,9 +43,9 @@ function TodoInput({ id }) {
         >
           <div className="card-body">
             <form onSubmit={(e)=>e.preventDefault()}>
-              <div className="container">
+              {/* <div className="container"> */}
                 <div className="row">
-                  <div className="col-sm-2 col-2 .col-md-2	.col-lg-2	.col-xl-2	.col-xxl-2">
+                  <div className="col-sm-2 col-5">
                     <label
                       className={style["Cancel"]}
                       onClick={() =>
@@ -57,8 +55,8 @@ function TodoInput({ id }) {
                       Cancel
                     </label>
                   </div>
-                  <div className="col-sm-7 col-7 col-md-7 col-lg-7 col-xl-7 col-xxl-7"></div>
-                  <div className="col-sm-3 col-3 col-md-3 col-lg-3 col-xl-3 col-xxl-3">
+                  <div className="col-sm-7 col-3"></div>
+                  <div className="col-sm-3 col-4">
                     {appContext.taskMenu ? (
                       <button
                         className={
@@ -90,11 +88,11 @@ function TodoInput({ id }) {
                   type="text"
                   className="form-control"
                   placeholder="add a title...."
-                  // value={appContext?.title}
-                  value={title}
+                  value={appContext?.title}
+                  // value={title}
                   onChange={(e) =>
-                    // appContext.dispatch({ type: "Title", data: e.target.value })
-                    setTitle(e.target.value)
+                    appContext.dispatch({ type: "Title", data: e.target.value })
+                    // setTitle(e.target.value)
                   }/>
                 {
                    inputErr ? <div className="alert alert-danger" role="alert">
@@ -109,14 +107,14 @@ function TodoInput({ id }) {
                   className="form-control rounded-2"
                   placeholder="add a description..."
                   rows={4}
-                  // value={appContext?.description}
-                  value={description}
+                  value={appContext?.description}
+                  // value={description}
                   onChange={(e) =>
-                    // appContext.dispatch({
-                    //   type: "Description",
-                    //   data: e.target.value,
-                    // })
-                    setDescription(e.target.value)
+                    appContext.dispatch({
+                      type: "Description",
+                      data: e.target.value,
+                    })
+                    // setDescription(e.target.value)
                   }
                 />
                 <label className="pb-1 mt-3">Tags</label>
@@ -138,7 +136,7 @@ function TodoInput({ id }) {
                       <label className="ms-1">{item.title}</label>                    
                     </div>
                   ))}
-                </div>
+                {/* </div> */}
               </div>
             </form>
           </div>

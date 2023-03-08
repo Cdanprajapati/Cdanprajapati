@@ -17,7 +17,7 @@ function useFetchAPI() {
     fetch(base + endpoint, requestOptions)
       .then((res) => res.json())
       .then((res) => {
-        setState(res);
+        setState(res,"res@@@@______");
       });
   };
   return apiFunction; 

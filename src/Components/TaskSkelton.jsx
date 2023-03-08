@@ -21,12 +21,12 @@ export default function TaskSkelton({ title, description, tags, id , isDone, isC
                { isCompleted && <label className="text-danger">{title}</label> }
               </p>
             </div>
-            <div className="col-sm-2">
+            <div className="col-sm-2 ">
               <TaskMenu id={id}/>
             </div>
           </div>
 
-          {/*===========done point  ==============*/}
+          {/*===========  done point  ==============*/}
 
         <div className="row">  
         <div className="col-sm-8 col-md-8">     

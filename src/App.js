@@ -22,6 +22,7 @@ const initialstate = {
   signUpOpen: false,
   selectedHomeTags: false,
   toastOpen: false,
+  loginSuccess: false,
   better: [],
   border: [],
   allTodos: [],
@@ -38,7 +39,6 @@ const initialstate = {
     { title: "family", id: 4 },
   ],
 };
-
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -58,6 +58,11 @@ const reducer = (state, action) => {
     //     ...state,
     //     cookies: state.getPost
     //   }
+
+    case "YouCanLogin" :
+      return {
+        loginSuccess: true,
+      }
 
     case "VisibleConfirmPassword":
       return {

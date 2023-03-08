@@ -38,21 +38,32 @@ function Login() {
     }
 
     if(error === 0) {
-    let data = {email, password}
-    loginAPI("user/login", "POST", data, getPost)  
-    appContext.dispatch({ type:"Loginclose"})   
+      appContext.dispatch({ type: "Loginclose" })  
+      let data = {email, password}
+      console.log("caling____");
+      loginAPI("user/login", "POST", data, getPost) 
+      .then((res)=>{
+        console.log(res,"res_____");
+      })
+      .catch((err)=>{
+        console.log(err,"ERRR_____");
+      })
+      // console.log(dataAPI,"API______");
+       
     }
-};
+  };
 
-  useEffect(() =>
-    {if(post!==null){
+  useEffect(() =>{
+    if(post){
+      console.log("here________");
       localStorage.setItem("token", post.access_token)
       alert("user logged in");
     }
   }, [post])
+  console.log(post,"123_______");
 
   return (  
-            <div className={"card shadow-lg p-3  rounded " + style["Body"]}>
+          <div className={"card shadow-lg p-3  rounded " + style["Body"]}>
               <form>
                 <div className="row">
                   <div className="col-sm-6 col-8">                 
