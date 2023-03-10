@@ -10,7 +10,6 @@ function Login() {
   const appContext = useContext(TodoContex);
   const loginAPI = useFetchAPI();
   const [email, setEmail] = useState("");
-  const [passwordAlert, setPasswordAlert] = useState(false);
   const [emailErr, setEmailError] = useState(false);  
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
@@ -23,44 +22,36 @@ function Login() {
 
   const handleLogin = () => {
     let error = 0;
-    if(email.length<3){
+    if(email.length<4){
       setEmailError(true)
       error++;
     }
 
-    if(password.length<3){
-      if(password.length>10){
-        setPasswordAlert(true)
-      }else{
-      setPasswordError(true)
-      error++;
-      }
+    if(password.length<2){
+    setPasswordError(true)
+    error++;
+    }else {
+      setPasswordError(false)
     }
 
     if(error === 0) {
-      appContext.dispatch({ type: "Loginclose" })  
-      let data = {email, password}
-      console.log("caling____");
-      loginAPI("user/login", "POST", data, getPost) 
-      .then((res)=>{
-        console.log(res,"res_____");
-      })
-      .catch((err)=>{
-        console.log(err,"ERRR_____");
-      })
-      // console.log(dataAPI,"API______");
-       
-    }
-  };
+    let data = {email, password}
+    loginAPI("user/login", "POST", data, getPost)
 
-  useEffect(() =>{
-    if(post){
-      console.log("here________");
-      localStorage.setItem("token", post.access_token)
-      alert("user logged in");
     }
+  }
+  
+  useEffect(() =>
+  {if(post!==null){
+    localStorage.setItem("token", post.access_token)
+    appContext.dispatch({ type: "LoaderOpen" });
+    setTimeout(() => {
+      appContext.dispatch({ type: "loaderClose" });
+      appContext.dispatch({ type: "Loginclose" });
+    }, [2000])
+  }
   }, [post])
-  console.log(post,"123_______");
+
 
   return (  
           <div className={"card shadow-lg p-3  rounded " + style["Body"]}>
@@ -91,7 +82,7 @@ function Login() {
                   type={ appContext.visible ? "text" : "password"}
                   className={"form-control " + style["placeholder"]}
                   value={password}
-                  placeholder={ passwordError ? "password is required" : " " }
+                  placeholder={ passwordError ? "password must be greater then 4 char" : " " }
                   onChange={(e)=>setPassword(e.target.value)}
                 />
                 <div className={style["EyeIcons"]} onClick={()=>appContext.dispatch({type: "VisiblePassword"})} >
@@ -99,9 +90,6 @@ function Login() {
                     appContext.visible ? <AiFillEye /> : <AiFillEyeInvisible />
                   }
                 </div>             
-                  {
-                    passwordAlert ? <span className="text-danger"><br/>Password must be below 8 char</span> : " "
-                  }
                 <button
                   className={
                     "btn py-1 container-fluid mt-2 " + style["btn"]

@@ -1,7 +1,6 @@
 import TodoHome from "./Components/TodoHome";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer} from "react";
 import { createContext } from "react";
-import  useFetchAPI  from './hook/useFetchAPI';
 
 export const TodoContex = createContext();
 
@@ -53,12 +52,6 @@ const reducer = (state, action) => {
       };
       break;
 
-    // case "addCookie" :
-    //   return {
-    //     ...state,
-    //     cookies: state.getPost
-    //   }
-
     case "YouCanLogin" :
       return {
         loginSuccess: true,
@@ -86,14 +79,12 @@ const reducer = (state, action) => {
       return {
         ...state,
         loaderOpen: true,
-        // toastOpen:!state.toastOpen
       };
 
     case "loaderClose":
       return {
         ...state,
         loaderOpen: !state.loaderOpen,
-        // toastOpen: true
       };
 
     case "ForgetPasswordOpen":
@@ -115,6 +106,7 @@ const reducer = (state, action) => {
         ...state,
         loginOpen: false,
         signUpOpen: false,
+        loginSuccess: true,
         forgetpasswordOpen: false,
       };
 
@@ -122,6 +114,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         signUpOpen: false,
+        loginSuccess: false,
       };
 
     case "SignUpOpen":
@@ -129,6 +122,7 @@ const reducer = (state, action) => {
         ...state,
         signUpOpen: true,
         forgetpasswordOpen: false,
+        loginSuccess: false,
       };
 
     case "LoginOpen":

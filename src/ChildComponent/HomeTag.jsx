@@ -5,8 +5,11 @@ import style from "../Assets/Style/TodoHome.module.css";
 
 function HomeTag({id}) {
     const appContext = useContext(TodoContex);
+    const bgColor=[{
+      dot1:"red"
+    }]
   return (
-    <div>
+    <>
        { appContext.tags.map((item, i) => (
                 <div
                   value={item.title}
@@ -17,6 +20,7 @@ function HomeTag({id}) {
                       key={i}
                     >  
                       <button
+                      // style={{backgroundColor:bgColor.dot1}}
                         className={style["dot-" + item.id]}
                         onClick={() => appContext.dispatch({ type:"HomeTags", id:item.id})}     
                     />
@@ -24,7 +28,7 @@ function HomeTag({id}) {
                 </div>
               ))
             }
-    </div>
+    </>
   )
 }
 

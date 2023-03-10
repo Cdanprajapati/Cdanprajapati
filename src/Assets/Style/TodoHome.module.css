@@ -1,7 +1,9 @@
 .Touch {
   background-color: #e0dddd;
-  width: 60%;
-}
+ /* width: 60%;  */
+ padding: 0px;
+ margin: 0px;
+} 
 
 
 .dot-1 {

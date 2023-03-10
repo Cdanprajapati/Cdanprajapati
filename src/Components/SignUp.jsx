@@ -78,29 +78,8 @@ function SignUp() {
       setTimeout(() => {
         appContext.dispatch({ type: "loaderClose" });
       }, [2000])
-      
-      setTimeout(() => {
-        appContext.dispatch({ type: "ToastOpen" });
-      }, [2400])
-
-      setTimeout(() => {
-        appContext.dispatch({ type: "ToastClose" });
-    }, [2600])
   }
 }
-
-  // const toast = (getPost) => {
-  //   appContext.dispatch({ type: "ToastOpen" });
-  // }
-  // toast();
-
-  // const onSubmitHandle = () => {};
-  // }
-  // const [state, setState] = useState({
-  //   firstName : "",
-  // })
-  // const Error = (e) => setState(p=>({...p, firstName: event.   target.value}))
-  // console.log(post, "--->");
 
   return (
     <div>

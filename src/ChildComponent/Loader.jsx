@@ -18,12 +18,6 @@ function Loader() {
             </div>
             <div className="spinner-grow text-warning d-flex ms-2" role="status">
             </div>
-            {/* <div className="spinner-grow text-info d-flex ms-2" role="status">
-            </div>
-            <div className="spinner-grow text-light d-flex ms-2" role="status">
-            </div> */}
-            {/* <div className="spinner-grow text-dark d-flex ms-2" role="status">              
-            </div> */}
           </div>
         </div>
       </div>

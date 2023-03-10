@@ -13,11 +13,11 @@ function useFetchAPI() {
       body: raw,
       redirect: "follow",
     };
-
+    // console.log(endpoint, type, data, setState, "===here====")
     fetch(base + endpoint, requestOptions)
       .then((res) => res.json())
       .then((res) => {
-        setState(res,"res@@@@______");
+        setState(res);
       });
   };
   return apiFunction; 
