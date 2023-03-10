@@ -6,7 +6,6 @@ import { AiFillEye } from "react-icons/ai";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import useFetchAPI from "../hook/useFetchAPI";
 import { RxCross1 } from "react-icons/rx";
-import { toast } from "react-toastify";
 
 function SignUp() {
   const appContext = useContext(TodoContex);
@@ -20,9 +19,11 @@ function SignUp() {
   const [emailErr, setEmailErr] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordErr, setPasswordErr] = useState(false);
+  const [passAlert, setPassAlert] = useState(false);
   const [confirm_password, setConfirm_Password] = useState("");
   const [cnfpassword, setCnfpassword] = useState(false);
   const [post, getPost] = useState([]);
+  // const authContext = useContext(authContext);
 
   const API = "https://todo-api-xu4f.onrender.com/user/register";
 
@@ -31,7 +32,6 @@ function SignUp() {
 
   console.log(post, "====>")
   localStorage.setItem("Token", post.access_token)
-
   const HandleSubmit = () => {
     let err = 0;
     if (firstName.length < 3) {
@@ -49,9 +49,16 @@ function SignUp() {
       err++;
     }
 
-    if (password.length < 4) {
+    if (password.length==0) {
       setPasswordErr(true);
       err++;
+    }
+
+    if(password.length > 0 && password.length < 6){
+      setPassAlert(true);
+      err++;
+    }else {
+      setPassAlert(false);
     }
 
     if (confirm_password.length < 4) {
@@ -64,20 +71,26 @@ function SignUp() {
       err++;
     }
 
-    // else if(password === confirm_password){
-    //   setMatchpassword(false);
-    // }
-
     if (err === 0) {
-      let data = { firstName, lastName, email, password, confirm_password };
-      // console.log(data,"0000000000")
-      loginAPI("user/register", "POST", data, getPost);
+      let data = { firstName, lastName, email, password, confirm_password };      
+      const mypost = (res)=>{        
+        console.log(res.message,'...................................message')
+        let errorMsg = res.message;
+        TodoContex.errorObject.changeErrMsg(errorMsg)
+        getPost(res)
+      }
+      loginAPI("user/register", "POST", data, mypost);
       appContext.dispatch({ type: "SignUpClose" });
       appContext.dispatch({ type: "LoaderOpen" });
-
       setTimeout(() => {
         appContext.dispatch({ type: "loaderClose" });
       }, [2000])
+      setTimeout(() => {
+        appContext.dispatch({ type: "ToastOpen"});
+      }, [2001])
+      setTimeout(() => {
+        appContext.dispatch({ type: "ToastClose"});
+      },[8000])
   }
 }
 
@@ -146,6 +159,7 @@ function SignUp() {
           >
             {appContext.visible ? <AiFillEye /> : <AiFillEyeInvisible />}
           </div>
+          { passAlert ? <p className={style["alert"]}>Password must be at least 6 character and can have !@#$</p> : " " } 
           <label className={"pt-1 " + style["text-size"]}>
             {" "}
             Confirm Password
@@ -178,7 +192,6 @@ function SignUp() {
           ) : (
             " "
           )}
-
           <hr />
           <input type="checkbox" className={"pt-1" + style["text-size"]} />
           <label className={"pt-1 ms-2 " + style["text-size"]}>

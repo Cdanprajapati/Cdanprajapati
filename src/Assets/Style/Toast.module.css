@@ -1,6 +1,6 @@
 
 .Body{
-    width: 300px;
+    width: fit-content;
     position: absolute;
     overflow: hidden;
     margin-left: 75%;

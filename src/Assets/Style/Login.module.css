@@ -29,6 +29,12 @@
   color: red;
 }
 
+.alert{
+  font-size: 12px;
+  color: tomato;
+  margin: auto;
+}
+
 .btn {
   height: 25px;
   font-size: 12px;

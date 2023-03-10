@@ -20,9 +20,9 @@ function TodoHome({ id }) {
           </div>
           <div className="col-sm-9 col-6 col-md-6"></div>
           <div className="col-sm-1 col-2 col-md-2">
-            <h3 onClick={() => appContext.dispatch({ type: "InputOpen" })}>
-             { appContext.loginSuccess && <FontAwesomeIcon icon={faPlus} /> }
-            </h3>
+           { appContext.loginSuccess ? <h3 onClick={() => appContext.dispatch({ type: "InputOpen" })}>
+              <FontAwesomeIcon icon={faPlus} /> 
+            </h3> : " " }
           </div>
         </div>
 

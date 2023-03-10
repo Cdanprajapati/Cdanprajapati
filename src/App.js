@@ -54,6 +54,8 @@ const reducer = (state, action) => {
 
     case "YouCanLogin" :
       return {
+        ...state,
+        loginOpen: false,
         loginSuccess: true,
       }
 
@@ -106,7 +108,7 @@ const reducer = (state, action) => {
         ...state,
         loginOpen: false,
         signUpOpen: false,
-        loginSuccess: true,
+        // loginSuccess: true,
         forgetpasswordOpen: false,
       };
 

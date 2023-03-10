@@ -6,6 +6,8 @@ import { RxCross1 } from "react-icons/rx";
 
 function Toast() {
   const appContext = useContext(TodoContex);
+
+  console.log(appContext, "==here==")
   return (
     <div>
        <div className={"card shadow-lg p-3 mt-3  rounded " + style["Body"]}>
@@ -22,7 +24,7 @@ function Toast() {
                   </div>
                 </div>       
                 <h1 className={style["password"]} onClick={()=>appContext.dispatch({type: "ForgetPasswordOpen"})} href="#">
-                You have Sign Up successfully...!
+                User registered successfully, Please check your email to verify
               </h1>
               </form>
               {/* </div> */}

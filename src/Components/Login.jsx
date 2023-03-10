@@ -10,6 +10,7 @@ function Login() {
   const appContext = useContext(TodoContex);
   const loginAPI = useFetchAPI();
   const [email, setEmail] = useState("");
+  const [passAlert, setPassAlert] = useState(false);
   const [emailErr, setEmailError] = useState(false);  
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
@@ -26,18 +27,21 @@ function Login() {
       setEmailError(true)
       error++;
     }
-
-    if(password.length<2){
+    if(password.length==0){
     setPasswordError(true)
     error++;
     }else {
       setPasswordError(false)
     }
-
+    if(password.length>0 &&  password.length<6){
+      setPassAlert(true)
+      error++;
+    }else {
+      setPassAlert(false)
+    }
     if(error === 0) {
     let data = {email, password}
     loginAPI("user/login", "POST", data, getPost)
-
     }
   }
   
@@ -46,11 +50,12 @@ function Login() {
     localStorage.setItem("token", post.access_token)
     appContext.dispatch({ type: "LoaderOpen" });
     setTimeout(() => {
-      appContext.dispatch({ type: "loaderClose" });
-      appContext.dispatch({ type: "Loginclose" });
+      appContext.dispatch({ type:"loaderClose" });
+      appContext.dispatch({ type: "YouCanLogin" });
     }, [2000])
   }
   }, [post])
+
 
 
   return (  
@@ -82,14 +87,16 @@ function Login() {
                   type={ appContext.visible ? "text" : "password"}
                   className={"form-control " + style["placeholder"]}
                   value={password}
-                  placeholder={ passwordError ? "password must be greater then 4 char" : " " }
+                  placeholder={ passwordError ? "password must be required" : " " }
                   onChange={(e)=>setPassword(e.target.value)}
                 />
                 <div className={style["EyeIcons"]} onClick={()=>appContext.dispatch({type: "VisiblePassword"})} >
                   {  
                     appContext.visible ? <AiFillEye /> : <AiFillEyeInvisible />
                   }
-                </div>             
+                </div> 
+                  { passAlert ? <p className={style["alert"]}>Password must be at least 6 character and can have !@#$</p> : " " }                
+
                 <button
                   className={
                     "btn py-1 container-fluid mt-2 " + style["btn"]
