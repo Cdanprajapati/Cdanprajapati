@@ -10,6 +10,7 @@ import { RxCross1 } from "react-icons/rx";
 function SignUp() {
   const appContext = useContext(TodoContex);
   const loginAPI = useFetchAPI();
+  const [errMsg, setErrMsg] = useState("");
   const [matchpassword, setMatchpassword] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [fnameErr, setFnameErr] = useState(false);
@@ -23,15 +24,12 @@ function SignUp() {
   const [confirm_password, setConfirm_Password] = useState("");
   const [cnfpassword, setCnfpassword] = useState(false);
   const [post, getPost] = useState([]);
-  // const authContext = useContext(authContext);
 
   const API = "https://todo-api-xu4f.onrender.com/user/register";
 
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-
-  console.log(post, "====>")
-  localStorage.setItem("Token", post.access_token)
+  localStorage.setItem("Token", post.access_token);
   const HandleSubmit = () => {
     let err = 0;
     if (firstName.length < 3) {
@@ -49,15 +47,15 @@ function SignUp() {
       err++;
     }
 
-    if (password.length==0) {
+    if (password.length == 0) {
       setPasswordErr(true);
       err++;
     }
 
-    if(password.length > 0 && password.length < 6){
+    if (password.length > 0 && password.length < 6) {
       setPassAlert(true);
       err++;
-    }else {
+    } else {
       setPassAlert(false);
     }
 
@@ -72,27 +70,39 @@ function SignUp() {
     }
 
     if (err === 0) {
-      let data = { firstName, lastName, email, password, confirm_password };      
-      const mypost = (res)=>{        
-        console.log(res.message,'...................................message')
+      let data = { firstName, lastName, email, password, confirm_password };
+      const mypost = (res) => {
+        console.log(res.message, "...................................message");
         let errorMsg = res.message;
-        TodoContex.errorObject.changeErrMsg(errorMsg)
-        getPost(res)
-      }
+        setErrMsg(errorMsg);
+        if (res.status !== 200) {
+          appContext.dispatch({ type: "ErMsgSingUp", errorMsg });
+          appContext.dispatch({ type: "ToastOpen" });
+          setTimeout(() => {
+            appContext.dispatch({ type: "ToastClose" });
+          }, [4500]);
+        } else {
+          appContext.dispatch({ type: "SignUpClose" });
+          appContext.dispatch({ type: "LoaderOpen" });
+          setTimeout(() => {
+            appContext.dispatch({ type: "loaderClose" });
+          }, [2000]);
+          setTimeout(() => {
+            appContext.dispatch({ type: "ToastOpen" });
+          }, [2100]);
+
+          setTimeout(() => {
+            appContext.dispatch({ type: "ToastClose" });
+          }, [6000]);
+          setTimeout(() => {
+            appContext.dispatch({ type: "LoginOpen" });
+          }, [4100]);
+        }
+        getPost(res);
+      };
       loginAPI("user/register", "POST", data, mypost);
-      appContext.dispatch({ type: "SignUpClose" });
-      appContext.dispatch({ type: "LoaderOpen" });
-      setTimeout(() => {
-        appContext.dispatch({ type: "loaderClose" });
-      }, [2000])
-      setTimeout(() => {
-        appContext.dispatch({ type: "ToastOpen"});
-      }, [2001])
-      setTimeout(() => {
-        appContext.dispatch({ type: "ToastClose"});
-      },[8000])
-  }
-}
+    }
+  };
 
   return (
     <div>
@@ -140,7 +150,10 @@ function SignUp() {
             className={"form-control " + style["placeholder"]}
             name="email"
             placeholder={emailErr ? "Email is required" : ""}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setErrMsg("");
+            }}
             value={email}
           />
 
@@ -159,7 +172,13 @@ function SignUp() {
           >
             {appContext.visible ? <AiFillEye /> : <AiFillEyeInvisible />}
           </div>
-          { passAlert ? <p className={style["alert"]}>Password must be at least 6 character and can have !@#$</p> : " " } 
+          {passAlert ? (
+            <p className={style["alert"]}>
+              Password must be at least 6 character and can have !@#$
+            </p>
+          ) : (
+            " "
+          )}
           <label className={"pt-1 " + style["text-size"]}>
             {" "}
             Confirm Password

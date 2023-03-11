@@ -3,8 +3,19 @@
     width: fit-content;
     position: absolute;
     overflow: hidden;
-    margin-left: 75%;
+    margin-left: 65%;
     z-index: 1000;
+  }
+
+  @media (min-width: 200px) and (max-width: 600px) {
+    .Body{
+      width: fit-content;
+      position: absolute;
+      overflow: hidden;
+      margin: auto;
+      height: 15%;
+      z-index: 1000;
+    }
   }
   
   .Cross {

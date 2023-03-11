@@ -1,9 +1,14 @@
 .Touch {
   background-color: #e0dddd;
- width: 40%; 
+ width: min-content; 
  padding: 0px;
  margin: 0px;
 } 
+
+.HideTask{
+  font-size: 14px;
+  width: max-content;
+}
 
 
 .dot-1 {
@@ -59,4 +64,10 @@
 .loginBtn:hover {
  background-color: rgb(244, 76, 76);
  color: white;
+}
+
+@media (min-width: 200px) and (max-width: 600px) {
+  .loginBtn{
+    margin-top: 10%;
+  }
 }

@@ -7,24 +7,24 @@ import { RxCross1 } from "react-icons/rx";
 function Toast() {
   const appContext = useContext(TodoContex);
 
-  console.log(appContext, "==here==")
+  // console.log(appContext, "==here==")
   return (
     <div>
        <div className={"card shadow-lg p-3 mt-3  rounded " + style["Body"]}>
               <form>
-                <div className="row d-flex">
-                  <div className="col-sm-6 d-flex">                 
-                    <h5 className="text-bold">Congratulations</h5>
+                <div className="row">
+                  <div className="col-sm-6 col-6 d-flex">                 
+                    <h5 className="text-bold">Congratulations....!</h5>
                   </div>
-                  <div className="col-sm-4 d-flex"></div>
-                  <div className={"col-sm-2 d-flex"+style["Cross"]}>
+                  <div className="col-sm-4 col-4"></div>
+                  <div className={"col-sm-2 col-2 d-flex"+style["Cross"]}>
                     <b onClick={()=>appContext.dispatch({type:"ToastClose"})}>
                       <RxCross1 />
                     </b>
                   </div>
                 </div>       
                 <h1 className={style["password"]} onClick={()=>appContext.dispatch({type: "ForgetPasswordOpen"})} href="#">
-                User registered successfully, Please check your email to verify
+                {appContext.errorMsg}
               </h1>
               </form>
               {/* </div> */}

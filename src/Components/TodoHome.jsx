@@ -27,16 +27,11 @@ function TodoHome({ id }) {
         </div>
 
         <div className="row mt-3">
-          <div className="col-sm-4">
+          <div className="col-sm-3">
            <HomeTag />
-          </div>
 
-          <div className="col-sm-8">
-            <Tasks id={id} />
-          </div>
-
-          <div className="row">
-            <div className="col-sm-3">
+           <div className="row">
+            <div className="col-sm-12">
               <input
                 className="mt-5"
                 type="checkbox"
@@ -47,12 +42,17 @@ function TodoHome({ id }) {
                   })
                 }
               />
-              <label className="ps-2">Hide Done Task</label>
+              <label className={"ps-1 "+style["HideTask"]}>Hide Done Task</label>
               <br/>
               < button className={"btn "+style["loginBtn"]}
                 onClick={()=>appContext.dispatch({type: "LoginOpen"})}>login</button>
             </div>
-            <div className="col-sm-9"></div>
+          </div>
+
+          </div>
+
+          <div className="col-sm-9">
+            <Tasks id={id} />
           </div>
         </div>
       </div>

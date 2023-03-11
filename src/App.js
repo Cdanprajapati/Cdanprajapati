@@ -28,6 +28,7 @@ const initialstate = {
   filterTodos: [],
   selected: "",
   title: "",
+  errorMsg:"",
   description: "",
   taskDoneOpen: true,
   taskMenuOpen: true,
@@ -116,6 +117,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         signUpOpen: false,
+        toastOpen: false,
         loginSuccess: false,
       };
 
@@ -123,6 +125,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         signUpOpen: true,
+        toastOpen: false,
         forgetpasswordOpen: false,
         loginSuccess: false,
       };
@@ -273,6 +276,12 @@ const reducer = (state, action) => {
         ...state,
         taskMenu: !state.taskMenu,
         taskMenuOpen: action.id,
+      };
+
+    case "ErMsgSingUp" :
+      return {
+       ...state,
+       errorMsg: action.errorMsg,
       };
 
     case "addTodo":     

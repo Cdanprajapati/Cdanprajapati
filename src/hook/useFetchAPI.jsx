@@ -15,10 +15,16 @@ function useFetchAPI() {
     };
     // console.log(endpoint, type, data, setState, "===here====")
     fetch(base + endpoint, requestOptions)
-      .then((res) => res.json())
       .then((res) => {
-        setState(res);
-      });
+        const {status} = res;
+        const response = res.json()
+        response.status = status;
+        setState(response); 
+        return response;
+      })
+      .then((res) => {
+        setState(res)
+      })
   };
   return apiFunction; 
 }
