@@ -1,7 +1,7 @@
 function useFetchAPI() {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-  const base = "https://todo-api-xu4f.onrender.com/";
+  const base = "http://192.168.29.145:8000/";
   const endpoint = "user/register";
 
   const apiFunction = (endpoint, type, data, setState) => {

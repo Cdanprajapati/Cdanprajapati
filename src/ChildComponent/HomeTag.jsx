@@ -9,8 +9,8 @@ function HomeTag({id}) {
       dot1:"red"
     }]
   return (
-    <>
-       { appContext.tags.map((item, i) => (
+    <div>
+       { appContext.tags?.map((item, i) => (
                 <div
                   value={item.title}
                     className={
@@ -28,7 +28,7 @@ function HomeTag({id}) {
                 </div>
               ))
             }
-    </>
+     </div>
   )
 }
 
