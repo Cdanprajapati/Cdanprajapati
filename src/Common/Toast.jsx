@@ -34,3 +34,19 @@ function Toast() {
 }
 
 export default Toast;
+
+
+
+// async function fetchData() {
+//   try {
+//     const response = await fetch('https://example.com/data');
+//     if (response.ok) {
+//       const data = await response.json();
+//       // do something with the data
+//     } else {
+//       // handle error
+//     }
+//   } catch (error) {
+//     // handle error
+//   }
+// }

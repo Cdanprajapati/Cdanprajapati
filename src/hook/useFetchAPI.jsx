@@ -4,7 +4,7 @@ function useFetchAPI() {
   const base = "http://192.168.29.145:8000/";
   const endpoint = "user/register";
 
-  const apiFunction = (endpoint, type, data, setState) => {
+  const apiFunction = (endpoint, type, data, res) => {
     var raw = JSON.stringify(data);
 
     var requestOptions = {
@@ -15,18 +15,11 @@ function useFetchAPI() {
     };
     // console.log(endpoint, type, data, setState, "===here====")
     fetch(base + endpoint, requestOptions)
-      .then((res) => {
-        const {status} = res;
-        const response = res.json()
-        response.status = status;
-        setState(response); 
-        return response;
-      })
-      .then((res) => {
-        setState(res)
-      })
+    .then(response =>response.json())
+    .then(result => res(result, null))
+    .catch(error => res(null, error))
   };
-  return apiFunction; 
+  return apiFunction;   
 }
 
 export default useFetchAPI;

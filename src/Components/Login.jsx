@@ -21,9 +21,8 @@ function Login() {
 
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-  // localStorage.setItem("Token", post.access_token);
 
-  const handleLogin = () => {
+  function handleLogin(){
     let error = 0;
     if (email.length < 4) {
       setEmailError(true);
@@ -43,50 +42,35 @@ function Login() {
     }
     if (error === 0) {
       let data = { email, password };
-
-      const mypost = (res) => {
+      const mypost = (res, error) => {
+        console.log(error, "====cdan=====>")
         let errorMsg = res.message;
         setErrMsg(errorMsg);
-
         if (res.status !== 200) {
           appContext.dispatch({ type: "ErMsgSingUp", errorMsg });
+          appContext.dispatch({ type: "LoaderOpen" });
           appContext.dispatch({ type: "ToastOpen" });
           setTimeout(() => {
             appContext.dispatch({ type: "ToastClose" });
-          }, [1000]);
-        } else {
-          appContext.dispatch({ type: "LoginClose" });
-          appContext.dispatch({ type: "LoaderOpen" });
+          }, [1400]);   
           setTimeout(() => {
-            appContext.dispatch({ type: "loaderClose" });
-          }, [2000]);
-          setTimeout(() => {
-            appContext.dispatch({ type: "ToastOpen" });
-          }, [2100]);
-
-          setTimeout(() => {
-            appContext.dispatch({ type: "ToastClose" });
-          }, [6000]);
-          setTimeout(() => {
-            appContext.dispatch({ type: "LoginOpen" });
-          }, [4100]);
-        }
-        getPost(res);
+            appContext.dispatch({ type: "loaderClose"});
+          }, [1000]);                 
+        }     
+        getPost(res);  
       };
       loginAPI("user/login", "POST", data, mypost);
-      // console.log(post.access_token, "==cdan===>")
     }
-  };
-  // useEffect(() =>
-  // {if(post!==null){
-  //   localStorage.setItem("token", post.access_token)
-  //   appContext.dispatch({ type: "LoaderOpen" });
-  //   setTimeout(() => {
-  //     appContext.dispatch({ type:"loaderClose" });
-  //     appContext.dispatch({ type: "YouCanLogin" });
-  //   }, [2000])
-  // }
-  // }, [post])
+  }
+
+  useEffect(() =>{
+    if(post!==null){ 
+    console.log(post, "=====>");
+    appContext.dispatch({ type: "LoginClose"});
+    appContext.dispatch({ type: "YouCanLogin"});
+    localStorage.setItem("token", post.access_token);
+    }
+  }, [post])
 
   return (
     <div className={"card shadow-lg p-3  rounded " + style["Body"]}>
@@ -141,6 +125,7 @@ function Login() {
         >
           Login
         </button>
+
         <a
           className={style["password"]}
           onClick={() => appContext.dispatch({ type: "ForgetPasswordOpen" })}

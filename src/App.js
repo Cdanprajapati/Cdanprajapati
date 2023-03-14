@@ -56,8 +56,15 @@ const reducer = (state, action) => {
     case "YouCanLogin" :
       return {
         ...state,
-        loginOpen: false,
+        loginOpen: true,
         loginSuccess: true,
+      }
+
+    case "YouCnt" :
+      return {
+        ...state,
+        loginOpen: false,
+        loginSuccess: false,
       }
 
     case "VisibleConfirmPassword":

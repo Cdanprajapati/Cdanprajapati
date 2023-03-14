@@ -1,15 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TodoContex } from "../App";
 import "react-toastify/dist/ReactToastify.css";
 import style from "../Assets/Style/SignUp.module.css";
 import { AiFillEye } from "react-icons/ai";
 import { AiFillEyeInvisible } from "react-icons/ai";
-// import useFetchAPI from "../hook/useFetchAPI";
+import useFetchAPI from "../hook/useFetchAPI";
 import { RxCross1 } from "react-icons/rx";
 
 function SignUp() {
   const appContext = useContext(TodoContex);
-  // const loginAPI = useFetchAPI();
+  const loginAPI = useFetchAPI();
   const [errMsg, setErrMsg] = useState("");
   const [matchpassword, setMatchpassword] = useState(false);
   const [firstName, setFirstName] = useState("");
@@ -23,15 +23,14 @@ function SignUp() {
   const [passAlert, setPassAlert] = useState(false);
   const [confirm_password, setConfirm_Password] = useState("");
   const [cnfpassword, setCnfpassword] = useState(false);
-  // const [post, getPost] = useState([]);
+  const [post, getPost] = useState([]);
 
-  // const API = "https://todo-api-xu4f.onrender.com/user/register";
+  const API = "https://todo-api-xu4f.onrender.com/user/register";
 
-  // var myHeaders = new Headers();
-  // myHeaders.append("Content-Type", "application/json");
-  // localStorage.setItem("Token", post.access_token);
-
-  async function HandleSubmit() {
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  localStorage.setItem("Token", post.access_token);
+  const HandleSubmit = () => {
     let err = 0;
     if (firstName.length < 3) {
       setFnameErr(true);
@@ -72,31 +71,41 @@ function SignUp() {
 
     if (err === 0) {
       let data = { firstName, lastName, email, password, confirm_password };
-      let result = await fetch ("http://192.168.29.145:8000/user/register", {
-      method:'POST',
-        headers:{
-          "Content-Type": "application/json",
-          "Accept": "application/json"
-        },
-        body:JSON.stringify(data)
-      }).then((res) => {
-        console.log(res.message, "==cdan====>")
-        return res.message;        
-      })
-      result = await result.json();
-      const mypost = (res) => {        
+      appContext.dispatch({ type: "ToastOpen" });
+      const mypost = (res) => {
         let errorMsg = res.message;
         setErrMsg(errorMsg);
         if (res.status !== 200) {
           appContext.dispatch({ type: "ErMsgSingUp", errorMsg });
-          appContext.dispatch({ type: "toastOpen"})
-        } 
+          appContext.dispatch({ type: "LoaderOpen" });
+          setTimeout(() => {
+            appContext.dispatch({ type: "loaderClose" });
+          }, [2000]);
+          
+          setTimeout(() => {
+            appContext.dispatch({ type: "ToastClose" });
+          }, [4500]);
+          appContext.dispatch({ type: "SignUpOpen" });
+        }
+        //  else {
+        //   appContext.dispatch({ type: "SignUpClose" });
+         
+        //   setTimeout(() => {
+        //     appContext.dispatch({ type: "ToastOpen" });
+        //   }, [2100]);
+
+        //   setTimeout(() => {
+        //     appContext.dispatch({ type: "ToastClose" });
+        //   }, [6000]);
+        //   setTimeout(() => {
+        //     appContext.dispatch({ type: "LoginOpen" });
+        //   }, [4100]);
+        // }
+        getPost(res);
       };
-      mypost();
+      loginAPI("user/register", "POST", data, mypost);
     }
-    
   };
-  
 
   return (
     <div>
@@ -150,7 +159,7 @@ function SignUp() {
             }}
             value={email}
           />
-            {  }
+
           <label className={"pt-1 " + style["text-size"]}>Password</label>
           <input
             type={appContext.visible ? "text" : "password"}

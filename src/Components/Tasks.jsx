@@ -9,7 +9,7 @@ function Tasks() {
       <div className="container">
         <div className="row">
           {
-            appContext.allTodos?.map((item, i) => {
+            appContext.allTodos.map((item, i) => {
               return  <> 
                 {
                  (item.isDone == true && appContext.hideDoneTask == true) ? null :
