@@ -77,12 +77,14 @@ const reducer = (state, action) => {
       return {
         ...state,
         toastOpen: true,
+        text: action.text
       };
 
     case "ToastClose":
       return {
         ...state,
-        toastOpen: !state.toastOpen,
+        toastOpen:false ,
+        text:''
       };
 
     case "LoaderOpen":
@@ -284,11 +286,11 @@ const reducer = (state, action) => {
         taskMenu: !state.taskMenu,
         taskMenuOpen: action.id,
       };
-
+      
     case "ErMsgSingUp" :
       return {
        ...state,
-       errorMsg: action.errorMsg,
+       errorMsg: action.text,
       };
 
     case "addTodo":     
@@ -313,15 +315,17 @@ const reducer = (state, action) => {
           },
         ],
       };
-  }
+    
+    default : return state
+    }
 };
 function App() {
   const [state, dispatch] = useReducer(reducer, initialstate);
 
   // add data inlocalstorage 
-  useEffect(()=> {
-    localStorage.setItem("allData", JSON.stringify(state.allTodos))
-  }, [state.allTodos]);
+  // useEffect(()=> {
+  //   localStorage.setItem("allData", JSON.stringify(state.allTodos))
+  // }, [state.allTodos]);
     
   return (
     <div className="App">

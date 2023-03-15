@@ -43,34 +43,28 @@ function Login() {
     if (error === 0) {
       let data = { email, password };
       const mypost = (res, error) => {
-        console.log(error, "====cdan=====>")
-        let errorMsg = res.message;
-        setErrMsg(errorMsg);
-        if (res.status !== 200) {
-          appContext.dispatch({ type: "ErMsgSingUp", errorMsg });
-          appContext.dispatch({ type: "LoaderOpen" });
-          appContext.dispatch({ type: "ToastOpen" });
-          setTimeout(() => {
-            appContext.dispatch({ type: "ToastClose" });
-          }, [1400]);   
-          setTimeout(() => {
-            appContext.dispatch({ type: "loaderClose"});
-          }, [1000]);                 
-        }     
+        console.log(error, "====cdan=====>", res)
+        if(error){
+          appContext.dispatch({ type: "ToastOpen" , text:error});
+        }
+        if(res){
+          appContext.dispatch({ type: "ToastOpen" , text:res});
+          return ; 
+        }
+          
         getPost(res);  
       };
       loginAPI("user/login", "POST", data, mypost);
     }
   }
 
-  useEffect(() =>{
-    if(post!==null){ 
-    console.log(post, "=====>");
-    appContext.dispatch({ type: "LoginClose"});
-    appContext.dispatch({ type: "YouCanLogin"});
-    localStorage.setItem("token", post.access_token);
-    }
-  }, [post])
+  // useEffect(() =>{
+  //   if(post!==null){ 
+  //   console.log(post, "=====>");
+  //   appContext.dispatch({ type: "YouCanLogin"});
+  //   localStorage.setItem("token", post.access_token);
+  //   }
+  // }, [post])
 
   return (
     <div className={"card shadow-lg p-3  rounded " + style["Body"]}>

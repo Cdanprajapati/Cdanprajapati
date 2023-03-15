@@ -71,37 +71,17 @@ function SignUp() {
 
     if (err === 0) {
       let data = { firstName, lastName, email, password, confirm_password };
-      appContext.dispatch({ type: "ToastOpen" });
-      const mypost = (res) => {
-        let errorMsg = res.message;
-        setErrMsg(errorMsg);
-        if (res.status !== 200) {
-          appContext.dispatch({ type: "ErMsgSingUp", errorMsg });
-          appContext.dispatch({ type: "LoaderOpen" });
-          setTimeout(() => {
-            appContext.dispatch({ type: "loaderClose" });
-          }, [2000]);
-          
-          setTimeout(() => {
-            appContext.dispatch({ type: "ToastClose" });
-          }, [4500]);
-          appContext.dispatch({ type: "SignUpOpen" });
+      const mypost = (res, error) => {
+        if(error){
+          appContext.dispatch({ type: "ToastClose"})
         }
-        //  else {
-        //   appContext.dispatch({ type: "SignUpClose" });
-         
-        //   setTimeout(() => {
-        //     appContext.dispatch({ type: "ToastOpen" });
-        //   }, [2100]);
-
-        //   setTimeout(() => {
-        //     appContext.dispatch({ type: "ToastClose" });
-        //   }, [6000]);
-        //   setTimeout(() => {
-        //     appContext.dispatch({ type: "LoginOpen" });
-        //   }, [4100]);
-        // }
-        getPost(res);
+        if(res){
+          appContext.dispatch({ type: "ToastOpen" });
+        }
+      
+        let errorMsg = error;
+        setErrMsg(errorMsg);      
+        appContext.dispatch({ type: "ErMsgSingUp", errorMsg });        
       };
       loginAPI("user/register", "POST", data, mypost);
     }

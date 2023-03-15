@@ -4,7 +4,7 @@ function useFetchAPI() {
   const base = "http://192.168.29.145:8000/";
   const endpoint = "user/register";
 
-  const apiFunction = (endpoint, type, data, res) => {
+  const apiFunction = async (endpoint, type, data, res) => {
     var raw = JSON.stringify(data);
 
     var requestOptions = {
@@ -13,13 +13,29 @@ function useFetchAPI() {
       body: raw,
       redirect: "follow",
     };
-    // console.log(endpoint, type, data, setState, "===here====")
-    fetch(base + endpoint, requestOptions)
-    .then(response =>response.json())
-    .then(result => res(result, null))
-    .catch(error => res(null, error))
+    try {
+      const response = await fetch(base + endpoint, requestOptions);
+      if (!response.ok) {
+        const e = await response.json();
+        console.log(e.message)
+        throw new Error(e.message);
+      } 
+
+      if(response.ok) {
+        const data = await response.json();
+        console.log(data.message, "==here data====")
+        const Msg = data.message;
+        res(data.message, null);
+      }  
+    } 
+
+    catch (error) {
+      res(null, error.message);    
+      // res(responce.message, null);  
+    }
+    
   };
-  return apiFunction;   
+  return apiFunction;
 }
 
 export default useFetchAPI;

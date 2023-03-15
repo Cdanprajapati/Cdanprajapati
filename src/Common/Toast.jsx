@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import style from '../Assets/Style/Toast.module.css';
 import { useContext } from "react";
 import { TodoContex } from "../App";
@@ -6,6 +6,12 @@ import { RxCross1 } from "react-icons/rx";
 
 function Toast() {
   const appContext = useContext(TodoContex);
+  console.log(appContext,"-->")
+  useEffect(()=>{
+    if(appContext.toastOpen===true)
+setTimeout(()=>appContext.dispatch({type:"ToastClose"}), 3000)
+
+  },[appContext.toastOpen])
 
   // console.log(appContext, "==here==")
   return (
@@ -24,7 +30,7 @@ function Toast() {
                   </div>
                 </div>       
                 <h1 className={style["password"]} onClick={()=>appContext.dispatch({type: "ForgetPasswordOpen"})} href="#">
-                {appContext.errorMsg}
+                {appContext.text}
               </h1>
               </form>
               {/* </div> */}
