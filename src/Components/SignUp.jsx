@@ -23,13 +23,12 @@ function SignUp() {
   const [passAlert, setPassAlert] = useState(false);
   const [confirm_password, setConfirm_Password] = useState("");
   const [cnfpassword, setCnfpassword] = useState(false);
-  const [post, getPost] = useState([]);
+  // const [post, getPost] = useState([]);
 
   const API = "https://todo-api-xu4f.onrender.com/user/register";
 
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
-  localStorage.setItem("Token", post.access_token);
   const HandleSubmit = () => {
     let err = 0;
     if (firstName.length < 3) {
@@ -72,16 +71,15 @@ function SignUp() {
     if (err === 0) {
       let data = { firstName, lastName, email, password, confirm_password };
       const mypost = (res, error) => {
-        if(error){
-          appContext.dispatch({ type: "ToastClose"})
+        if (error) {
+          appContext.dispatch({ type: "ToastOpen", text: error });
         }
-        if(res){
-          appContext.dispatch({ type: "ToastOpen" });
+        console.log(res, "==here=====>");
+        if (res) {
+          appContext.dispatch({ type: "LoaderClose" });
+          appContext.dispatch({ type: "SignUpClose" });
+          appContext.dispatch({ type: "ToastOpen", text: res.message });
         }
-      
-        let errorMsg = error;
-        setErrMsg(errorMsg);      
-        appContext.dispatch({ type: "ErMsgSingUp", errorMsg });        
       };
       loginAPI("user/register", "POST", data, mypost);
     }

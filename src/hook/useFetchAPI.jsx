@@ -1,6 +1,9 @@
 function useFetchAPI() {
   var myHeaders = new Headers();
+  let token = localStorage.getItem("Token")||""
+  console.log(`Bearer ${token}`)
   myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", `Bearer ${token}`);
   const base = "http://192.168.29.145:8000/";
   const endpoint = "user/register";
 
@@ -20,18 +23,12 @@ function useFetchAPI() {
         console.log(e.message)
         throw new Error(e.message);
       } 
-
-      if(response.ok) {
         const data = await response.json();
-        console.log(data.message, "==here data====")
-        const Msg = data.message;
-        res(data.message, null);
-      }  
+        res(data, null); 
+           
     } 
-
     catch (error) {
-      res(null, error.message);    
-      // res(responce.message, null);  
+      res(null, error.message);   
     }
     
   };

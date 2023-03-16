@@ -56,7 +56,7 @@ const reducer = (state, action) => {
     case "YouCanLogin" :
       return {
         ...state,
-        loginOpen: true,
+        loginOpen: false,
         loginSuccess: true,
       }
 
@@ -64,6 +64,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         loginOpen: false,
+        toastOpen: false,
         loginSuccess: false,
       }
 
@@ -83,7 +84,7 @@ const reducer = (state, action) => {
     case "ToastClose":
       return {
         ...state,
-        toastOpen:false ,
+        toastOpen:false,
         text:''
       };
 
@@ -93,7 +94,7 @@ const reducer = (state, action) => {
         loaderOpen: true,
       };
 
-    case "loaderClose":
+    case "LoaderClose":
       return {
         ...state,
         loaderOpen: !state.loaderOpen,
@@ -118,7 +119,6 @@ const reducer = (state, action) => {
         ...state,
         loginOpen: false,
         signUpOpen: false,
-        // loginSuccess: true,
         forgetpasswordOpen: false,
       };
 

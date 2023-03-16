@@ -5,36 +5,41 @@ import useFetchAPI from "../hook/useFetchAPI";
 
 function TodoInput({ id }) {
   const appContext = useContext(TodoContex);
-  // const loginAPI = useFetchAPI();
+  const loginAPI = useFetchAPI();
   const [inputErr, setInputErr] = useState(false);
-  // const [title, setTitle] = useState('');
-  // const [description, setDescription] = useState('');
-  // const [post, getPost] = useState([]);
 
   const API = "http://192.168.29.145:8000/user/addTodo";
 
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-
-  function loginHandle(e) {
-    e.preventDefault()
+  function AddTodos(e) {
+    e.preventDefault();
     if (!appContext.tittle && !appContext.description) {
-      setInputErr(true)    
-
-    // if(title.length && description.length < 3){
-    //   setInputErr(true)
+      setInputErr(true);
     } else {
-
-      // let data = { title, description };
-      // loginAPI("user/addTodo", "POST", data, getPost);
-
-      setInputErr(false)
-      appContext.dispatch({ type: "addTodo", id });
-      
-    }
+      let data = { title : appContext.title, description:appContext.description };
+      const mypost = (res, error) => {
+        if (error) {
+          appContext.dispatch({ type: "LoaderOpen" })
+          setTimeout(()=> {
+            appContext.dispatch({ type: "LoaderClose" })
+            appContext.dispatch({ type: "ToastOpen", text: error });
+          }, 2000)
+        }
+        if (res) {
+          appContext.dispatch({ type: "LoaderOpen" });
+           setTimeout(()=> {
+           appContext.dispatch({ type: "LoaderClose" });       
+           appContext.dispatch({ type: "SignUpClose" });
+           appContext.dispatch({ type: "ToastOpen", text: res.message }); 
+           appContext.dispatch({ type: "YouCanLogin"})
+           }, 2000)
+           setInputErr(false);
+           appContext.dispatch({ type: "addTodo", id });
+        }
+      }
+      loginAPI("user/addTodo", "POST", data, mypost);
+    }    
   }
 
-  console.log( appContext.border)
   return (
     <div className={"position-absolute " + style["input-container"]}>
       <div className="container">
@@ -45,101 +50,101 @@ function TodoInput({ id }) {
           }
         >
           <div className="card-body">
-            <form onSubmit={(e)=>e.preventDefault()}>
-              {/* <div className="container"> */}
-                <div className="row">
-                  <div className="col-sm-2 col-5">
-                    <label
-                      className={style["Cancel"]}
+            <form onSubmit={(e) => e.preventDefault()}>
+              <div className="row">
+                <div className="col-sm-2 col-5">
+                  <label
+                    className={style["Cancel"]}
+                    onClick={() => appContext.dispatch({ type: "InputClose" })}
+                  >
+                    Cancel
+                  </label>
+                </div>
+                <div className="col-sm-7 col-3"></div>
+                <div className="col-sm-3 col-4">
+                  {appContext.taskMenu ? (
+                    <button
+                      className={"btn btn-secondary ps-4 pe-4 " + style["Add"]}
+                      type="btn"
                       onClick={() =>
-                        appContext.dispatch({ type: "InputClose" })
+                        appContext.dispatch({ type: "UpdatedTask", id })
                       }
                     >
-                      Cancel
-                    </label>
-                  </div>
-                  <div className="col-sm-7 col-3"></div>
-                  <div className="col-sm-3 col-4">
-                    {appContext.taskMenu ? (
-                      <button
-                        className={
-                          "btn btn-secondary ps-4 pe-4 " + style["Add"]
-                        }
-                        type="btn"
-                        onClick={() =>
-                          appContext.dispatch({ type: "UpdatedTask", id })
-                        }
-                      >
-                        Update
-                      </button>
-                    ) : (
-                      <button
-                        className={
-                          "btn btn-secondary ps-4 pe-4 " + style["Add"]
-                        }
-                        type="btn"
-                        onClick={loginHandle}
-                      >
-                        Add
-                      </button>
-                    )}
-                  </div>
+                      Update
+                    </button>
+                  ) : (
+                    <button
+                      className={"btn btn-secondary ps-4 pe-4 " + style["Add"]}
+                      type="btn"
+                      onClick={AddTodos}
+                    >
+                      Add
+                    </button>
+                  )}
                 </div>
-                {/*=======================Title point=========================*/}
-                <label className="mt-4 pb-2">Title</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="add a title...."
-                  value={appContext?.title}
-                  // value={title}
-                  onChange={(e) =>
+              </div>
+              <label className="mt-4 pb-2">Title</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="add a title...."
+                value={appContext?.title}
+                onChange={
+                  (e) =>
                     appContext.dispatch({ type: "Title", data: e.target.value })
-                    // setTitle(e.target.value)
-                  }/>
-                {
-                   inputErr ? <div className="alert alert-danger" role="alert">
-                   <strong>Please..!</strong> Make sure you have filled all fields
-                 </div> : "" 
-                   } 
-                {/*=======================Description point=======================*/}
-                <label className="form-label mt-4">Description</label>
-                <br />
-                <textarea
-                  type="text"
-                  className="form-control rounded-2"
-                  placeholder="add a description..."
-                  rows={4}
-                  value={appContext?.description}
-                  // value={description}
-                  onChange={(e) =>
+                }
+              />
+              {inputErr ? (
+                <div className="alert alert-danger" role="alert">
+                  <strong>Please..!</strong> Make sure you have filled all
+                  fields
+                </div>
+              ) : (
+                ""
+              )}
+              <label className="form-label mt-4">Description</label>
+              <br />
+              <textarea
+                type="text"
+                className="form-control rounded-2"
+                placeholder="add a description..."
+                rows={4}
+                value={appContext?.description}
+                onChange={
+                  (e) =>
                     appContext.dispatch({
                       type: "Description",
                       data: e.target.value,
                     })
-                    // setDescription(e.target.value)
-                  }
-                />
-                <label className="pb-1 mt-3">Tags</label>
-                <br />
-                <div className="row">
-                  { appContext.tags.map((item, i) => (
-                    <div
-                      value={item.title}
-                      className={
-                        appContext.border.filter((border, id) => border.id === item.id).length>0
-                        ? "col-md-3 d-flex border p-2 rounded "+style["Touch"] : "col-md-3 d-flex p-2"
-                        }                      
-                      key={i}
-                    >
-                      <button
-                        className={style["dot-" + item.id]}
-                        onClick={() => appContext.dispatch({ type:"SelectedTags", id:item.id})}     
-                       />
-                      <label className="ms-1">{item.title}</label>                    
-                    </div>
-                  ))}
-                {/* </div> */}
+                }
+              />
+              <label className="pb-1 mt-3">Tags</label>
+              <br />
+              <div className="row">
+                {appContext.tags.map((item, i) => (
+                  <div
+                    value={item.title}
+                    className={
+                      appContext.border.filter(
+                        (border, id) => border.id === item.id
+                      ).length > 0
+                        ? "col-md-3 d-flex border p-2 rounded " + style["Touch"]
+                        : "col-md-3 d-flex p-2"
+                    }
+                    key={i}
+                  >
+                    <button
+                      className={style["dot-" + item.id]}
+                      onClick={() =>
+                        appContext.dispatch({
+                          type: "SelectedTags",
+                          id: item.id,
+                        })
+                      }
+                    />
+                    <label className="ms-1">{item.title}</label>
+                  </div>
+                ))}
               </div>
             </form>
           </div>

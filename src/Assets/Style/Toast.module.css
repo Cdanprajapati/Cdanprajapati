@@ -1,10 +1,16 @@
 
 .Body{
-    width: fit-content;
+    width: 20%;
     position: absolute;
     overflow: hidden;
-    margin-left: 65%;
+    margin-left: 75%;
+    background-image: linear-gradient(to right, rgba(255,0,0,0), rgb(230, 104, 104));
     z-index: 1000;
+  }
+
+  .Toast {
+    display: flex;
+    justify-content: space-between;
   }
 
   @media (min-width: 200px) and (max-width: 600px) {
@@ -20,7 +26,8 @@
   
   .Cross {
     cursor: pointer;
-    color: tomato;
+    color: black;
+    font-size: 14px;
   }
   
   .EyeIcons {
@@ -30,7 +37,8 @@
   }
   
   .text-size{
-    font-size: 13px;
+    font-size: 15px;
+    color: tomato;
   }
   .placeholder{
     font-size: 12px;

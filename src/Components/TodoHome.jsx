@@ -1,8 +1,7 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { TodoContex } from "../App";
-import { BiLogOutCircle } from "react-icons/bi";
 import style from "../Assets/Style/TodoHome.module.css";
 import Tasks from "../Components/Tasks";
 import HomeChild from "../ChildComponent/HomeChild";
@@ -11,6 +10,18 @@ import HomeTag from "../ChildComponent/HomeTag";
 function TodoHome({ id }) {
   const appContext = useContext(TodoContex);
   console.log(appContext, "===>");
+
+  useEffect(()=>{
+  let token = localStorage.getItem("Token")
+  if(token)
+    appContext.dispatch({ type: "YouCanLogin"})
+  },[])
+
+  function Logout(){
+    localStorage.removeItem("Token");
+    appContext.dispatch({ type: "YouCnt"})
+  }
+
   return (
     <div>
       <HomeChild />
@@ -54,10 +65,9 @@ function TodoHome({ id }) {
                 {appContext.loginSuccess ? (
                   <button
                     className={"btn " + style["loginBtn"]}
-                    onClick={() => appContext.dispatch({ type: "LoginOpen" })}
+                    onClick={Logout}
                   >
                     logOut
-                    <BiLogOutCircle />
                   </button>
                 ) : (
                   <button
@@ -72,7 +82,7 @@ function TodoHome({ id }) {
           </div>
 
           <div className="col-sm-9">
-            <Tasks id={id} />
+          {appContext.loginSuccess ? <Tasks id={id} /> : "" }
           </div>
         </div>
       </div>

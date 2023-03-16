@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState} from "react";
 import { RxCross1 } from "react-icons/rx";
 import { TodoContex } from "../App";
 import { AiFillEye } from "react-icons/ai";
@@ -10,19 +10,16 @@ function Login() {
   const appContext = useContext(TodoContex);
   const loginAPI = useFetchAPI();
   const [email, setEmail] = useState("");
-  const [errMsg, setErrMsg] = useState("");
+  const [enable, disabled] = useState(false);
   const [passAlert, setPassAlert] = useState(false);
   const [emailErr, setEmailError] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
-  const [post, getPost] = useState(null);
+  // const [post, getPost] = useState(null);
 
   const API = "https://todo-api-xu4f.onrender.com/user/login";
 
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-
-  function handleLogin(){
+  function handleLogin() {
     let error = 0;
     if (email.length < 4) {
       setEmailError(true);
@@ -42,29 +39,24 @@ function Login() {
     }
     if (error === 0) {
       let data = { email, password };
+      disabled(true);
       const mypost = (res, error) => {
-        console.log(error, "====cdan=====>", res)
-        if(error){
-          appContext.dispatch({ type: "ToastOpen" , text:error});
+        console.log(error, "====cdan=====>", res);
+        if (error) {
+          appContext.dispatch({ type: "ToastOpen", text: error });
         }
-        if(res){
-          appContext.dispatch({ type: "ToastOpen" , text:res});
-          return ; 
+
+        if (res) {
+          appContext.dispatch({ type: "LoaderClose" });
+          appContext.dispatch({ type: "ToastOpen", text: res.message });
+          appContext.dispatch({ type: "YouCanLogin" });
+          localStorage.setItem("Token", res.access_token);
+          return;
         }
-          
-        getPost(res);  
       };
       loginAPI("user/login", "POST", data, mypost);
     }
   }
-
-  // useEffect(() =>{
-  //   if(post!==null){ 
-  //   console.log(post, "=====>");
-  //   appContext.dispatch({ type: "YouCanLogin"});
-  //   localStorage.setItem("token", post.access_token);
-  //   }
-  // }, [post])
 
   return (
     <div className={"card shadow-lg p-3  rounded " + style["Body"]}>
@@ -116,6 +108,8 @@ function Login() {
           className={"btn py-1 container-fluid mt-2 " + style["btn"]}
           type="button"
           onClick={handleLogin}
+          disabled={enable
+          }
         >
           Login
         </button>
