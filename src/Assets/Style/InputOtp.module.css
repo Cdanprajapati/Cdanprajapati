@@ -1,33 +1,15 @@
 
 .Body{
-    width: 20%;
-    position: absolute;
+    width: 300px;
+    margin: auto;
     overflow: hidden;
-    margin-left: 75%;
-    background-image: linear-gradient(to right, rgba(255,0,0,0), rgb(104, 215, 230));
     z-index: 1000;
-  }
-
-  .Toast {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  @media (min-width: 200px) and (max-width: 600px) {
-    .Body{
-      width: fit-content;
-      position: absolute;
-      overflow: hidden;
-      margin: auto;
-      height: 15%;
-      z-index: 1000;
-    }
+    /* height: 100%; */
   }
   
   .Cross {
     cursor: pointer;
-    color: black;
-    font-size: 14px;
+    color: tomato;
   }
   
   .EyeIcons {
@@ -37,12 +19,20 @@
   }
   
   .text-size{
-    font-size: 15px;
-    color: tomato;
+    font-size: 13px;
   }
   .placeholder{
     font-size: 12px;
     height: 22px;
+  }
+  .placeholder::placeholder {
+    color: red;
+  }
+  
+  .alert{
+    font-size: 12px;
+    color: tomato;
+    margin: auto;
   }
   
   .btn {
@@ -62,8 +52,9 @@
   
   .password{
     text-decoration: none;
-    font-size: 15px;
+    font-size: 11px;
     color: tomato;
+    margin-left: 35%;
   }
   
   .account-text{

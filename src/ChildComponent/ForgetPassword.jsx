@@ -1,10 +1,36 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { TodoContex } from "../App";
 import style from '../Assets/Style/ForgetPassword.module.css';
+import useFetchAPI from "../hook/useFetchAPI";
 
 function ForgetPassword() {
   const appContext = useContext(TodoContex);
+  const loginAPI = useFetchAPI();
+  const [err, setErr] = useState(false);
+  const [email, setEmail] = useState("");
+
+  function SendOtp(){
+    if (email.length < 4){
+      setErr(true)
+    } else {
+      setErr(false)
+      let data = { email}
+      const mypost = (res, error) => {
+        if(error) {
+          appContext.dispatch({ type: "ToastOpen", text: error });
+        }
+
+        if(res) {
+          appContext.dispatch({ type: "ToastOpen", text: res.message });
+          appContext.dispatch({ type: "InputOTPopen"})
+        }
+      };
+      loginAPI("user/forgot-password", "POST", data, mypost);
+    }
+  }
+
+
   return (
    
             <div className={"card shadow-lg p-3  rounded " + style["Body"]}>
@@ -24,7 +50,9 @@ function ForgetPassword() {
                 <label className={"pt-1 " + style["text-size"]}>Email</label>
                 <input
                   type="email"
+                  placeholder={ err ? "Email is required..!" : " " }
                   className={"form-control " + style["placeholder"]}
+                  onChange={(e)=>setEmail(e.target.value)}
                 />      
                
                 <button
@@ -32,6 +60,7 @@ function ForgetPassword() {
                     "btn py-1 container-fluid mt-2 " + style["btn"]
                   }
                   type="button"
+                  onClick={SendOtp}
                 >
                   Send OTP
                 </button>
@@ -40,7 +69,7 @@ function ForgetPassword() {
                   Already have an account ?
                 </p>
                 <a className={"text-center " + style["anchor-tag"]} 
-                  onClick={()=>appContext.dispatch({type: "ForgetPassClose"})}
+                  onClick={()=>appContext.dispatch({type: "SignUpOpen"})}
                 href="#">
                   SignUp
                 </a>

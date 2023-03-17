@@ -9,7 +9,6 @@ import HomeTag from "../ChildComponent/HomeTag";
 
 function TodoHome({ id }) {
   const appContext = useContext(TodoContex);
-  console.log(appContext, "===>");
 
   useEffect(()=>{
   let token = localStorage.getItem("Token")

@@ -1,4 +1,4 @@
-import React, { useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { TodoContex } from "../App";
 import { AiFillEye } from "react-icons/ai";
@@ -41,13 +41,12 @@ function Login() {
       let data = { email, password };
       disabled(true);
       const mypost = (res, error) => {
-        console.log(error, "====cdan=====>", res);
         if (error) {
           appContext.dispatch({ type: "ToastOpen", text: error });
         }
 
         if (res) {
-          appContext.dispatch({ type: "LoaderClose" });
+          appContext.dispatch({ type: "LoaderOpen"})
           appContext.dispatch({ type: "ToastOpen", text: res.message });
           appContext.dispatch({ type: "YouCanLogin" });
           localStorage.setItem("Token", res.access_token);
@@ -108,8 +107,7 @@ function Login() {
           className={"btn py-1 container-fluid mt-2 " + style["btn"]}
           type="button"
           onClick={handleLogin}
-          disabled={enable
-          }
+          disabled={enable}
         >
           Login
         </button>
@@ -133,7 +131,6 @@ function Login() {
           SignUp
         </a>
       </form>
-      {/* </div> */}
     </div>
   );
 }

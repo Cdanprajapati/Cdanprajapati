@@ -74,11 +74,11 @@ function SignUp() {
         if (error) {
           appContext.dispatch({ type: "ToastOpen", text: error });
         }
-        console.log(res, "==here=====>");
         if (res) {
-          appContext.dispatch({ type: "LoaderClose" });
           appContext.dispatch({ type: "SignUpClose" });
+          appContext.dispatch({ type: "LoaderOpen" });
           appContext.dispatch({ type: "ToastOpen", text: res.message });
+          appContext.dispatch({ type: "YouCanLogin" });
         }
       };
       loginAPI("user/register", "POST", data, mypost);
@@ -88,7 +88,6 @@ function SignUp() {
   return (
     <div>
       <div className={"card shadow-lg p-3  p-3 rounded " + style["Body"]}>
-        {/* <div className="card-body"> */}
         <form>
           <div className="row">
             <div className="col-sm-6 col-8">
@@ -193,7 +192,7 @@ function SignUp() {
             " "
           )}
           <hr />
-          <input type="checkbox" className={"pt-1" + style["text-size"]} />
+          <input type="checkbox" className={"pt-1 " + style["checkbox"]} />
           <label className={"pt-1 ms-2 " + style["text-size"]}>
             I agree with{" "}
             <a className={style["Terms"]} href="#">

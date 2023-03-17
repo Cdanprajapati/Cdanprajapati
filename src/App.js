@@ -1,10 +1,12 @@
 import TodoHome from "./Components/TodoHome";
-import { useEffect, useReducer} from "react";
+import { useReducer} from "react";
 import { createContext } from "react";
 
 export const TodoContex = createContext();
 
 const initialstate = {
+  inputOtpOpen: false,
+  createpassOpen: false,
   inputOpen: false,
   taskMenu: false,
   taskDone: false,
@@ -53,11 +55,25 @@ const reducer = (state, action) => {
       };
       break;
 
+    case "CreatePasswordOpen" :
+      return {
+        ...state, 
+        createpassOpen: true,
+        inputOtpOpen: false,
+      }
+
+    case "InputOTPopen" :
+      return {
+        ...state, 
+        forgetpasswordOpen: false,
+        inputOtpOpen: true,
+      }
+
     case "YouCanLogin" :
       return {
         ...state,
-        loginOpen: false,
         loginSuccess: true,
+         loginOpen: false,
       }
 
     case "YouCnt" :
@@ -91,7 +107,7 @@ const reducer = (state, action) => {
     case "LoaderOpen":
       return {
         ...state,
-        loaderOpen: true,
+        loaderOpen: true,        
       };
 
     case "LoaderClose":
@@ -112,6 +128,7 @@ const reducer = (state, action) => {
         signUpOpen: false,
         forgetpasswordOpen: false,
         loginOpen: true,
+        inputOtpOpen: true,
       };
 
     case "Loginclose":
@@ -120,6 +137,7 @@ const reducer = (state, action) => {
         loginOpen: false,
         signUpOpen: false,
         forgetpasswordOpen: false,
+        toastOpen: true
       };
 
     case "SignUpClose":
@@ -135,6 +153,7 @@ const reducer = (state, action) => {
         ...state,
         signUpOpen: true,
         toastOpen: false,
+        inputOtpOpen: false,
         forgetpasswordOpen: false,
         loginSuccess: false,
       };
@@ -144,6 +163,8 @@ const reducer = (state, action) => {
         ...state,
         loginOpen: true,
         poolOpen: true,
+        toastOpen: false,
+        loaderOpen: false
       };
 
     case "SelectedTags":

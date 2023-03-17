@@ -28,6 +28,10 @@
     margin-left: 235px
   }
 
+  .checkbox{
+    font-size: 13px;
+  }
+
   .password{
     text-decoration: none;
     font-size: 11px;

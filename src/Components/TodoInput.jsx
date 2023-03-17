@@ -15,23 +15,24 @@ function TodoInput({ id }) {
     if (!appContext.tittle && !appContext.description) {
       setInputErr(true);
     } else {
-      let data = { title : appContext.title, description:appContext.description };
+      let data = { title : appContext.title, description:appContext.description, tags: appContext.border };
+
+
+
+
+
+
       const mypost = (res, error) => {
         if (error) {
           appContext.dispatch({ type: "LoaderOpen" })
-          setTimeout(()=> {
-            appContext.dispatch({ type: "LoaderClose" })
             appContext.dispatch({ type: "ToastOpen", text: error });
-          }, 2000)
+        
         }
         if (res) {
           appContext.dispatch({ type: "LoaderOpen" });
-           setTimeout(()=> {
-           appContext.dispatch({ type: "LoaderClose" });       
            appContext.dispatch({ type: "SignUpClose" });
            appContext.dispatch({ type: "ToastOpen", text: res.message }); 
            appContext.dispatch({ type: "YouCanLogin"})
-           }, 2000)
            setInputErr(false);
            appContext.dispatch({ type: "addTodo", id });
         }

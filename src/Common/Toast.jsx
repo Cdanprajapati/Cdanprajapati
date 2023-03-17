@@ -8,13 +8,13 @@ function Toast() {
   const appContext = useContext(TodoContex);
   useEffect(() => {
     if (appContext.toastOpen === true)
-      setTimeout(() => {appContext.dispatch({ type: "ToastClose" })
+      setTimeout(() => {appContext.dispatch({ type: "ToastClose" });
     }, 3000);
   }, [appContext.toastOpen]);
 
   return (
     <div>
-      <div className={"card shadow-lg p-3 mt-3  rounded " + style["Body"]}>
+      <div className={"card shadow-lg p-3 mt-3 border border-4 rounded " + style["Body"]}>
         <form>
           <div className={style["Toast"]}>
             <p className={"col-sm-6 col-6 " + style["text-size"]}>

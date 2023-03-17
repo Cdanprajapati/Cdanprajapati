@@ -1,8 +1,19 @@
-import React from "react";
+import React, {useContext, useEffect} from "react";
 import style from "../Assets/Style/Loader.module.css";
+import { TodoContex } from "../App";
 // import loader from "../Assets/Img/Loader3.gif";
 
 function Loader() {
+  const appContext = useContext(TodoContex)
+
+
+    useEffect(() => {
+    if (appContext.loaderOpen === true)
+      setTimeout(() => {
+        appContext.dispatch({ type: "LoaderClose" });
+      }, 3000);
+  }, [appContext.loaderOpen]);
+
   return (
     <div className={style["section"]}>
       <div className="row">
