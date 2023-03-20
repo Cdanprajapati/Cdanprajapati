@@ -72,13 +72,13 @@ function SignUp() {
       let data = { firstName, lastName, email, password, confirm_password };
       const mypost = (res, error) => {
         if (error) {
+          appContext.dispatch({ type: "LoaderOpen" });
           appContext.dispatch({ type: "ToastOpen", text: error });
         }
         if (res) {
           appContext.dispatch({ type: "SignUpClose" });
           appContext.dispatch({ type: "LoaderOpen" });
           appContext.dispatch({ type: "ToastOpen", text: res.message });
-          appContext.dispatch({ type: "YouCanLogin" });
         }
       };
       loginAPI("user/register", "POST", data, mypost);

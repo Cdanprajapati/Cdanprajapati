@@ -7,15 +7,23 @@ function useFetchAPI() {
   const base = "http://192.168.29.145:8000/";
   const endpoint = "user/register";
 
+  console.log("i asadsf")
+
   const apiFunction = async (endpoint, type, data, res) => {
     var raw = JSON.stringify(data);
 
     var requestOptions = {
       method: type,
       headers: myHeaders,
-      body: raw,
+   // body : raw,
       redirect: "follow",
     };
+    
+    if(data)
+    requestOptions.body = raw   
+    
+   console.log(requestOptions,"here req")
+
     try {
       const response = await fetch(base + endpoint, requestOptions);
       if (!response.ok) {

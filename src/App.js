@@ -1,10 +1,12 @@
 import TodoHome from "./Components/TodoHome";
 import { useReducer} from "react";
 import { createContext } from "react";
+import { faHeartPulse } from "@fortawesome/free-solid-svg-icons";
 
 export const TodoContex = createContext();
 
 const initialstate = {
+  update: true,
   inputOtpOpen: false,
   createpassOpen: false,
   inputOpen: false,
@@ -55,6 +57,15 @@ const reducer = (state, action) => {
       };
       break;
 
+    case "Bulk" : 
+    console.log(action.apiTodo,"--->")
+    return {
+      ...state,
+      allTodos:[
+        ...action.apiTodo,
+      ]
+    }
+
     case "CreatePasswordOpen" :
       return {
         ...state, 
@@ -73,7 +84,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         loginSuccess: true,
-         loginOpen: false,
+        loginOpen: false,
       }
 
     case "YouCnt" :
@@ -113,7 +124,7 @@ const reducer = (state, action) => {
     case "LoaderClose":
       return {
         ...state,
-        loaderOpen: !state.loaderOpen,
+        loaderOpen: false,
       };
 
     case "ForgetPasswordOpen":
@@ -275,25 +286,32 @@ const reducer = (state, action) => {
       return {
         ...state,
         allTodos: check,
+        update: true,
         taskMenu: false,
       };
+
+    case "DeletedUpdate":
+      return {
+        ...state,   
+        update: false,
+      }
 
     case "Donetask":
       let todos = state.allTodos;
       todos[action.id] = {
         ...todos[action.id],
-        isDone: true,
       };
       return {
         ...state,
         allTodos: todos,
+        isDone:!state.isDone,
       };
 
-    case "Non-Done":
-      return {
-        ...state,
-        isDone: false,
-      };
+    // case "Non-Done":
+    //   return {
+    //     ...state,
+    //     isDone: false,
+    //   };
 
     case "HideDonetask":
       return {

@@ -42,7 +42,9 @@ function Login() {
       disabled(true);
       const mypost = (res, error) => {
         if (error) {
-          appContext.dispatch({ type: "ToastOpen", text: error });
+          appContext.dispatch({ type: "LoaderOpen"})
+          appContext.dispatch({ type: "ToastOpen", text: error })
+          disabled(false)
         }
 
         if (res) {

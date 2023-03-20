@@ -4,7 +4,7 @@
     position: absolute;
     overflow: hidden;
     margin-left: 75%;
-    background-image: linear-gradient(to right, rgba(255,0,0,0), rgb(104, 215, 230));
+    background-image: linear-gradient(to right, rgba(255,0,0,0), rgb(232, 114, 85));
     z-index: 1000;
   }
 

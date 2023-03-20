@@ -1,7 +1,6 @@
 import React, {useContext, useEffect} from "react";
 import style from "../Assets/Style/Loader.module.css";
 import { TodoContex } from "../App";
-// import loader from "../Assets/Img/Loader3.gif";
 
 function Loader() {
   const appContext = useContext(TodoContex)

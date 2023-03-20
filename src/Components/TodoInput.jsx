@@ -16,21 +16,13 @@ function TodoInput({ id }) {
       setInputErr(true);
     } else {
       let data = { title : appContext.title, description:appContext.description, tags: appContext.border };
-
-
-
-
-
-
       const mypost = (res, error) => {
         if (error) {
-          appContext.dispatch({ type: "LoaderOpen" })
-            appContext.dispatch({ type: "ToastOpen", text: error });
-        
+            appContext.dispatch({ type: "ToastOpen", text: error });  
+                  
         }
         if (res) {
           appContext.dispatch({ type: "LoaderOpen" });
-           appContext.dispatch({ type: "SignUpClose" });
            appContext.dispatch({ type: "ToastOpen", text: res.message }); 
            appContext.dispatch({ type: "YouCanLogin"})
            setInputErr(false);
@@ -39,6 +31,10 @@ function TodoInput({ id }) {
       }
       loginAPI("user/addTodo", "POST", data, mypost);
     }    
+  }
+
+  function UpdateHandle(){
+    appContext.dispatch({ type: "UpdatedTask", id })
   }
 
   return (
@@ -67,9 +63,7 @@ function TodoInput({ id }) {
                     <button
                       className={"btn btn-secondary ps-4 pe-4 " + style["Add"]}
                       type="btn"
-                      onClick={() =>
-                        appContext.dispatch({ type: "UpdatedTask", id })
-                      }
+                      onClick={UpdateHandle}
                     >
                       Update
                     </button>

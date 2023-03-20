@@ -6,9 +6,12 @@ import style from "../Assets/Style/TodoHome.module.css";
 import Tasks from "../Components/Tasks";
 import HomeChild from "../ChildComponent/HomeChild";
 import HomeTag from "../ChildComponent/HomeTag";
+import useFetchAPI from "../hook/useFetchAPI";
 
 function TodoHome({ id }) {
   const appContext = useContext(TodoContex);
+  const loginAPI = useFetchAPI();
+
 
   useEffect(()=>{
   let token = localStorage.getItem("Token")
@@ -20,6 +23,26 @@ function TodoHome({ id }) {
     localStorage.removeItem("Token");
     appContext.dispatch({ type: "YouCnt"})
   }
+
+  //fir se chalana hai? 
+  useEffect(() => {
+    if(appContext.update === true){
+      const mypost = (res, error) => {
+        if(error) {
+          appContext.dispatch({ type: "ToastOpen", text: error });        
+        }
+        if(res){
+          appContext.dispatch({ type: "LoaderOpen" });
+         appContext.dispatch({ type: "ToastOpen", text: res.message }); 
+          appContext.dispatch({ type: "Bulk", apiTodo: res.AllTodo});
+        }
+      }
+      loginAPI("user/all-todo", "GET",null, mypost);
+      appContext.dispatch({type:"DeletedUpdate"})
+    }
+  },[appContext.update])
+  console.log(appContext.update,"====here update===>")
+
 
   return (
     <div>
@@ -44,7 +67,6 @@ function TodoHome({ id }) {
         <div className="row mt-3">
           <div className="col-sm-3">
             <HomeTag />
-
             <div className="row">
               <div className="col-sm-12">
                 <input
