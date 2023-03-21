@@ -7,7 +7,6 @@ function EditDelete({ id }) {
   const loginAPI = useFetchAPI();
   const appContext = useContext(TodoContex);
 
-
   function Deletehandle() {
     let data = { _id: id };
     const mypost = (res, error) => {
@@ -17,7 +16,7 @@ function EditDelete({ id }) {
       if (res) {
         appContext.dispatch({ type: "LoaderOpen" });
         appContext.dispatch({ type: "ToastOpen", text: res.message });
-        appContext.dispatch({ type: "Deleted", id });        
+        appContext.dispatch({ type: "Deleted", id });
       }
     };
     loginAPI("user/deleteTodo", "DELETE", data, mypost);
@@ -25,18 +24,18 @@ function EditDelete({ id }) {
 
   return (
     <div className={"container " + style["card"]}>
-      <div className="row ">
+     {appContext.isDone===true ? "" : <div className="row ">
         <div className="col-sm-12">
           <div className={"border border-1 rounded-top " + style["Edit"]}>
             <p
               className="card-title ms-2 pt-1 text-start text-dark"
-              onClick={() => appContext.dispatch({ type: "updateOpen", id })}
+              onClick={()=>appContext.dispatch({ type: "EditOpen", id })}
             >
               Edit..
             </p>
           </div>
         </div>
-      </div>
+      </div>}
       <div className="row">
         <div className="col-sm-12">
           <div

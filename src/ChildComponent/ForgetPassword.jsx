@@ -11,24 +11,21 @@ function ForgetPassword() {
   const [email, setEmail] = useState("");
 
   function SendOtp(){
-    if (email.length < 4){
-      setErr(true)
-    } else {
+   
       setErr(false)
-      let data = { email}
+      let data = {email}
       const mypost = (res, error) => {
         if(error) {
           appContext.dispatch({ type: "ToastOpen", text: error });
         }
-
         if(res) {
           appContext.dispatch({ type: "ToastOpen", text: res.message });
-          appContext.dispatch({ type: "InputOTPopen"})
+          appContext.dispatch({ type: "InputOTPopen", value:email})
         }
       };
       loginAPI("user/forgot-password", "POST", data, mypost);
     }
-  }
+  
 
 
   return (
@@ -50,6 +47,7 @@ function ForgetPassword() {
                 <label className={"pt-1 " + style["text-size"]}>Email</label>
                 <input
                   type="email"
+                  value={email}
                   placeholder={ err ? "Email is required..!" : " " }
                   className={"form-control " + style["placeholder"]}
                   onChange={(e)=>setEmail(e.target.value)}

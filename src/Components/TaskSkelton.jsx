@@ -1,7 +1,7 @@
 // import { type } from "@testing-library/user-event/dist/type";
 import style from "../Assets/Style/TaskSkelton.module.css";
 import TaskMenu from "./TaskMenu";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { TodoContex } from "../App";
 import useFetchAPI from "../hook/useFetchAPI";
 export default function TaskSkelton({
@@ -14,9 +14,11 @@ export default function TaskSkelton({
 }) {
   const appContext = useContext(TodoContex);
   const loginAPI = useFetchAPI();
+  const [comleted, setCompleted] =useState(isDone)
 
   function IsDone(e) {
-    let data = { _id: id , isDone:appContext.isDone};
+    setCompleted(p=>!p)
+    let data = { _id: id, isDone: !isDone };
     const mypost = (res, error) => {
       if (error) {
         appContext.dispatch({ type: "LoaderOpen", text: error });
@@ -24,10 +26,10 @@ export default function TaskSkelton({
       if (res) {
         appContext.dispatch({ type: "LoaderOpen" });
         appContext.dispatch({ type: "ToastOpen", text: res.message });
-        appContext.dispatch({type: "Donetask",  id , checked:e.target.value})
+        appContext.dispatch({ type: "Donetask", id, checked: e.target.value });
       }
     };
-    loginAPI("user/completeTodo", "POST", data, mypost)
+    loginAPI("user/completeTodo", "POST", data, mypost);
   }
 
   return (
@@ -37,7 +39,7 @@ export default function TaskSkelton({
           <div className="row">
             <div className="col-sm-10">
               <p className="text-start">
-                {isDone===true ? (
+                {isDone === true ? (
                   <label className="ms-1">
                     <b>
                       <del>{title}</del>
@@ -65,14 +67,16 @@ export default function TaskSkelton({
           <div className="row">
             <div className="col-sm-8 col-md-8">
               {tags.map((item) => {
-                return <button className={"ms-1 " + style["dot-" + item.id]} />;
+                return <button className={"ms-1 " + style["dot-" + item.title]} />;
               })}
             </div>
 
-            <div className="col-sm-4 col-md-4 text-end">
-              <input type="checkbox" onClick={IsDone}/>
-              <label className="ms-1">Done</label>
-            </div>
+            {!isDone && (
+              <div className="col-sm-4 col-md-4 text-end">
+                <input type="checkbox" onClick={IsDone} checked={comleted} />
+                <label className="ms-1">Done</label>
+              </div>
+            )}
           </div>
         </div>
       </div>

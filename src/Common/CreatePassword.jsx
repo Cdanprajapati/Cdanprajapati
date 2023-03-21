@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import style from "../Assets/Style/CreatePassword.module.css";
 import { RxCross1 } from "react-icons/rx";
+import { AiFillEye } from "react-icons/ai";
+import { AiFillEyeInvisible } from "react-icons/ai";
 import { TodoContex } from "../App";
 import useFetchAPI from "../hook/useFetchAPI";
 
@@ -47,10 +49,10 @@ function CreatePassword() {
         if (res) {
           appContext.dispatch({ type: "LoaderOpen" });
           appContext.dispatch({ type: "ToastOpen", text: res.message });
-          appContext.dispatch({ type: "Loginclose"})
+          appContext.dispatch({ type: "LoginOpen"})
         }
       };
-      LoginAPI("user/verify-reset-password", "POST", data, mypost);
+      LoginAPI("user/verify-reset-password", "PUT", data, mypost);
     }
   }
 
@@ -71,25 +73,39 @@ function CreatePassword() {
 
         <label className={"pt-1 " + style["text-size"]}>Password</label>
         <input
-          type="text"
+          type={appContext.visible ? "text" : "password"}
           value={password}
           className={"form-control " + style["placeholder"]}
           placeholder={passAlert ? "Password is required..!" : ""}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <div
+            className={style["EyeIcons"]}
+            onClick={() => appContext.dispatch({ type: "VisiblePassword" })}
+          >
+            {appContext.visible ? <AiFillEye /> : <AiFillEyeInvisible />}
+          </div>
 
         <label className={"pt-1 " + style["text-size"]}>Confirm Password</label>
         <input
-          type="text"
+           type={appContext.visiblecnfpassword ? "text" : "password"}
           className={"form-control " + style["placeholder"]}
           value={confirmPassword}
           placeholder={cnfpass ? "Confirm Password must be required...!" : " "}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <div
-          className={style["EyeIcons"]}
-          onClick={() => appContext.dispatch({ type: "VisiblePassword" })}
-        ></div>
+         <div
+            className={style["EyeIcons"]}
+            onClick={() =>
+              appContext.dispatch({ type: "VisibleConfirmPassword" })
+            }
+          >
+            {appContext.visiblecnfpassword ? (
+              <AiFillEye />
+            ) : (
+              <AiFillEyeInvisible />
+            )}
+          </div>
         {inputAlert ? (
           <p className={style["alert"]}>
             Password must be at least 6 character and can have !@#$
@@ -111,7 +127,7 @@ function CreatePassword() {
           type="button"
           onClick={Generatepassword}
         >
-          Login
+           Create Password
         </button>
 
         <a

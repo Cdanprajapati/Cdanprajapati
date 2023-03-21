@@ -6,11 +6,12 @@ import { AiFillEyeInvisible } from "react-icons/ai";
 import style from "../Assets/Style/Login.module.css";
 import useFetchAPI from "../hook/useFetchAPI";
 
+
 function Login() {
   const appContext = useContext(TodoContex);
   const loginAPI = useFetchAPI();
   const [email, setEmail] = useState("");
-  const [enable, disabled] = useState(false);
+  const [enable, setDisabled] = useState(false);
   const [passAlert, setPassAlert] = useState(false);
   const [emailErr, setEmailError] = useState(false);
   const [password, setPassword] = useState("");
@@ -39,19 +40,19 @@ function Login() {
     }
     if (error === 0) {
       let data = { email, password };
-      disabled(true);
+      setDisabled(true);
+      appContext.dispatch({ type: "LoaderOpen" });
       const mypost = (res, error) => {
         if (error) {
-          appContext.dispatch({ type: "LoaderOpen"})
-          appContext.dispatch({ type: "ToastOpen", text: error })
-          disabled(false)
+          appContext.dispatch({ type: "ToastOpen", text: error });
+          // setDisabled(false)
         }
 
         if (res) {
-          appContext.dispatch({ type: "LoaderOpen"})
           appContext.dispatch({ type: "ToastOpen", text: res.message });
           appContext.dispatch({ type: "YouCanLogin" });
           localStorage.setItem("Token", res.access_token);
+          localStorage.setItem("RefereshToken", res.refresh_token);
           return;
         }
       };

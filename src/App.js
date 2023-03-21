@@ -1,5 +1,5 @@
 import TodoHome from "./Components/TodoHome";
-import { useReducer} from "react";
+import { useReducer } from "react";
 import { createContext } from "react";
 import { faHeartPulse } from "@fortawesome/free-solid-svg-icons";
 
@@ -7,11 +7,13 @@ export const TodoContex = createContext();
 
 const initialstate = {
   update: true,
+  // resfesh: true,
   inputOtpOpen: false,
   createpassOpen: false,
   inputOpen: false,
   taskMenu: false,
   taskDone: false,
+  // isDone: false,
   isDeleted: false,
   loginOpen: false,
   visiblecnfpassword: false,
@@ -32,7 +34,7 @@ const initialstate = {
   filterTodos: [],
   selected: "",
   title: "",
-  errorMsg:"",
+  errorMsg: "",
   description: "",
   taskDoneOpen: true,
   taskMenuOpen: true,
@@ -57,43 +59,45 @@ const reducer = (state, action) => {
       };
       break;
 
-    case "Bulk" : 
-    console.log(action.apiTodo,"--->")
-    return {
-      ...state,
-      allTodos:[
-        ...action.apiTodo,
-      ]
-    }
-
-    case "CreatePasswordOpen" :
+    case "Bulk":
+      console.log(action.apiTodo, "--->");
       return {
-        ...state, 
+        ...state,
+        allTodos: [...action.apiTodo],
+      };
+
+    case "CreatePasswordOpen":
+      return {
+        ...state,
         createpassOpen: true,
         inputOtpOpen: false,
-      }
+      };
 
-    case "InputOTPopen" :
+    case "InputOTPopen":
       return {
-        ...state, 
+        ...state,
         forgetpasswordOpen: false,
         inputOtpOpen: true,
-      }
+        emailOtp:action.value,
+      };
 
-    case "YouCanLogin" :
+    case "YouCanLogin":
       return {
         ...state,
         loginSuccess: true,
         loginOpen: false,
-      }
+        loaderOpen: true,
+        toastOpen: true,
+        // loaderOpen: true,
+      };
 
-    case "YouCnt" :
+    case "YouCnt":
       return {
         ...state,
         loginOpen: false,
         toastOpen: false,
         loginSuccess: false,
-      }
+      };
 
     case "VisibleConfirmPassword":
       return {
@@ -105,27 +109,28 @@ const reducer = (state, action) => {
       return {
         ...state,
         toastOpen: true,
-        text: action.text
+        text: action.text,
       };
 
     case "ToastClose":
       return {
         ...state,
-        toastOpen:false,
-        text:''
+        toastOpen: false,
+        text: "",
       };
 
     case "LoaderOpen":
       return {
         ...state,
-        loaderOpen: true,        
+        loaderOpen: true,
+        toastOpen: true,
       };
 
-    case "LoaderClose":
-      return {
-        ...state,
-        loaderOpen: false,
-      };
+    // case "LoaderClose":
+    //   return {
+    //     ...state,
+    //     loaderOpen: false,
+    //   };
 
     case "ForgetPasswordOpen":
       return {
@@ -148,7 +153,7 @@ const reducer = (state, action) => {
         loginOpen: false,
         signUpOpen: false,
         forgetpasswordOpen: false,
-        toastOpen: true
+        toastOpen: true,
       };
 
     case "SignUpClose":
@@ -172,10 +177,12 @@ const reducer = (state, action) => {
     case "LoginOpen":
       return {
         ...state,
+        createpassOpen: false,
+        // update: true,
         loginOpen: true,
         poolOpen: true,
         toastOpen: false,
-        loaderOpen: false
+        loaderOpen: false,
       };
 
     case "SelectedTags":
@@ -229,13 +236,17 @@ const reducer = (state, action) => {
         filterTask: better.length > 0,
       };
 
-    case "updateOpen":
+    case "EditOpen":
       let edit = state.allTodos;
-      let Update = edit.filter((item, index) => index === action.id);
+      console.log(edit, action.id);
+      //   return state
+      let Update = edit.filter((item, index) => item["_id"] === action.id);
+      // console.log(Update,"----->")
       return {
         ...state,
         id: action.id,
         inputOpen: true,
+        taskMenuOpen: false,
         title: Update[0].title,
         description: Update[0].description,
         border: Update[0].tags,
@@ -245,6 +256,7 @@ const reducer = (state, action) => {
 
     case "UpdatedTask":
       let obj = {
+        id: state.id,
         title: state.title,
         description: state.description,
         tags: state.border,
@@ -258,6 +270,7 @@ const reducer = (state, action) => {
         inputOpen: false,
         taskMenu: false,
         allTodos: updateTodo,
+        update: true,
       };
 
     case "InputClose":
@@ -290,28 +303,23 @@ const reducer = (state, action) => {
         taskMenu: false,
       };
 
-    case "DeletedUpdate":
+      case "DeletedUpdate":
       return {
-        ...state,   
+        ...state,
         update: false,
-      }
+      };
 
     case "Donetask":
       let todos = state.allTodos;
       todos[action.id] = {
         ...todos[action.id],
+        isDone: true,
       };
       return {
         ...state,
         allTodos: todos,
-        isDone:!state.isDone,
+        update: true,
       };
-
-    // case "Non-Done":
-    //   return {
-    //     ...state,
-    //     isDone: false,
-    //   };
 
     case "HideDonetask":
       return {
@@ -325,20 +333,20 @@ const reducer = (state, action) => {
         taskMenu: !state.taskMenu,
         taskMenuOpen: action.id,
       };
-      
-    case "ErMsgSingUp" :
+
+    case "ErMsgSingUp":
       return {
-       ...state,
-       errorMsg: action.text,
+        ...state,
+        errorMsg: action.text,
       };
 
-    case "addTodo":     
+    case "addTodo":
       let update = state.allTodos;
       if (action.id)
         update[action.id] = {
           ...update[action.id],
         };
-   
+
       return {
         ...state,
         inputOpen: false,
@@ -349,23 +357,24 @@ const reducer = (state, action) => {
           {
             title: state.title,
             description: state.description,
-            isDone: false,
+            isDone: state.isDone,
             tags: state.border,
           },
         ],
       };
-    
-    default : return state
-    }
+
+    default:
+      return state;
+  }
 };
 function App() {
   const [state, dispatch] = useReducer(reducer, initialstate);
 
-  // add data inlocalstorage 
+  // add data inlocalstorage
   // useEffect(()=> {
   //   localStorage.setItem("allData", JSON.stringify(state.allTodos))
   // }, [state.allTodos]);
-    
+
   return (
     <div className="App">
       <TodoContex.Provider value={{ ...state, dispatch: dispatch }}>
@@ -375,4 +384,3 @@ function App() {
   );
 }
 export default App;
-    

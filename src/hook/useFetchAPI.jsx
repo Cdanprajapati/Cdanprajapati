@@ -1,28 +1,46 @@
-function useFetchAPI() {
-  var myHeaders = new Headers();
+import jwt_decode from "jwt-decode";
+
+function apicall(){  
+  const responce = fetch("http://localhost:8000/user/access-token-generate", {
+    method: "POST"
+  })
+  .then((res) => res.json())
+  .catch((err) => console.log(err))
+  console.log(responce,"==here i am responce====>")
+}
+
+function useFetchAPI(){
+  const myHeaders = new Headers();
   let token = localStorage.getItem("Token")||""
   console.log(`Bearer ${token}`)
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", `Bearer ${token}`);
-  const base = "http://192.168.29.145:8000/";
-  const endpoint = "user/register";
+  const base = "http://https://todo-api-xu4f.onrender.com/";
 
-  console.log("i asadsf")
+  if(token){
+    const decoded = jwt_decode(token);
+    console.log(decoded, "===here decoded=== jwt");
+    
+    //current time aur decoded 
+
+    const currentTime = new Date();
+    if(currentTime > decoded.exp){
+      apicall();
+    }
+  }
 
   const apiFunction = async (endpoint, type, data, res) => {
-    var raw = JSON.stringify(data);
+    let raw = JSON.stringify(data);
 
-    var requestOptions = {
+    let requestOptions = {
       method: type,
       headers: myHeaders,
-   // body : raw,
+    //body : raw,
       redirect: "follow",
     };
     
     if(data)
-    requestOptions.body = raw   
-    
-   console.log(requestOptions,"here req")
+    requestOptions.body = raw       
 
     try {
       const response = await fetch(base + endpoint, requestOptions);
@@ -32,8 +50,7 @@ function useFetchAPI() {
         throw new Error(e.message);
       } 
         const data = await response.json();
-        res(data, null); 
-           
+        res(data, null);            
     } 
     catch (error) {
       res(null, error.message);   
@@ -41,6 +58,7 @@ function useFetchAPI() {
     
   };
   return apiFunction;
+
 }
 
 export default useFetchAPI;

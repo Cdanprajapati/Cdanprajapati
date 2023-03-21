@@ -26,7 +26,7 @@ function TodoHome({ id }) {
 
   //fir se chalana hai? 
   useEffect(() => {
-    if(appContext.update === true){
+    if(appContext.update === true && appContext.loginSuccess === true){
       const mypost = (res, error) => {
         if(error) {
           appContext.dispatch({ type: "ToastOpen", text: error });        
@@ -40,9 +40,8 @@ function TodoHome({ id }) {
       loginAPI("user/all-todo", "GET",null, mypost);
       appContext.dispatch({type:"DeletedUpdate"})
     }
-  },[appContext.update])
-  console.log(appContext.update,"====here update===>")
-
+  },[appContext.update && appContext.loginSuccess])
+  // console.log(appContext.update,"====here update===>")
 
   return (
     <div>
@@ -88,7 +87,7 @@ function TodoHome({ id }) {
                     className={"btn " + style["loginBtn"]}
                     onClick={Logout}
                   >
-                    logOut
+                    logout
                   </button>
                 ) : (
                   <button

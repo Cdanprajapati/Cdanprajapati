@@ -7,26 +7,19 @@ import { TodoContex } from "../App";
 function InputOtp() {
   const appContext = useContext(TodoContex)
   const loginAPI = useFetchAPI();
-  const [email, setEmail] = useState("");
   const [allfields, setAllfilds] = useState(false);
-  const [emailErr, setEmailErr] = useState(false);
   const [otp, setOtp] = useState("");
   const [otpErr, setOtpErr] = useState(false);
   const [alert, setAlert] = useState(false);
 
   function CreatepasswordHandle() {
     let error = 0;
-    if (email.length < 1) {
-      setEmailErr(true);
-      error++;
-    }
-
     if (otp.length < 1) {
       setOtpErr(true);
       error++;
     }
 
-    if(email.length && otp.length < 2){
+    if(otp.length < 2){
         setAllfilds(true)
         error++;
     }
@@ -38,15 +31,17 @@ function InputOtp() {
       setAlert(false);
     }
     if (error === 0) {
-      let data = { email, otp };
+      let data = { email:appContext.emailOtp, otp };
       const mypost = (res, error) => {
         if (error) {
           appContext.dispatch({ type: "ToastOpen", text: error });
         }
-
+        
         if (res) {
           appContext.dispatch({ type: "ToastOpen", text: res.message })
-          appContext.dispatch({ type: "CreatePasswordOpen"})
+          appContext.dispatch({ type: "CreatePasswordOpen"});
+          localStorage.setItem("Token",res.access_token);
+          return;
         }
       };
       loginAPI("user/otp-verification", "POST", data, mypost)
@@ -58,7 +53,7 @@ function InputOtp() {
       <form>
         <div className="row">
           <div className="col-sm-8 col-8">
-            <h5 className="text-bold">Verify Your OTP</h5>
+            <h5 className="text-bold">Enter Your OTP</h5>
           </div>
           <div className="col-sm-2 col-1"></div>
           <div className={"col-sm-2 col-3 " + style["Cross"]}
@@ -71,10 +66,11 @@ function InputOtp() {
         <label className={"pt-1 " +style["text-size"]}>Email</label>
         <input
           type="email"
-          value={email}
+          value={appContext.emailOtp}
           className={"form-control " +style["placeholder"]}
-          placeholder={emailErr ? "Email is required..!" : ""}
-          onChange={(e) => setEmail(e.target.value)}
+          // placeholder={emailErr ? "Email is required..!" : ""}
+          // onChange={(e) => setEmail(e.target.value)}
+          disabled
         />
 
         <label className={"pt-1 " +style["text-size"]}>

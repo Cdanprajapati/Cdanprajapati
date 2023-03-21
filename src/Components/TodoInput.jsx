@@ -18,6 +18,7 @@ function TodoInput({ id }) {
       let data = { title : appContext.title, description:appContext.description, tags: appContext.border };
       const mypost = (res, error) => {
         if (error) {
+          appContext.dispatch({ type:"LoaderOpen"})
             appContext.dispatch({ type: "ToastOpen", text: error });  
                   
         }
@@ -34,7 +35,19 @@ function TodoInput({ id }) {
   }
 
   function UpdateHandle(){
-    appContext.dispatch({ type: "UpdatedTask", id })
+    let data = { _id: appContext.id, title: appContext.title, description: appContext.description, tags: appContext.border}
+    const mypost = (res, error) => {
+      if(error){
+        appContext.dispatch({ tyepe:"ToastOpen", text: error})
+      }
+
+      if(res){
+        appContext.dispatch({ type: "LoaderOpen" });
+        appContext.dispatch({ type: "ToastOpen", text: res.message });
+        appContext.dispatch({ type: "UpdatedTask", id });
+      }
+    } 
+    loginAPI("user/updateTodo", "PUT", data, mypost)    
   }
 
   return (
